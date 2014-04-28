@@ -1,0 +1,61 @@
+                    00001           DEVICE 16F84
+                    00002           ORG 0
+0000 1683           00003           BSF 3,5
+0001 301D           00004           MOVLW 1DH
+0002 0085           00005           MOVWF 5
+0003 30FF           00006           MOVLW 0FFH
+0004 0086           00007           MOVWF 6
+0005 1283           00008           BCF 3,5
+                    00009  LOOP     
+                    00010           ;Reset
+0006 0805           00011           MOVF 5,W
+0007 3910           00012           ANDLW 10H
+0008 0690           00013           XORWF 10H
+0009 0090           00014           MOVWF 10H
+000A 1A10           00015           BTFSC 10H,4
+000B 3000           00016           MOVLW 00H
+000C 1A10           00017           BTFSC 10H,4
+000D 0586           00018           ANDWF 6
+000E 1A10           00019           BTFSC 10H,4
+000F 2806           00020           GOTO LOOP
+                    00021           ;Inhib
+0010 0805           00022           MOVF 5,W
+0011 3904           00023           ANDLW 04H
+0012 0684           00024           XORWF 04H
+0013 0090           00025           MOVWF 10H
+0014 1910           00026           BTFSC 10H,2
+0015 3006           00027           MOVLW 06H
+0016 2021           00028           CALL Tabelle
+0017 2806           00029           GOTO LOOP
+                    00030           ;Taktflanken Erkennung!
+0018 0805           00031           MOVF 5,W
+0019 3901           00032           ANDLW 01H
+001A 0090           00033           MOVWF 10H
+001B 1890           00034           BTFSC 10H,1
+001C 2806           00035           GOTO LOOP
+001D 0A86           00036           INC 6
+001E 0806           00037           MOVF 6,W
+001F 0600           00038           XORWF 00H,W
+                    00039           ;Carry auf H
+                    00040           ;INCFSZ W
+                    00041           ;Carry auf L
+                    00042           ;GOTO L
+0020 2806           00043           GOTO LOOP
+                    00044  Tabelle  
+0021 0782           00045           ADDWF 02H
+0022 3406           00046           RETLW 06H
+0023 345B           00047           RETLW 5bH
+0024 344F           00048           RETLW 4FH
+0025 3426           00049           RETLW 26H
+0026 346D           00050           RETLW 6DH
+0027 347D           00051           RETLW 7DH
+0028 3407           00052           RETLW 07H
+0029 347F           00053           RETLW 7FH
+002A 346F           00054           RETLW 6FH
+002B 3477           00055           RETLW 77H
+002C 347C           00056           RETLW 7CH
+002D 3439           00057           RETLW 39H
+002E 345E           00058           RETLW 5EH
+002F 3479           00059           RETLW 79H
+0030 3467           00060           RETLW 67H
+                    00061           END

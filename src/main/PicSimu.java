@@ -23,5 +23,5 @@ public class PicSimu {
         {
             System.out.println(result.get(i));
         }*/
-    }
-}
+        }
+        }

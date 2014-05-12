@@ -1,8 +1,8 @@
 package decoder;
 
+import Exceptions.InvalidRegisterException;
 import register.MemoryManagementUnit;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -27,31 +27,27 @@ public class CommandDecoder
                 {
                     case "0111":
                         found = true;
-                        System.out.println("ADDWF");
-                        arguments = argumentDFFFFFFF(line);
-                        String f = new BigInteger("0" + arguments[1], 2).toString(16);
-                        while(f.length() <2)
+                        try
                         {
-                            f = "0" + f + "h";
+                            addWF(line);
                         }
-                        System.out.println("Register Hex addresse:" + f);
-                        int intValue_W = mmu.getWorkingRegister().getIntValue();
-                        int intValue_F = mmu.getRegister(f).getIntValue();
-                        int result = intValue_W + intValue_F;
-                        if(arguments[0].equals("0"))//d == 0 -> in W speichern
+                        catch (InvalidRegisterException e)
                         {
-
+                            e.printStackTrace();
                         }
-                        else//d == 1 -> in F speichern
-                        {
-                            mmu.getRegister(f).setIntValue(result);
-                            System.out.println("Register bin addresse:" + arguments[1]);
-                        }
+                        System.out.println("ADDWF " + "... " + mmu.getWorkingRegister().getBinaryValue());
                         break;
                     case "0101":
                         found = true;
-                        System.out.println("ANDWF");
-                        arguments = argumentDFFFFFFF(line);
+                        try
+                        {
+                            andWF(line);
+                        }
+                        catch (InvalidRegisterException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        System.out.println("ANDWF " + "... " + mmu.getWorkingRegister().getBinaryValue());
                         break;
                     case "1001":
                         found = true;
@@ -244,6 +240,49 @@ public class CommandDecoder
         }
     }
 
+    private void andWF(String line) throws InvalidRegisterException {
+        String[] arguments;
+        arguments = argumentDFFFFFFF(line);
+
+        BigInteger f = new BigInteger("0" + arguments[1], 2);
+        int result = new BigInteger(mmu.getWorkingRegister().getBinaryValue(), 2).and(f).intValue();
+
+        if(arguments[0].equals("0"))//d == 0 -> in W speichern
+        {
+            mmu.getWorkingRegister().setIntValue(result);
+        }
+        else//d == 1 -> in F speichern
+        {
+            mmu.getRegister(f.toString(16)).setIntValue(result);
+        }
+    }
+
+    private void addWF(String line) throws InvalidRegisterException {
+        String[] arguments;
+        arguments = argumentDFFFFFFF(line);
+        String f = new BigInteger("0" + arguments[1], 2).toString(16);
+        while(f.length() <2)
+        {
+            f = "0" + f + "h";
+        }
+        System.out.println("Register Hex addresse:" + f);
+        int intValue_W = mmu.getWorkingRegister().getIntValue();
+        System.out.println(f);
+        int intValue_F = mmu.getRegister(f).getIntValue();
+        int result = intValue_W + intValue_F;
+        checkC(intValue_W, intValue_F, true);
+        checkDC(intValue_W, intValue_F, true);
+        checkZ(intValue_W, intValue_F, true);
+        if(arguments[0].equals("0"))//d == 0 -> in W speichern
+        {
+            mmu.getWorkingRegister().setIntValue(result);
+        }
+        else//d == 1 -> in F speichern
+        {
+            mmu.getRegister(f).setIntValue(result);
+        }
+    }
+
     private String addLeadingZeros(String bin)
     {
         while(bin.length() < 16)
@@ -304,7 +343,8 @@ public class CommandDecoder
 
     }
 
-        
+    private void checkDC(int valueOne, int valueTwo, boolean isAdd)
+    {}
 
     private void checkZ(int valueOne, int valueTwo, boolean isAdd)
     {

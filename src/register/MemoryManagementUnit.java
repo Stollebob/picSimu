@@ -1,5 +1,9 @@
 package register;
 
+import Exceptions.InvalidRegisterException;
+import com.sun.javaws.exceptions.InvalidArgumentException;
+
+import javax.naming.InvalidNameException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -102,20 +106,38 @@ public class MemoryManagementUnit
         return result;
     }
 
-    public Register getResisterFromBank_0(String address)
+    public Register getRegisterFromBank_0(String address)
     {
         return bank_0.get(address);
     }
 
-    public Register getResisterFromBank_1(String address)
+    public Register getRegisterFromBank_1(String address)
     {
         return bank_1.get(address);
     }
 
-    public Register getRegister(String address)
-    {
-        Register resisterFromBank_0 = getResisterFromBank_0(address);
-        return resisterFromBank_0 != null ? resisterFromBank_0 : getResisterFromBank_1(address);
+    public Register getRegister(String address) throws InvalidRegisterException {
+        if(!address.contains("h"))
+        {
+            address += "h";
+        }
+        if(address.length() != 3)
+        {
+            address = "0" + address;
+        }
+        System.out.println(address);
+        Register registerFromBank_0 = getRegisterFromBank_0(address);
+        Register registerFromBank_1 = getRegisterFromBank_1(address);
+        if (registerFromBank_0 != null)
+        {
+            return registerFromBank_0;
+        }
+        else if(registerFromBank_1 != null)
+        {
+            return registerFromBank_1;
+        }
+        InvalidRegisterException up = new InvalidRegisterException();
+        throw up;
     }
 
     public Register getWorkingRegister()

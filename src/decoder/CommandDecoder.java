@@ -268,7 +268,7 @@ public class CommandDecoder
         BigInteger argumentK = new BigInteger(argument, 2);
         int result = new BigInteger(mmu.getWorkingRegister().getBinaryValue(),2).add(argumentK).intValue();
         mmu.getWorkingRegister().setIntValue(result);
-        checkZ();
+        checkZ(result);
     }
 
     private void subLW(String argument){
@@ -276,7 +276,7 @@ public class CommandDecoder
         BigInteger argumentK = new BigInteger(argument, 2);
         int result = new BigInteger(mmu.getWorkingRegister().getBinaryValue(),2).subtract(argumentK).intValue();
         mmu.getWorkingRegister().setIntValue(result);
-        checkZ();
+        checkZ(result);
     }
 
     private void andLW(String argument){
@@ -284,7 +284,7 @@ public class CommandDecoder
         BigInteger argumentK = new BigInteger(argument, 2);
         int result = new BigInteger(mmu.getWorkingRegister().getBinaryValue(),2).and(argumentK).intValue();
         mmu.getWorkingRegister().setIntValue(result);
-        checkZ();
+        checkZ(result);
     }
 
     private void iOrLW(String argument){
@@ -292,7 +292,7 @@ public class CommandDecoder
         BigInteger argumentK = new BigInteger(argument, 2);
         int result = new BigInteger(mmu.getWorkingRegister().getBinaryValue(),2).or(argumentK).intValue();
         mmu.getWorkingRegister().setIntValue(result);
-        checkZ();
+        checkZ(result);
     }
 
     private void xOrLW(String argument){
@@ -303,7 +303,7 @@ public class CommandDecoder
 //        System.out.println("XORLW "+ binaryValue + " ## " + argument + " ## Xor Value: " + result);
         mmu.getWorkingRegister().setIntValue(result);
 //        System.out.println(mmu.getWorkingRegister().getBinaryValue());
-        checkZ();
+        checkZ(result);
     }
 
     private void andWF(String line) throws InvalidRegisterException {
@@ -338,7 +338,7 @@ public class CommandDecoder
         int result = intValue_W + intValue_F;
         checkC(intValue_W, intValue_F, true);
         checkDC(intValue_W, intValue_F, true);
-        checkZ(intValue_W, intValue_F, true);
+        checkZ(result);
         if(arguments[0].equals("0"))//d == 0 -> in W speichern
         {
             mmu.getWorkingRegister().setIntValue(result);
@@ -413,7 +413,7 @@ public class CommandDecoder
     {}
 
         
-    private void checkZ()
+    private void checkZ(int result)
     {
         return;
     }

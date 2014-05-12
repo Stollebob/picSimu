@@ -1,5 +1,8 @@
 package decoder;
 
+import register.MemoryManagementUnit;
+
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -8,8 +11,11 @@ import java.util.List;
  */
 public class CommandDecoder
 {
+    private MemoryManagementUnit mmu = new MemoryManagementUnit();
     public void decode(List<String> lineList)
     {
+        String[] arguments;
+        String argument ="";
         for(int i = 0; i < lineList.size() ; i++)
         {
             String line = new BigInteger(lineList.get(i) , 16).toString(2);
@@ -21,54 +27,86 @@ public class CommandDecoder
                 {
                     case "0111":
                         found = true;
-                        System.out.println("ADDWF");//TODO: 2 Argumente dfff ffff
+                        System.out.println("ADDWF");
+                        arguments = argumentDFFFFFFF(line);
+                        String f = new BigInteger("0" + arguments[1], 2).toString(16);
+                        while(f.length() <2)
+                        {
+                            f = "0" + f + "h";
+                        }
+                        System.out.println("Register Hex addresse:" + f);
+                        int intValue_W = mmu.getWorkingRegister().getIntValue();
+                        int intValue_F = mmu.getRegister(f).getIntValue();
+                        int result = intValue_W + intValue_F;
+                        if(arguments[0].equals("0"))//d == 0 -> in W speichern
+                        {
+
+                        }
+                        else//d == 1 -> in F speichern
+                        {
+                            mmu.getRegister(f).setIntValue(result);
+                            System.out.println("Register bin addresse:" + arguments[1]);
+                        }
+                        break;
                     case "0101":
                         found = true;
-                        System.out.println("ANDWF");//TODO: 2 Argumente dfff ffff
+                        System.out.println("ANDWF");
+                        arguments = argumentDFFFFFFF(line);
                         break;
                     case "1001":
                         found = true;
-                        System.out.println("COMF");//TODO: 2 Argumente dfff ffff
+                        System.out.println("COMF");
+                        arguments = argumentDFFFFFFF(line);
                         break;
                     case "0011":
                         found = true;
-                        System.out.println("DECF");//TODO: 2 Argumente dfff ffff
+                        System.out.println("DECF");
+                        arguments = argumentDFFFFFFF(line);
                         break;
                     case "1011":
                         found = true;
-                        System.out.println("DECFSZ");//TODO: 2 Argumente dfff ffff
+                        System.out.println("DECFSZ");
+                        arguments = argumentDFFFFFFF(line);
                         break;
                     case "1010":
                         found = true;
-                        System.out.println("INCF");//TODO: 2 Argumente dfff ffff
+                        System.out.println("INCF");
+                        arguments = argumentDFFFFFFF(line);
                         break;
                     case "1111":
                         found = true;
-                        System.out.println("INCFSZ");//TODO: 2 Argumente dfff ffff
+                        System.out.println("INCFSZ");
+                        arguments = argumentDFFFFFFF(line);
                         break;
                     case "1000":
                         found = true;
-                        System.out.println("MOVF");//TODO: 2 Argumente dfff ffff
+                        System.out.println("MOVF");
+                        arguments = argumentDFFFFFFF(line);
                         break;
                     case "1101":
                         found = true;
-                        System.out.println("RLF");//TODO: 2 Argumente dfff ffff
+                        System.out.println("RLF");
+                        arguments = argumentDFFFFFFF(line);
                         break;
                     case "1100":
                         found = true;
-                        System.out.println("RRF");//TODO: 2 Argumente dfff ffff
+                        System.out.println("RRF");
+                        arguments = argumentDFFFFFFF(line);
                         break;
                     case "0010":
                         found = true;
-                        System.out.println("SUBWF");//TODO: 2 Argumente dfff ffff
+                        System.out.println("SUBWF");
+                        arguments = argumentDFFFFFFF(line);
                         break;
                     case "1110":
                         found = true;
-                        System.out.println("SWAPF");//TODO: 2 Argumente dfff ffff
+                        System.out.println("SWAPF");
+                        arguments = argumentDFFFFFFF(line);
                         break;
                     case "0110":
                         found = true;
-                        System.out.println("XORWF");//TODO: 2 Argumente dfff ffff
+                        System.out.println("XORWF");
+                        arguments = argumentDFFFFFFF(line);
                         break;
                 }
                 if(!found)
@@ -77,7 +115,8 @@ public class CommandDecoder
                     {
                         case "00011":
                             found = true;
-                            System.out.println("CLRF");//TODO: 1 Argument fff ffff
+                            System.out.println("CLRF");
+                            argument = argumentFFFFFFF(line);
                             break;
                         case "00010":
                             found = true;
@@ -85,7 +124,8 @@ public class CommandDecoder
                             break;
                         case "00001":
                             found = true;
-                            System.out.println("MOVWF");//TODO: 1 Argument fff ffff
+                            System.out.println("MOVWF");
+                            argument = argumentFFFFFFF(line);
                             break;
                     }
                     if(!found)
@@ -120,16 +160,20 @@ public class CommandDecoder
                 switch(line.substring(4,6))
                 {
                     case "00":
-                        System.out.println("BCF");//TODO: 2 Argumente bb bfff ffff
+                        System.out.println("BCF");
+                        arguments = argumentBBBFFFFFFF(line);
                         break;
                     case "01":
-                        System.out.println("BSF");//TODO: 2 Argumente bb bfff ffff
+                        System.out.println("BSF");
+                        arguments = argumentBBBFFFFFFF(line);
                         break;
                     case "10":
-                        System.out.println("BTFSC");//TODO: 2 Argumente bb bfff ffff
+                        System.out.println("BTFSC");
+                        arguments = argumentBBBFFFFFFF(line);
                         break;
                     case "11":
-                        System.out.println("BTFSS");//TODO: 2 Argumente bb bfff ffff
+                        System.out.println("BTFSS");
+                        arguments = argumentBBBFFFFFFF(line);
                         break;
                 }
             }
@@ -137,11 +181,13 @@ public class CommandDecoder
             {
                 if(line.substring(4,15).startsWith("1"))
                 {
-                    System.out.println("GOTO");//TODO: 1 Argument kkk kkkk kkkk
+                    System.out.println("GOTO");
+                    argument = argumentKKKKKKKKKKK(line);
                 }
                 else
                 {
-                    System.out.println("CALL");//TODO: 1 Argument kkk kkkk kkkk
+                    System.out.println("CALL");
+                    argument = argumentKKKKKKKKKKK(line);
                 }
             }
             else if(line.startsWith("0011"))
@@ -151,11 +197,13 @@ public class CommandDecoder
                 {
                     case "00":
                         found = true;
-                        System.out.println("MOVLW");//TODO: 1 Argument xx kkkk kkkk
+                        System.out.println("MOVLW");
+                        argument = argumentKKKKKKKK(line);
                         break;
                     case "01":
                         found = true;
-                        System.out.println("RETLW");//TODO: 1 Argument xx kkkk kkkk
+                        System.out.println("RETLW");
+                        argument = argumentKKKKKKKK(line);
                         break;
                 }
                 if(!found)
@@ -164,11 +212,13 @@ public class CommandDecoder
                     {
                         case "111":
                             found = true;
-                            System.out.println("ADDLW");//TODO: 1 Argument x kkkk kkkk
+                            System.out.println("ADDLW");
+                            argument = argumentKKKKKKKK(line);
                             break;
                         case "110":
                             found = true;
-                            System.out.println("SUBLW");//TODO: 1 Argument x kkkk kkkk
+                            System.out.println("SUBLW");
+                            argument = argumentKKKKKKKK(line);
                             break;
                     }
                     if(!found)
@@ -176,13 +226,16 @@ public class CommandDecoder
                         switch(line.substring(4,8))
                         {
                             case "1001":
-                                System.out.println(i+" ANDLW");//TODO: 1 Argument kkkk kkkk
+                                System.out.println("ANDLW");
+                                argument = argumentKKKKKKKK(line);
                                 break;
                             case "1000":
-                                System.out.println("IORLW");//TODO: 1 Argument kkkk kkkk
+                                System.out.println("IORLW");
+                                argument = argumentKKKKKKKK(line);
                                 break;
                             case "1010":
-                                System.out.println("XORLW");//TODO: 1 Argument kkkk kkkk
+                                System.out.println("XORLW");
+                                argument = argumentKKKKKKKK(line);
                                 break;
                         }
                     }
@@ -198,5 +251,91 @@ public class CommandDecoder
             bin = "0" + bin;
         }
         return bin;
+    }
+
+    private String[] argumentDFFFFFFF(String line)
+    {
+        String arg_d = line.substring(8,9);
+        String arg_f = line.substring(9,16);
+        System.out.println(arg_d);
+        System.out.println(arg_f);
+        System.out.println( );
+        String[] result={arg_d, arg_f};
+        return result;
+    }
+
+    private String argumentFFFFFFF(String line)
+    {
+        String arg_f = line.substring(9,16);
+        System.out.println(arg_f);
+        System.out.println( );
+        return arg_f;
+    }
+
+    private String[] argumentBBBFFFFFFF(String line)
+    {
+        String arg_b = line.substring(6,9);
+        String arg_f = line.substring(9,16);
+        System.out.println(arg_b);
+        System.out.println(arg_f);
+        System.out.println( );
+        String[] result={arg_b, arg_f};
+        return result;
+    }
+
+    private String argumentKKKKKKKKKKK(String line)
+    {
+        String arg_k = line.substring(5,16);
+        System.out.println(arg_k);
+        System.out.println( );
+        return arg_k;
+    }
+
+    private String argumentKKKKKKKK(String line)
+    {
+        String arg_k = line.substring(8,16);
+        System.out.println(arg_k);
+        System.out.println( );
+        return arg_k;
+    }
+
+    private void checkC(int valueOne, int valueTwo, boolean isAdd)
+    {
+
+    }
+
+        
+
+    private void checkZ(int valueOne, int valueTwo, boolean isAdd)
+    {
+        int result;
+        int lowerBits;
+        if(isAdd)
+        {
+            result = valueOne + valueTwo;
+            lowerBits = result & 0x0F;
+            if(result > 255)
+            {
+                //TODO: CarryBit setzen
+                result -= 255;
+                if(result == 0)
+                {
+                    //TODO: Zero bit setzen!
+                }
+            }
+        }
+        else
+        {
+            result = valueOne - valueTwo;
+            if(result < 0)
+            {
+                //TODO: CarryBit setzen!
+                result += 255;
+            }
+            if(result == 0)
+            {
+                //TODO: ZeroBit setzen!
+            }
+        }
     }
 }

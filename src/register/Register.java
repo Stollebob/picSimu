@@ -29,7 +29,12 @@ public class Register
 
     public String getBinaryValue()
     {
-        return new BigInteger("" + intValue, 10).toString(2);
+        String result = new BigInteger("" + intValue, 10).toString(2);
+        while(result.length() < 8)
+        {
+            result = "0" + result;
+        }
+        return result;
     }
 
     public void setBinaryValue(String binaryValue)

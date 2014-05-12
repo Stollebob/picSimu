@@ -193,13 +193,15 @@ public class CommandDecoder
                 {
                     case "00":
                         found = true;
-                        System.out.println("MOVLW");
+//                        System.out.println("MOVLW");
                         argument = argumentKKKKKKKK(line);
+                        movLW(argument);
                         break;
                     case "01":
                         found = true;
-                        System.out.println("RETLW");
+//                        System.out.println("RETLW");
                         argument = argumentKKKKKKKK(line);
+                        retLW(argument);
                         break;
                 }
                 if(!found)
@@ -208,13 +210,15 @@ public class CommandDecoder
                     {
                         case "111":
                             found = true;
-                            System.out.println("ADDLW");
+//                            System.out.println("ADDLW");
                             argument = argumentKKKKKKKK(line);
+                            addLW(argument);
                             break;
                         case "110":
                             found = true;
-                            System.out.println("SUBLW");
+//                            System.out.println("SUBLW");
                             argument = argumentKKKKKKKK(line);
+                            subLW(argument);
                             break;
                     }
                     if(!found)
@@ -222,22 +226,84 @@ public class CommandDecoder
                         switch(line.substring(4,8))
                         {
                             case "1001":
-                                System.out.println("ANDLW");
+//                                System.out.println("ANDLW");
                                 argument = argumentKKKKKKKK(line);
+                                andLW(argument);
                                 break;
                             case "1000":
-                                System.out.println("IORLW");
+//                                System.out.println("IORLW");
                                 argument = argumentKKKKKKKK(line);
+                                xOrLW(argument);
                                 break;
                             case "1010":
-                                System.out.println("XORLW");
+//                                System.out.println("XORLW");
                                 argument = argumentKKKKKKKK(line);
+                                xOrLW(argument);
                                 break;
                         }
                     }
                 }
             }
         }
+    }
+
+
+    private void movLW(String argument){
+        int argumentK = new BigInteger(argument, 2).intValue();
+        mmu.getWorkingRegister().setIntValue(argumentK);
+    }
+
+    private void retLW(String argument){
+        /*
+        TODO: retLW
+        String binaryValue = mmu.getWorkingRegister().getBinaryValue();
+        BigInteger argumentK = new BigInteger(argument, 2);
+        int result = new BigInteger(mmu.getWorkingRegister().getBinaryValue(),2).add(argumentK).intValue();
+        mmu.getWorkingRegister().setIntValue(result);
+        checkZ();*/
+    }
+
+    private void addLW(String argument){
+        String binaryValue = mmu.getWorkingRegister().getBinaryValue();
+        BigInteger argumentK = new BigInteger(argument, 2);
+        int result = new BigInteger(mmu.getWorkingRegister().getBinaryValue(),2).add(argumentK).intValue();
+        mmu.getWorkingRegister().setIntValue(result);
+        checkZ();
+    }
+
+    private void subLW(String argument){
+        String binaryValue = mmu.getWorkingRegister().getBinaryValue();
+        BigInteger argumentK = new BigInteger(argument, 2);
+        int result = new BigInteger(mmu.getWorkingRegister().getBinaryValue(),2).subtract(argumentK).intValue();
+        mmu.getWorkingRegister().setIntValue(result);
+        checkZ();
+    }
+
+    private void andLW(String argument){
+        String binaryValue = mmu.getWorkingRegister().getBinaryValue();
+        BigInteger argumentK = new BigInteger(argument, 2);
+        int result = new BigInteger(mmu.getWorkingRegister().getBinaryValue(),2).and(argumentK).intValue();
+        mmu.getWorkingRegister().setIntValue(result);
+        checkZ();
+    }
+
+    private void iOrLW(String argument){
+        String binaryValue = mmu.getWorkingRegister().getBinaryValue();
+        BigInteger argumentK = new BigInteger(argument, 2);
+        int result = new BigInteger(mmu.getWorkingRegister().getBinaryValue(),2).or(argumentK).intValue();
+        mmu.getWorkingRegister().setIntValue(result);
+        checkZ();
+    }
+
+    private void xOrLW(String argument){
+        String binaryValue = mmu.getWorkingRegister().getBinaryValue();
+//        BigInteger argumentW = new BigInteger(binaryValue);
+        BigInteger argumentK = new BigInteger(argument, 2);
+        int result = new BigInteger(mmu.getWorkingRegister().getBinaryValue(),2).xor(argumentK).intValue();
+//        System.out.println("XORLW "+ binaryValue + " ## " + argument + " ## Xor Value: " + result);
+        mmu.getWorkingRegister().setIntValue(result);
+//        System.out.println(mmu.getWorkingRegister().getBinaryValue());
+        checkZ();
     }
 
     private void andWF(String line) throws InvalidRegisterException {
@@ -346,7 +412,12 @@ public class CommandDecoder
     private void checkDC(int valueOne, int valueTwo, boolean isAdd)
     {}
 
-    private void checkZ(int valueOne, int valueTwo, boolean isAdd)
+        
+    private void checkZ()
+    {
+        return;
+    }
+    /*private void checkZ(int valueOne, int valueTwo, boolean isAdd)
     {
         int result;
         int lowerBits;
@@ -377,5 +448,5 @@ public class CommandDecoder
                 //TODO: ZeroBit setzen!
             }
         }
-    }
+    }*/
 }

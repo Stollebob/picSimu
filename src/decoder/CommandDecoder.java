@@ -2,6 +2,7 @@ package decoder;
 
 import Exceptions.InvalidRegisterException;
 import register.MemoryManagementUnit;
+import register.Register;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -96,7 +97,6 @@ public class CommandDecoder
                             e.printStackTrace();
                         }
                         System.out.println("INCF " + "... " + mmu.getWorkingRegister().getBinaryValue());
-                        arguments = argumentDFFFFFFF(line);
                         break;
                     case "1111":
                         found = true;
@@ -109,37 +109,78 @@ public class CommandDecoder
                             e.printStackTrace();
                         }
                         System.out.println("INCFSZ " + "... " + mmu.getWorkingRegister().getBinaryValue());
-                        arguments = argumentDFFFFFFF(line);
                         break;
                     case "1000":
                         found = true;
-                        System.out.println("MOVF");
-                        arguments = argumentDFFFFFFF(line);
+                        try
+                        {
+                            movF(line);
+                        }
+                        catch (InvalidRegisterException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        System.out.println("MOVF " + "... " + mmu.getWorkingRegister().getBinaryValue());
                         break;
                     case "1101":
                         found = true;
-                        System.out.println("RLF");
-                        arguments = argumentDFFFFFFF(line);
+                        try
+                        {
+                            rlf(line);
+                        }
+                        catch (InvalidRegisterException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        System.out.println("RLF " + "... " + mmu.getWorkingRegister().getBinaryValue());
                         break;
                     case "1100":
                         found = true;
-                        System.out.println("RRF");
-                        arguments = argumentDFFFFFFF(line);
+                        try
+                        {
+                            rrf(line);
+                        }
+                        catch (InvalidRegisterException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        System.out.println("RRF " + "... " + mmu.getWorkingRegister().getBinaryValue());
                         break;
                     case "0010":
                         found = true;
-                        System.out.println("SUBWF");
-                        arguments = argumentDFFFFFFF(line);
+                        try
+                        {
+                            subWF(line);
+                        }
+                        catch (InvalidRegisterException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        System.out.println("SUBWF " + "... " + mmu.getWorkingRegister().getBinaryValue());
                         break;
                     case "1110":
                         found = true;
-                        System.out.println("SWAPF");
-                        arguments = argumentDFFFFFFF(line);
+                        try
+                        {
+                            swapF(line);
+                        }
+                        catch (InvalidRegisterException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        System.out.println("SWAPF " + "... " + mmu.getWorkingRegister().getBinaryValue());
                         break;
                     case "0110":
                         found = true;
-                        System.out.println("XORWF");
-                        arguments = argumentDFFFFFFF(line);
+                        try
+                        {
+                            xOrWF(line);
+                        }
+                        catch (InvalidRegisterException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        System.out.println("XORWF " + "... " + mmu.getWorkingRegister().getBinaryValue());
                         break;
                 }
                 if(!found)
@@ -148,16 +189,32 @@ public class CommandDecoder
                     {
                         case "00011":
                             found = true;
-                            System.out.println("CLRF");
-                            argument = argumentFFFFFFF(line);
+                            try
+                            {
+                                clrF(line);
+                            }
+                            catch (InvalidRegisterException e)
+                            {
+                                e.printStackTrace();
+                            }
+                            System.out.println("CLRF " + "... " + mmu.getWorkingRegister().getBinaryValue());
                             break;
                         case "00010":
                             found = true;
-                            System.out.println("CLRW");//Argumentlos
+                            clrW(line);
+                            System.out.println("CLRW " + "... " + mmu.getWorkingRegister().getBinaryValue());//Argumentlos
                             break;
                         case "00001":
                             found = true;
-                            System.out.println("MOVWF");
+                            try
+                            {
+                                movWF(line);
+                            }
+                            catch (InvalidRegisterException e)
+                            {
+                                e.printStackTrace();
+                            }
+                            System.out.println("MOVWF " + "... " + mmu.getWorkingRegister().getBinaryValue());
                             argument = argumentFFFFFFF(line);
                             break;
                     }
@@ -369,7 +426,7 @@ public class CommandDecoder
         String f = new BigInteger("0" + arguments[1], 2).toString(16);
         while(f.length() <2)
         {
-            f = "0" + f + "h";
+            f = "0" + f + "h";//TODO: Basti auf fehler hinweisen?
         }
         System.out.println("Register Hex addresse:" + f);
         int intValue_W = mmu.getWorkingRegister().getIntValue();
@@ -395,7 +452,9 @@ public class CommandDecoder
         arguments = argumentDFFFFFFF(line);
 
         BigInteger f = new BigInteger("0" + arguments[1], 2);
-        int result = new BigInteger(mmu.getWorkingRegister().getBinaryValue(), 2).not().intValue();
+        String address_f = f.toString(16);
+        Register register_f = mmu.getRegister(address_f);
+        int result = new BigInteger(register_f.getBinaryValue(), 2).not().intValue();
 
         if(arguments[0].equals("0"))//d == 0 -> in W speichern
         {
@@ -403,7 +462,7 @@ public class CommandDecoder
         }
         else//d == 1 -> in F speichern
         {
-            mmu.getRegister(f.toString(16)).setIntValue(result);
+            register_f.setIntValue(result);
         }
         checkZ(result);
     }
@@ -414,7 +473,8 @@ public class CommandDecoder
         arguments = argumentDFFFFFFF(line);
 
         BigInteger f = new BigInteger("0" + arguments[1], 2);
-        int result = f.intValue() - 1;
+        Register register_f = mmu.getRegister(f.toString(16));
+        int result = register_f.getIntValue() - 1;
 
         if(arguments[0].equals("0"))//d == 0 -> in W speichern
         {
@@ -422,7 +482,7 @@ public class CommandDecoder
         }
         else//d == 1 -> in F speichern
         {
-            mmu.getRegister(f.toString(16)).setIntValue(result);
+            register_f.setIntValue(result);
         }
         checkZ(result);
     }
@@ -433,7 +493,8 @@ public class CommandDecoder
         arguments = argumentDFFFFFFF(line);
 
         BigInteger f = new BigInteger("0" + arguments[1], 2);
-        int result = f.intValue() - 1;
+        Register register_f = mmu.getRegister(f.toString(16));
+        int result = register_f.getIntValue() - 1;
         if(result == 0)
         {
             if (arguments[0].equals("0"))//d == 0 -> in W speichern
@@ -442,12 +503,11 @@ public class CommandDecoder
             }
             else//d == 1 -> in F speichern
             {
-                mmu.getRegister(f.toString(16)).setIntValue(result);
+                register_f.setIntValue(result);
             }
             //nop
         }
         //nop
-        return;
     }
 
     private void incf(String line) throws InvalidRegisterException
@@ -456,7 +516,8 @@ public class CommandDecoder
         arguments = argumentDFFFFFFF(line);
 
         BigInteger f = new BigInteger("0" + arguments[1], 2);
-        int result = f.intValue() + 1;
+        Register register_f = mmu.getRegister(f.toString(16));
+        int result = register_f.getIntValue() + 1;
         checkZ(result);
         if (arguments[0].equals("0"))//d == 0 -> in W speichern
         {
@@ -467,7 +528,6 @@ public class CommandDecoder
             mmu.getRegister(f.toString(16)).setIntValue(result);
         }
         //nop
-        return;
     }
 
     private void incfsz(String line) throws InvalidRegisterException
@@ -476,7 +536,8 @@ public class CommandDecoder
         arguments = argumentDFFFFFFF(line);
 
         BigInteger f = new BigInteger("0" + arguments[1], 2);
-        int result = f.intValue() + 1;
+        Register register_f = mmu.getRegister(f.toString(16));
+        int result = register_f.getIntValue() + 1;
         if(result == 0)
         {
             if (arguments[0].equals("0"))//d == 0 -> in W speichern
@@ -485,12 +546,203 @@ public class CommandDecoder
             }
             else//d == 1 -> in F speichern
             {
-                mmu.getRegister(f.toString(16)).setIntValue(result);
+                register_f.setIntValue(result);
             }
             //nop
         }
         //nop
-        return;
+    }
+
+    private void movF(String line) throws InvalidRegisterException
+    {
+        String[] arguments;
+        arguments = argumentDFFFFFFF(line);
+
+        BigInteger f = new BigInteger("0" + arguments[1], 2);
+        Register register_f = mmu.getRegister(f.toString(16));
+        int result = register_f.getIntValue();
+        if (arguments[0].equals("0"))//d == 0 -> in W speichern
+        {
+            mmu.getWorkingRegister().setIntValue(result);
+        }
+        else//d == 1 -> in F speichern
+        {
+            register_f.setIntValue(result);
+        }
+        checkZ(result);
+        //nop
+    }
+
+    private void rlf(String line) throws InvalidRegisterException
+    {
+        String[] arguments;
+        arguments = argumentDFFFFFFF(line);
+
+        BigInteger f = new BigInteger("0" + arguments[1], 2);
+        Register register_f = mmu.getRegister(f.toString(16));
+        String result = register_f.getBinaryValue();
+
+        String newCarry = result.substring(0,1);//Das neue Carry ist das 8. Bit vom alten Wert aus f!
+        result = result.substring(1);
+        if(mmu.isCarry())
+        {
+            result += "1";
+            if(newCarry.equals("0"))//Wenn newCarry = 1 ist, dann bleibt das Carry gleich!
+            {
+                mmu.resetCarry();
+            }
+        }
+        else
+        {
+            result += "0";
+            if(newCarry.equals("1"))//Wenn newCarry = 0aa ist, dann bleibt das Carry gleich!
+            {
+                mmu.setCarry();
+            }
+        }
+
+        if (arguments[0].equals("0"))//d == 0 -> in W speichern
+        {
+            mmu.getWorkingRegister().setBinaryValue(result);
+        }
+        else//d == 1 -> in F speichern
+        {
+            register_f.setBinaryValue(result);
+        }
+        //nop
+    }
+
+    private void rrf(String line) throws InvalidRegisterException
+    {
+        String[] arguments;
+        arguments = argumentDFFFFFFF(line);
+
+        BigInteger f = new BigInteger("0" + arguments[1], 2);
+        Register register_f = mmu.getRegister(f.toString(16));
+        String result = register_f.getBinaryValue();
+
+        int length = result.length();
+        String newCarry = result.substring(length - 1 , length);//Das neue Carry ist das 1. Bit vom alten Wert aus f!
+        result = result.substring(0, length - 1);
+        if(mmu.isCarry())
+        {
+            result = "1" + result;
+            if(newCarry.equals("0"))//Wenn newCarry = 1 ist, dann bleibt das Carry gleich!
+            {
+                mmu.resetCarry();
+            }
+        }
+        else
+        {
+            result = "0" + result;
+            if(newCarry.equals("1"))//Wenn newCarry = 0aa ist, dann bleibt das Carry gleich!
+            {
+                mmu.setCarry();
+            }
+        }
+
+        if (arguments[0].equals("0"))//d == 0 -> in W speichern
+        {
+            mmu.getWorkingRegister().setBinaryValue(result);
+        }
+        else//d == 1 -> in F speichern
+        {
+            register_f.setBinaryValue(result);
+        }
+        //nop
+    }
+
+    private void subWF(String line) throws InvalidRegisterException
+    {
+        String[] arguments;
+        arguments = argumentDFFFFFFF(line);
+
+        BigInteger f = new BigInteger("0" + arguments[1], 2);
+        Register register_f = mmu.getRegister(f.toString(16));
+        int value_f = register_f.getIntValue();
+        int value_w = mmu.getWorkingRegister().getIntValue();
+        int result = value_f - value_w;
+
+        if (arguments[0].equals("0"))//d == 0 -> in W speichern
+        {
+            mmu.getWorkingRegister().setIntValue(result);
+        }
+        else//d == 1 -> in F speichern
+        {
+            register_f.setIntValue(result);
+        }
+        checkZ(result);
+        checkC(value_f, value_w, false);
+        checkDC(value_f, value_w, false);
+        //nop
+    }
+
+    private void swapF(String line) throws InvalidRegisterException
+    {
+        String[] arguments;
+        arguments = argumentDFFFFFFF(line);
+
+        BigInteger f = new BigInteger("0" + arguments[1], 2);
+        Register register_f = mmu.getRegister(f.toString(16));
+        String value_f = register_f.getBinaryValue();
+        String result = value_f.substring(4,8) + value_f.substring(0,4);
+
+        if (arguments[0].equals("0"))//d == 0 -> in W speichern
+        {
+            mmu.getWorkingRegister().setBinaryValue(result);
+        }
+        else//d == 1 -> in F speichern
+        {
+            register_f.setBinaryValue(result);
+        }
+        //nop
+    }
+
+    private void xOrWF(String line) throws InvalidRegisterException
+    {
+        String[] arguments;
+        arguments = argumentDFFFFFFF(line);
+        BigInteger f = new BigInteger("0" + arguments[1], 2);
+        Register register_f = mmu.getRegister(f.toString(16));
+        int result = new BigInteger(mmu.getWorkingRegister().getBinaryValue(),2).xor(new BigInteger(register_f.getBinaryValue() , 2)).intValue();
+
+        if (arguments[0].equals("0"))//d == 0 -> in W speichern
+        {
+            mmu.getWorkingRegister().setIntValue(result);
+        }
+        else//d == 1 -> in F speichern
+        {
+            register_f.setIntValue(result);
+        }
+        mmu.getWorkingRegister().setIntValue(result);
+        checkZ(result);
+        //nop
+    }
+
+    private void clrF(String line) throws InvalidRegisterException
+    {
+        String argument;
+        argument = argumentFFFFFFF(line);
+        BigInteger f = new BigInteger("0" + argument, 2);
+        mmu.getRegister(f.toString(16)).setIntValue(0);
+        checkZ(0);//Z setzen
+        //nop
+    }
+
+    private void clrW(String line)
+    {
+        mmu.getWorkingRegister().setIntValue(0);
+        checkZ(0);//Z setzen
+        //nop
+    }
+
+    private void movWF(String line) throws InvalidRegisterException
+    {
+        String argument;
+        argument = argumentFFFFFFF(line);
+        BigInteger f = new BigInteger("0" + argument, 2);
+        mmu.getRegister(f.toString(16)).setIntValue(mmu.getWorkingRegister().getIntValue());
+        //nop
     }
 
     private String addLeadingZeros(String bin)

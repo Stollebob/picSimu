@@ -144,4 +144,22 @@ public class MemoryManagementUnit
     {
         return w;
     }
+
+    public boolean isCarry()
+    {
+        return true;
+    }
+
+    public void setCarry()
+    {
+
+    }
+
+    public void resetCarry()
+    {
+
+    }
+
+
+
 }

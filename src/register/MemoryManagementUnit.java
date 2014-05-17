@@ -1,9 +1,7 @@
 package register;
 
-import Exceptions.InvalidRegisterException;
-import com.sun.javaws.exceptions.InvalidArgumentException;
+import exceptions.InvalidRegisterException;
 
-import javax.naming.InvalidNameException;
 import java.util.HashMap;
 import java.util.Map;
 

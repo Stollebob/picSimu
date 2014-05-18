@@ -1,5 +1,7 @@
 package commands;
 
+import register.MemoryManagementUnit;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +10,9 @@ import java.util.List;
  */
 public class CommandExecutor
 {
-    List<Command> commandList = new ArrayList<>();
+    private List<Command> commandList = new ArrayList<>();
+    private MemoryManagementUnit mmu = new MemoryManagementUnit();
+    private int clock = 0;
 
     public CommandExecutor(List<Command> commandList)
     {
@@ -19,7 +23,9 @@ public class CommandExecutor
     {
         for(int pc = 0; pc < commandList.size(); pc++)
         {
-
+            Command command = commandList.get(pc);
+            mmu = command.execute(mmu);
+            clock += command.getCycles();
         }
     }
 }

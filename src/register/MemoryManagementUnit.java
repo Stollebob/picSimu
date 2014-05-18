@@ -134,8 +134,7 @@ public class MemoryManagementUnit
         {
             return registerFromBank_1;
         }
-        InvalidRegisterException up = new InvalidRegisterException();
-        throw up;
+        throw new InvalidRegisterException();
     }
 
     public Register getWorkingRegister()

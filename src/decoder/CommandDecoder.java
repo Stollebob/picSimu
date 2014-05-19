@@ -22,7 +22,6 @@ public class CommandDecoder
     public List<Command> decode(List<String> lineList)
     {
         List<Command> commandList = new ArrayList<>();
-        String argument;
         for (String aLineList : lineList)
         {
             String line = new BigInteger(aLineList, 16).toString(2);
@@ -143,8 +142,7 @@ public class CommandDecoder
                                 break;
                             case "0001000":
                                 found = true;
-                                //TODO: stack?!
-                                System.out.println("RETURN");//Argumentlos
+                                commandList.add(new Return());
                                 break;
                             case "1100011":
                                 found = true;
@@ -183,14 +181,13 @@ public class CommandDecoder
                         break;
                 }
             } else if (line.startsWith("0010")) {
-                if (line.substring(4, 15).startsWith("1")) {
-                    System.out.println("GOTO");
-                    argument = argumentKKKKKKKKKKK(line);
-                } else
+                if (line.substring(4, 15).startsWith("1"))
+                {
+                    commandList.add(new GoTo(line));
+                }
+                else
                 {
                     commandList.add(new Call(line));
-                    System.out.println("CALL");
-                    argument = argumentKKKKKKKKKKK(line);
                 }
             } else if (line.startsWith("0011")) {
                 boolean found = false;
@@ -199,13 +196,13 @@ public class CommandDecoder
                         found = true;
                         commandList.add(new MovLW(line));
 
-//                        System.out.println("MOVLW");
+//                      System.out.println("MOVLW");
                         break;
                     case "01":
                         found = true;
-//                        System.out.println("RETLW");
-                        argument = argumentKKKKKKKK(line);
-                        retLW(argument);//TODO: idee überlegen
+                        commandList.add(new RetLW(line));
+
+//                      System.out.println("RETLW");
                         break;
                 }
                 if (!found) {
@@ -248,17 +245,6 @@ public class CommandDecoder
         return commandList;
     }
 
-    private void retLW(String argument){
-        /*
-        TODO: retLW
-        String binaryValue = mmu.getWorkingRegister().getBinaryValue();
-        BigInteger argumentK = new BigInteger(argument, 2);
-        int result = new BigInteger(mmu.getWorkingRegister().getBinaryValue(),2).add(argumentK).intValue();
-        mmu.getWorkingRegister().setIntValue(result);
-        checkZ();*/
-//        nop();
-    }
-
     private String addLeadingZeros(String bin)
     {
         while(bin.length() < 16)
@@ -268,31 +254,6 @@ public class CommandDecoder
         return bin;
     }
 
-    private String argumentKKKKKKKKKKK(String line)
-    {
-        String arg_k = line.substring(5,16);
-        System.out.println(arg_k);
-        System.out.println( );
-        return arg_k;
-    }
-
-    private String argumentKKKKKKKK(String line)
-    {
-        String arg_k = line.substring(8,16);
-        System.out.println(arg_k);
-        System.out.println( );
-        return arg_k;
-    }
-
-    private void checkC(int valueOne, int valueTwo, boolean isAdd)
-    {
-
-    }
-
-    private void checkDC(int valueOne, int valueTwo, boolean isAdd)
-    {}
-
-        
     private void checkZ(int result)
     {
         return;

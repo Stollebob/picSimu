@@ -162,15 +162,15 @@ public class MemoryManagementUnit
     //Gibt den PC zurück
     public int getPC() throws InvalidRegisterException
     {
-        return (getRegister("PCLATH").getIntValue() << 8) + getRegister("PCL").getIntValue();
+        return (getRegister("0Ah").getIntValue() << 8) + getRegister("02h").getIntValue();
     }
 
     //Setzt den PC auf übergebenen Wert
     public void setPC(int pc) throws InvalidRegisterException {
         //Oberen 5 bit im PCLATH speichern
-        getRegister("PCLATH").setIntValue ((pc & 0x1F00) >> 0b1000); //0b0001 1111 0000 0000 >> 0b0000 0000 0001 1111
+        getRegister("0Ah").setIntValue ((pc & 0x1F00) >> 0b1000); //0b0001 1111 0000 0000 >> 0b0000 0000 0001 1111
         //Unteren 8 bit im PCL speichern
-        getRegister("PCL").setIntValue(pc & 0x00FF);    //0b0000 0000 1111 1111
+        getRegister("02h").setIntValue(pc & 0x00FF);    //0b0000 0000 1111 1111
     }
 
 
@@ -187,5 +187,10 @@ public class MemoryManagementUnit
             this.stack.push(new Integer(this.getPC()));
         }
 
+    }
+
+    public void reloadPcFromStack() throws InvalidRegisterException
+    {
+        this.setPC(this.stack.pop());
     }
 }

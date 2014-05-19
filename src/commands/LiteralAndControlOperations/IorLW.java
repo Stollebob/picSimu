@@ -11,7 +11,7 @@ import java.math.BigInteger;
 public class IorLW extends LiteralAndControlOperation implements Command
     {
         private String commandString;//Arguments etc. as Binary String
-        private int cycels = 1;
+        private int cycles = 1;
 
         public IorLW(String commandString)
         {
@@ -33,6 +33,6 @@ public class IorLW extends LiteralAndControlOperation implements Command
         @Override
         public int getCycles()
         {
-            return cycels;
+            return cycles;
         }
     }

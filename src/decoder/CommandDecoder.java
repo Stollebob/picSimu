@@ -138,6 +138,7 @@ public class CommandDecoder
                                 break;
                             case "0001001":
                                 found = true;
+                                commandList.add(new RetFie(line));
                                 //TODO: Interrupts?!
                                 System.out.println("RETFIE");//Argumentlos
                                 break;

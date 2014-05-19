@@ -9,12 +9,12 @@ import java.math.BigInteger;
 /**
  * Created by bastian.donat on 19.05.2014.
  */
-public class GoTo extends LiteralAndControlOperation implements Command
+public class RetFie extends LiteralAndControlOperation implements Command
 {
     private String commandString;//Arguments etc. as Binary String
     private int cycles = 2;
 
-    public GoTo(String commandString)
+    public RetFie(String commandString)
     {
         this.commandString = commandString;
     }
@@ -24,9 +24,10 @@ public class GoTo extends LiteralAndControlOperation implements Command
     {
         try
         {
-            String argument = decodeSingle11BitArgument(commandString);
-            String pclathValue = mmu.getRegister("0Ah").getBinaryValue();
-            mmu.setPC(new BigInteger(pclathValue.substring(2,4) + argument ,2).intValue());
+            mmu.reloadPcFromStack();
+            String intConBinaryValue = mmu.getRegister("0Bh").getBinaryValue();
+            int result = new BigInteger(intConBinaryValue, 2).setBit(8).intValue();
+            mmu.getRegister("0Bh").setIntValue(result);
         }
         catch (InvalidRegisterException e)
         {

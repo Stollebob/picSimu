@@ -13,4 +13,13 @@ public abstract class LiteralAndControlOperation extends Operation
         return arg_k;
 
     }
+
+    public String decodeSingle11BitArgument(String argumentString)
+    {
+        String arg_k = argumentString.substring(5,16);
+        return arg_k;
+
+    }
+
+
 }

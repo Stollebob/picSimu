@@ -11,7 +11,7 @@ import java.math.BigInteger;
 public class AddLW extends LiteralAndControlOperation implements Command
 {
     private String commandString;//Arguments etc. as Binary String
-    private int cycels = 1;
+    private int cycles = 1;
 
     public AddLW(String commandString)
     {
@@ -35,6 +35,6 @@ public class AddLW extends LiteralAndControlOperation implements Command
     @Override
     public int getCycles()
     {
-        return cycels;
+        return cycles;
     }
 }

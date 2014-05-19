@@ -27,7 +27,7 @@ public class Call  extends LiteralAndControlOperation implements Command
             String argument = decodeSingle11BitArgument(commandString);
             mmu.addPcToStack();
             String pclathValue = mmu.getRegister("PCLATH").getBinaryValue();
-            mmu.setPC(new BigInteger(pclathValue.substring(3,4) + argument ,2).intValue());
+            mmu.setPC(new BigInteger(pclathValue.substring(2,4) + argument ,2).intValue());
         }
         catch (InvalidRegisterException e)
         {

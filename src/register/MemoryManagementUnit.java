@@ -162,7 +162,7 @@ public class MemoryManagementUnit
     //Gibt den PC zurück
     public int getPC() throws InvalidRegisterException
     {
-        return (getRegister("0Ah").getIntValue() << 8) + getRegister("02h").getIntValue();
+        return (getRegister("0Ah").getIntValue() << 8) + getRegister("02h)").getIntValue();
     }
 
     //Setzt den PC auf übergebenen Wert

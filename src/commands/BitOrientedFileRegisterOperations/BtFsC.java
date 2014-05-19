@@ -32,7 +32,7 @@ public class BtFsC extends BitOrientedFileRegisterOperation implements Command
             Register register_f = mmu.getRegister(new BigInteger("0" + arguments[1], 2).toString(16));
             if(!new BigInteger(register_f.getBinaryValue() , 2).testBit(indexInString))
             {
-                //TODO: PC hochzählen um nächste instruktion zu überspringen
+                mmu.incPC();//PC hochzählen um nächste instruktion zu überspringen
                 cycels++;
             }
         }

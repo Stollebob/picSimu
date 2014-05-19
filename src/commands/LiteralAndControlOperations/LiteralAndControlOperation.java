@@ -5,7 +5,7 @@ import commands.Operation;
 /**
  * Created by Thor on 17.05.14.
  */
-public class LiteralAndControlOperation extends Operation
+public abstract class LiteralAndControlOperation extends Operation
 {
     public String decodeSingle8BitArgument(String argumentString)
     {

@@ -4,6 +4,7 @@ import exceptions.InvalidRegisterException;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * Created by Thomas on 28.04.2014.
@@ -13,6 +14,7 @@ public class MemoryManagementUnit
     private Map<String, Register> bank_0 = new HashMap<>();
     private Map<String, Register> bank_1 = new HashMap<>();
     private Register w = new Register("WORKING REGISTER", "00000000");
+    private Stack<Integer> stack = new Stack<>();
 
     public MemoryManagementUnit()
     {
@@ -178,4 +180,12 @@ public class MemoryManagementUnit
         setPC(getPC() + 1);
     }
 
+    public void addPcToStack() throws InvalidRegisterException
+    {
+        if(this.stack.size() < 8)
+        {
+            this.stack.push(new Integer(this.getPC()));
+        }
+
+    }
 }

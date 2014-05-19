@@ -186,7 +186,9 @@ public class CommandDecoder
                 if (line.substring(4, 15).startsWith("1")) {
                     System.out.println("GOTO");
                     argument = argumentKKKKKKKKKKK(line);
-                } else {
+                } else
+                {
+                    commandList.add(new Call(line));
                     System.out.println("CALL");
                     argument = argumentKKKKKKKKKKK(line);
                 }

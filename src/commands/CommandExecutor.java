@@ -1,5 +1,6 @@
 package commands;
 
+import exceptions.InvalidRegisterException;
 import register.MemoryManagementUnit;
 
 import java.util.ArrayList;
@@ -12,20 +13,21 @@ public class CommandExecutor
 {
     private List<Command> commandList = new ArrayList<>();
     private MemoryManagementUnit mmu = new MemoryManagementUnit();
-    private int clock = 0;
+    private int cycles = 0;
 
     public CommandExecutor(List<Command> commandList)
     {
         this.commandList = commandList;
     }
 
-    public void work()
+    public void work() throws InvalidRegisterException
     {
-        for(int pc = 0; pc < commandList.size(); pc++)
+        while(mmu.getPC() < commandList.size())
         {
-            Command command = commandList.get(pc);
+            Command command = commandList.get(mmu.getPC());
+            mmu.incPC();
             mmu = command.execute(mmu);
-            clock += command.getCycles();
+            cycles += command.getCycles();
         }
     }
 }

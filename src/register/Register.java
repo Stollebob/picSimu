@@ -29,12 +29,18 @@ public class Register
 
     public String getBinaryValue()
     {
+        boolean negativ = false;
         String result = new BigInteger("" + intValue, 10).toString(2);
+        if(result.charAt(0) == '-')
+        {
+            result = result.substring(1);
+            negativ = true;
+        }
         while(result.length() < 8)
         {
             result = "0" + result;
         }
-        return result;
+        return negativ ? "-" + result : result;
     }
 
     public void setBinaryValue(String binaryValue)

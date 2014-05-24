@@ -2,17 +2,15 @@ package register;
 
 import exceptions.InvalidRegisterException;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Created by Thomas on 28.04.2014.
  */
 public class MemoryManagementUnit
 {
-    private Map<String, Register> bank_0 = new HashMap<>();
-    private Map<String, Register> bank_1 = new HashMap<>();
+    private Map<String, Register> bank_0 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    private Map<String, Register> bank_1 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private Register w = new Register("WORKING REGISTER", "00000000");
     private Stack<Integer> stack = new Stack<>();
 
@@ -49,12 +47,15 @@ public class MemoryManagementUnit
         bank_0.put("0Dh", gpr2);
         bank_1.put("8Dh", gpr2);
         Register gpr3 = new Register("GPR", "00000000");
-        bank_0.put("0Fh", gpr3);
-        bank_1.put("8Fh", gpr3);
+        bank_0.put("0Eh", gpr3);
+        bank_1.put("8Eh", gpr3);
+        Register gpr4 = new Register("GPR", "00000000");
+        bank_0.put("0Fh", gpr4);
+        bank_1.put("8Fh", gpr4);
 
         for(int first = 1; first <= 4; first++)
         {
-            for(int second = 0; second <= 16; second++)
+            for(int second = 0; second < 16; second++)
             {
                 String firstString = "" + first;
                 String secondString = convertIntToHexString(second);
@@ -117,15 +118,15 @@ public class MemoryManagementUnit
     }
 
     public Register getRegister(String address) throws InvalidRegisterException {
+        address.toUpperCase(Locale.GERMANY);
         if(!address.contains("h"))
         {
             address += "h";
         }
-        if(address.length() != 3)
+            if(address.length() != 3)
         {
             address = "0" + address;
         }
-        System.out.println(address);
         Register registerFromBank_0 = getRegisterFromBank_0(address);
         Register registerFromBank_1 = getRegisterFromBank_1(address);
         if (registerFromBank_0 != null)
@@ -162,7 +163,7 @@ public class MemoryManagementUnit
     //Gibt den PC zurück
     public int getPC() throws InvalidRegisterException
     {
-        return (getRegister("0Ah").getIntValue() << 8) + getRegister("02h)").getIntValue();
+        return (getRegister("0Ah").getIntValue() << 8) + getRegister("02h").getIntValue();
     }
 
     //Setzt den PC auf übergebenen Wert

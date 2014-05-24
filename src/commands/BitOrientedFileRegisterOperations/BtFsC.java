@@ -13,7 +13,7 @@ import java.math.BigInteger;
 public class BtFsC extends BitOrientedFileRegisterOperation implements Command
 {
     private String commandString;//Arguments etc. as Binary String
-    private int cycels = 2;
+    private int cycles = 1;
 
     public BtFsC(String commandString)
     {
@@ -28,12 +28,12 @@ public class BtFsC extends BitOrientedFileRegisterOperation implements Command
             String[] arguments;
             arguments = decodeArguments(commandString);
             int argB = new BigInteger(arguments[0] , 2).intValue();
-            int indexInString = 7 - argB;
+            int indexInString = /*7 - */argB;
             Register register_f = mmu.getRegister(new BigInteger("0" + arguments[1], 2).toString(16));
             if(!new BigInteger(register_f.getBinaryValue() , 2).testBit(indexInString))
             {
                 mmu.incPC();//PC hochzählen um nächste instruktion zu überspringen
-                cycels++;
+                cycles++;
             }
         }
         catch (InvalidRegisterException e)
@@ -46,6 +46,6 @@ public class BtFsC extends BitOrientedFileRegisterOperation implements Command
     @Override
     public int getCycles()
     {
-        return cycels;
+        return cycles;
     }
 }

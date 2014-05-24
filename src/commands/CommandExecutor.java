@@ -24,6 +24,7 @@ public class CommandExecutor
     {
         while(mmu.getPC() < commandList.size())
         {
+            System.out.println(mmu.getPC());
             Command command = commandList.get(mmu.getPC());
             mmu.incPC();
             mmu = command.execute(mmu);

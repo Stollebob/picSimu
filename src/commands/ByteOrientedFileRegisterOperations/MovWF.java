@@ -26,7 +26,7 @@ public class MovWF extends ByteOrientedFileRegisterOperation implements Command
         {
             String argument;
             argument = decodeSingleArgument(commandString);
-            BigInteger f = new BigInteger("0" + argument, 2);
+            BigInteger f = new BigInteger(argument, 2);
             mmu.getRegister(f.toString(16)).setIntValue(mmu.getWorkingRegister().getIntValue());
         }
         catch (InvalidRegisterException e)

@@ -2,6 +2,7 @@ package register;
 
 import exceptions.InvalidRegisterException;
 
+import java.math.BigInteger;
 import java.util.*;
 
 /**
@@ -119,11 +120,17 @@ public class MemoryManagementUnit
 
     public Register getRegister(String address) throws InvalidRegisterException {
         address.toUpperCase(Locale.GERMANY);
+        int value;
         if(!address.contains("h"))
         {
+            value = new BigInteger(address,16).intValue();
             address += "h";
         }
-            if(address.length() != 3)
+        else
+        {
+            value = new BigInteger(address.substring(0 , address.lastIndexOf("h")),16).intValue();
+        }
+        if(address.length() != 3)
         {
             address = "0" + address;
         }
@@ -131,11 +138,25 @@ public class MemoryManagementUnit
         Register registerFromBank_1 = getRegisterFromBank_1(address);
         if (registerFromBank_0 != null)
         {
+            if(address.equals("00h"))
+            {
+                Register fsr = getRegister("04h");
+                String indirectAddress = new BigInteger(fsr.getBinaryValue(), 2).toString(16);
+                return getRegister(indirectAddress);
+                /*BigInteger bigInteger = new BigInteger(registerFromBank_0.getBinaryValue(), 2);
+                String hexAddress = bigInteger.toString(16);
+                int indirectAddress = bigInteger.intValue();
+                return indirectAddress <= 0 ? registerFromBank_0 : getRegister(hexAddress);*/
+            }
             return registerFromBank_0;
         }
         else if(registerFromBank_1 != null)
         {
             return registerFromBank_1;
+        }
+        if(value >= 0 && value <= 255)
+        {
+            return new Register("GPR", 0);
         }
         throw new InvalidRegisterException();
     }
@@ -145,19 +166,58 @@ public class MemoryManagementUnit
         return w;
     }
 
+    public void setZero()
+    {
+        Register status = bank_0.get("03h");
+        new BigInteger(status.getBinaryValue(), 2).setBit(2);
+    }
+
+    public boolean isZero()
+    {
+        Register status = bank_0.get("03h");
+        return new BigInteger(status.getBinaryValue(), 2).testBit(2);
+    }
+
+    public void resetZero()
+    {
+        Register status = bank_0.get("03h");
+        new BigInteger(status.getBinaryValue(), 2).clearBit(1);
+    }
+
+    public void setDigitCarry()
+    {
+        Register status = bank_0.get("03h");
+        new BigInteger(status.getBinaryValue(), 2).setBit(1);
+    }
+
+    public boolean isDigitCarry()
+    {
+        Register status = bank_0.get("03h");
+        return new BigInteger(status.getBinaryValue(), 2).testBit(1);
+    }
+
+    public void resetDigitCarry()
+    {
+        Register status = bank_0.get("03h");
+        new BigInteger(status.getBinaryValue(), 2).clearBit(2);
+    }
+
     public boolean isCarry()
     {
-        return true;
+        Register status = bank_0.get("03h");
+        return new BigInteger(status.getBinaryValue(), 2).testBit(0);
     }
 
     public void setCarry()
     {
-
+        Register status = bank_0.get("03h");
+        new BigInteger(status.getBinaryValue(), 2).setBit(0);
     }
 
     public void resetCarry()
     {
-
+        Register status = bank_0.get("03h");
+        new BigInteger(status.getBinaryValue(), 2).clearBit(0);
     }
 
     //Gibt den PC zurück

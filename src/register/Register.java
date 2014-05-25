@@ -29,27 +29,29 @@ public class Register
 
     public String getBinaryValue()
     {
-        boolean negativ = false;
         String result = new BigInteger("" + intValue, 10).toString(2);
-        if(result.charAt(0) == '-')
-        {
-            result = result.substring(1);
-            negativ = true;
-        }
         while(result.length() < 8)
         {
             result = "0" + result;
         }
-        return negativ ? "-" + result : result;
+        return result;
     }
 
     public void setBinaryValue(String binaryValue)
     {
-        this.intValue = new BigInteger(binaryValue, 2).intValue();
+       setIntValue(new BigInteger(binaryValue, 2).intValue());
     }
 
     public void setIntValue(int intValue)
     {
+        if(intValue < 0)
+        {
+            intValue = new BigInteger("" + intValue , 10).abs().intValue();
+        }
+        while(intValue > 255)
+        {
+            intValue -= 256;
+        }
         this.intValue = intValue;
     }
 

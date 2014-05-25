@@ -26,29 +26,23 @@ public class AddWF extends ByteOrientedFileRegisterOperation implements Command
         {
             String[] arguments = decodeArguments(commandString);
             String f = new BigInteger("0" + arguments[1], 2).toString(16);
-            while(f.length() <2)
-            {
-                f = "0" + f + "h";//TODO: Basti auf fehler hinweisen?
-            }
-            System.out.println("Register Hex addresse:" + f);
             int intValue_W = mmu.getWorkingRegister().getIntValue();
-            System.out.println(f);
             int intValue_F = mmu.getRegister(f).getIntValue();
 
             int result = intValue_W + intValue_F;
             if(checkC(intValue_W, intValue_F, true))
             {
-                //TODO: Event trigern, das CarryBit setzt
+                mmu.setCarry();
             }
 
             if(checkDC(intValue_W, intValue_F, true))
             {
-                //TODO: Event trigern, das DigitCarryBit setzt
+                mmu.setDigitCarry();
             }
 
             if(checkZ(result))
             {
-                //TODO: Event trigern, das ZeroBit setzt
+                mmu.setZero();
             }
             if(arguments[0].equals("0"))//d == 0 -> in W speichern
             {

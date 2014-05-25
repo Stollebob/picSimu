@@ -13,7 +13,7 @@ import java.math.BigInteger;
 public class IncFsZ extends ByteOrientedFileRegisterOperation implements Command
 {
     private String commandString;//Arguments etc. as Binary String
-    private int cycels = 2;
+    private int cycles = 1;
 
     public IncFsZ(String commandString)
     {
@@ -29,18 +29,19 @@ public class IncFsZ extends ByteOrientedFileRegisterOperation implements Command
             arguments = decodeArguments(commandString);
 
             BigInteger f = new BigInteger("0" + arguments[1], 2);
-            Register register_f = mmu.getRegister(f.toString(16));
-            int result = register_f.getIntValue() + 1;
-            if(result == 0)
-            {
+            int result = mmu.getRegister(f.toString(16)).getIntValue() + 1;
                 if (arguments[0].equals("0"))//d == 0 -> in W speichern
                 {
                     mmu.getWorkingRegister().setIntValue(result);
                 }
                 else//d == 1 -> in F speichern
                 {
-                    register_f.setIntValue(result);
+                    mmu.getRegister(f.toString(16)).setIntValue(result);
                 }
+            if(result == 256)// Die setIntValue Methode setzt intern zurück auf 0 wenn > 255
+            {
+                cycles++;
+                mmu.incPC();
             }
         }
         catch (InvalidRegisterException e)
@@ -53,6 +54,6 @@ public class IncFsZ extends ByteOrientedFileRegisterOperation implements Command
     @Override
     public int getCycles()
     {
-        return cycels;
+        return cycles;
     }
 }

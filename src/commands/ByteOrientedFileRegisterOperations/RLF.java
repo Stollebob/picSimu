@@ -29,8 +29,7 @@ public class RLF extends ByteOrientedFileRegisterOperation implements Command
             arguments = decodeArguments(commandString);
 
             BigInteger f = new BigInteger("0" + arguments[1], 2);
-            Register register_f = mmu.getRegister(f.toString(16));
-            String result = register_f.getBinaryValue();
+            String result = mmu.getRegister(f.toString(16)).getBinaryValue();
 
             String newCarry = result.substring(0,1);//Das neue Carry ist das 8. Bit vom alten Wert aus f!
             result = result.substring(1);
@@ -57,7 +56,7 @@ public class RLF extends ByteOrientedFileRegisterOperation implements Command
             }
             else//d == 1 -> in F speichern
             {
-                register_f.setBinaryValue(result);
+                mmu.getRegister(f.toString(16)).setBinaryValue(result);
             }
         }
         catch (InvalidRegisterException e)

@@ -2,7 +2,9 @@ package commands;
 
 import exceptions.InvalidRegisterException;
 import register.MemoryManagementUnit;
+import register.Register;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,27 @@ public class CommandExecutor
             mmu.incPC();
             mmu = command.execute(mmu);
             cycles += command.getCycles();
+            schmitTrigger();
+        }
+    }
+
+    void schmitTrigger()
+    {
+        try
+        {
+            Register register = mmu.getRegister("06h");
+            if(cycles%2 == 1)
+            {
+                register.setIntValue(new BigInteger(register.getBinaryValue(), 2).setBit(0).intValue());
+            }
+            else
+            {
+                register.setIntValue(new BigInteger(register.getBinaryValue(), 2).clearBit(0).intValue());
+            }
+        }
+        catch (InvalidRegisterException e)
+        {
+            e.printStackTrace();
         }
     }
 }

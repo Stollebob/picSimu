@@ -7,16 +7,16 @@ public abstract class Operation
 {
     protected boolean checkZ(int result)
     {
-        return true; //gibt true zurück, wenn das ergebnis 0 ist
+        return result == 0; //gibt true zurück, wenn das ergebnis 0 ist
     }
 
     protected boolean checkDC(int intValue_W, int intValue_F, boolean b)
     {
-        return true; //gibt true zurück, wenn es ein DC gab
+        return true; //TODO:gibt true zurück, wenn es ein DC gab
     }
 
     protected boolean checkC(int intValue_W, int intValue_F, boolean b)
     {
-        return true; //gibt true zurück, wenn es ein Carry gab
+        return true; //TODO:gibt true zurück, wenn es ein Carry gab
     }
 }

@@ -17,7 +17,7 @@ public class PicSimu {
 
     public static void main(String[] args)
     {
-        LstParser parser = new LstParser(Paths.get("C:\\Users\\Thomas\\Desktop\\DHBW - Jahr2\\SimTest1.LST"), StandardCharsets.ISO_8859_1);
+        LstParser parser = new LstParser(Paths.get("C:\\Users\\Thomas\\Desktop\\DHBW - Jahr2\\SimTest2.LST"), StandardCharsets.ISO_8859_1);
         List<String> result = parser.parse();
 
         CommandDecoder decoder = new CommandDecoder();

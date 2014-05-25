@@ -1,6 +1,6 @@
 package register;
 
-import exceptions.InvalidRegisterException;
+import Exceptions.InvalidRegisterException;
 
 import java.math.BigInteger;
 import java.util.*;
@@ -232,6 +232,30 @@ public class MemoryManagementUnit
         getRegister("0Ah").setIntValue ((pc & 0x1F00) >> 0b1000); //0b0001 1111 0000 0000 >> 0b0000 0000 0001 1111
         //Unteren 8 bit im PCL speichern
         getRegister("02h").setIntValue(pc & 0x00FF);    //0b0000 0000 1111 1111
+    }
+
+    //Prüft ob Interrupts TMR0 & RB0 gesetzt sind.
+    public int getInterrupt() throws InvalidRegisterException {
+        if ((getInterruptenabled() == 3) || (getInterruptenabled() == 1)){
+            if ((getRegister("06h").getIntValue() & 0x01) == 0x01) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+    }
+
+    //Prüft ob Interrupt TMR0 & RB0 aktiviert ist.
+    public int getInterruptenabled() throws InvalidRegisterException {
+        if ((getRegister("0Bh").getIntValue() & 0x1F) == 0x1F) {
+            return 3;
+        } else if ((getRegister("0Bh").getIntValue() & 0x1F) == 0x10) {
+            return 2;
+        } else if ((getRegister("0Bh").getIntValue() & 0x1F) == 0x0F) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
 

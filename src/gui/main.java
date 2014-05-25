@@ -1,21 +1,23 @@
 package gui;
 
 import javax.swing.*;
-import java.awt.event.MouseAdapter;
 
 /**
  * Created by Bastian on 24/05/2014.
  */
-public class main {
+
+public class Main extends JFrame {
     private JPanel mainpanel;
-    /* Menu Begin */
+ /*Menu Begin*/
+
     private JButton stopButton;
     private JButton StartButton;
     private JButton Resetbutton;
     private JButton NextButton;
     private JButton OpenButton;
     private JButton HelpButton;
-    /* Menu End */
+ /*Menu End*/
+
     private JPanel Bank0;
     private JLabel b0Statuslabel;
     private JCheckBox b0indfbit7;
@@ -35,33 +37,34 @@ public class main {
     private JPanel Stack;
 
 
-    public main() {
-        OpenButton.addMouseListener(new MouseAdapter() {
-        });
+    public void initializeMainView()
+    {
+        this.setVisible(true);
     }
 
-    /* Menu initialisieren */
-    private void initButtons() {
+ /*Menu initialisieren*/
+
+    private void initButtons()
+    {
         OpenButton = new JButton("Open");
         OpenButton.setToolTipText("Programm öffnen");
-        OpenButton.addActionListener(buttonListener);
+//        OpenButton.addActionListener(buttonListener);
         StartButton = new JButton("Start");
         StartButton.setEnabled(false);
         StartButton.setToolTipText("Programm starten");
-        StartButton.addActionListener(buttonListener);
+//        StartButton.addActionListener(buttonListener);
         stopButton = new JButton("Stop");
         stopButton.setEnabled(false);
         stopButton.setEnabled(false);
-        stopButton.addActionListener(buttonListener);
+//        stopButton.addActionListener(buttonListener);
         NextButton = new JButton("Next");
         NextButton.setEnabled(false);
-        NextButton.addActionListener(buttonListener);
+//        NextButton.addActionListener(buttonListener);
         Resetbutton = new JButton("Reset");
         Resetbutton.setEnabled(false);
-        Resetbutton.addActionListener(buttonListener);
+//        Resetbutton.addActionListener(buttonListener);
         HelpButton = new JButton("Help");
-        HelpButton.addActionListener(btnListener);
+//        HelpButton.addActionListener(buttonListener);
     }
-
 }
 

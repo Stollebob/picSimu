@@ -18,7 +18,6 @@ import java.util.regex.Pattern;
 public class HighlightDocument extends DefaultStyledDocument {
 
     private Element rootElement;
-    private Iterator<String> iterator;
     private MutableAttributeSet style;
     private String keyword;
     private String text;
@@ -28,7 +27,7 @@ public class HighlightDocument extends DefaultStyledDocument {
     private Matcher slc;
     private Color commentColor = Color.gray;
     private Pattern singleLineCommentDelimter;
-    private static ArrayList<String> instructions = new ArrayList<String>();
+    private static ArrayList<String> instructions = new ArrayList<>();
 
     static {
         instructions.add("addwf");
@@ -101,7 +100,7 @@ public class HighlightDocument extends DefaultStyledDocument {
         highlightString(Color.black, 0, getLength());
 
 
-        iterator = instructions.iterator();
+        Iterator<String> iterator = instructions.iterator();
 
         while (iterator.hasNext()) {
             keyword = iterator.next();

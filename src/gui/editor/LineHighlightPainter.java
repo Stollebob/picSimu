@@ -9,16 +9,10 @@ import javax.swing.text.*;
 import java.awt.*;
 
 /**
- *
- * @author nilsschwenkel
- */
-
-/**
  * Simple highlight painter that fills a highlighted area with
  * a solid color.
  * 
- * @author Jan Lolling
- * @link http://www.jug-bb.de/2009/02/jeditorpane-mit-zeilenhervorhebung/
+ * @author Bastian Donat
  */
 public class LineHighlightPainter extends LayeredHighlighter.LayerPainter {
 

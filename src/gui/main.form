@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.main">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.Main">
   <grid id="27dc6" binding="mainpanel" layout-manager="GridLayoutManager" row-count="8" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="10" left="10" bottom="10" right="10"/>
     <constraints>
@@ -172,7 +172,7 @@
               <verticalTextPosition value="0"/>
             </properties>
           </component>
-          <component id="e70e0" class="javax.swing.JCheckBox" binding="indfbit1">
+          <component id="e70e0" class="javax.swing.JCheckBox" binding="b0indfbit1">
             <constraints>
               <grid row="1" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -314,7 +314,7 @@
               <verticalTextPosition value="0"/>
             </properties>
           </component>
-          <component id="bef74" class="javax.swing.JCheckBox" binding="indfbit0">
+          <component id="bef74" class="javax.swing.JCheckBox" binding="b0indfbit0">
             <constraints>
               <grid row="1" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>

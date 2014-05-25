@@ -6,11 +6,6 @@ import javax.swing.text.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-/**
- * http://www.developer.com/java/other/article.php/3318421/Add-Line-Numbering-in-the-JEditorPane.htm
- * @author Stanislav Lapitsky
- * @version 1.0
- */
 public class LNEditorPane extends JEditorPane {
 
     private final Color LINE_HIGHLIGHT_COLOR = new Color(230, 230, 250);

@@ -43,9 +43,29 @@ public class FrontEnd extends JFrame {
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
+        helpButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try
+                {
+                    Desktop.getDesktop().open(new File("resources\\help\\35007b.pdf"));
+                }
+                catch (IOException ex)
+                {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        OpenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
 
- /*Menu initialisieren*/
+    /*Menu initialisieren*/
     private void initButtons()
     {
         OpenButton = new JButton("Open");
@@ -66,19 +86,16 @@ public class FrontEnd extends JFrame {
         Resetbutton.setEnabled(false);
 //        Resetbutton.addActionListener(buttonListener);
         helpButton = new JButton("Help");
-        helpButton.addActionListener(new ActionListener() {
+        /*helpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Hello World!!!!");
-                try
-                {
+                try {
                     Desktop.getDesktop().open(new File("D:\\35007b.pdf"));
-                }
-                catch (IOException ex)
-                {
+                } catch (IOException ex) {
                 }
             }
-        });
+        });*/
     }
 
     public void setData(IndfBean data) {
@@ -92,6 +109,7 @@ public class FrontEnd extends JFrame {
     }
 
     private void createUIComponents() {
+        initButtons();
         customTableModel = new CustomTableModel();
         bankTable = new JTable(customTableModel);
     }

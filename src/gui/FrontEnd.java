@@ -43,6 +43,8 @@ public class FrontEnd extends JFrame {
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
+        StartButton.addActionListener(new ActionListener() {
+        });
     }
 
     public void setData(IndfBean data) {
@@ -59,6 +61,11 @@ public class FrontEnd extends JFrame {
         initButtons();
         customTableModel = new CustomTableModel();
         bankTable = new JTable(customTableModel);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
     }
 
     public void redrawGui(MemoryManagementUnit mmu) throws InvalidRegisterException

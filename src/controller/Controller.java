@@ -4,6 +4,8 @@ import commands.Command;
 import commands.CommandExecutor;
 import controller.event.open.OpenEvent;
 import controller.event.open.OpenListener;
+import controller.event.start.StartEvent;
+import controller.event.start.StartListener;
 import decoder.CommandDecoder;
 import exceptions.InvalidRegisterException;
 import gui.FrontEnd;
@@ -17,18 +19,32 @@ import java.util.List;
 /**
  * Created by Thomas on 26.05.2014.
  */
-public class Controller implements OpenListener
+public class Controller implements OpenListener , StartListener
 {
-    private List<String> result = new ArrayList<>();
+    private List<Command> commandList = new ArrayList<>();
+    private FrontEnd view;
+    CommandExecutor executor = new CommandExecutor();
+
     public void execute()
     {
-        FrontEnd view = new FrontEnd();
+        view = new FrontEnd();
         view.addFileOpenListener(this);
+        view.addStartListener(this);
+    }
 
-
+    @Override
+    public void actionPerformed(OpenEvent event)
+    {
+        LstParser parser = new LstParser(Paths.get(event.getFile().toURI()), StandardCharsets.ISO_8859_1);
+        List<String> result = parser.parse();
         CommandDecoder decoder = new CommandDecoder();
-        List<Command> commandList = decoder.decode(result);
-        CommandExecutor executor = new CommandExecutor(commandList);
+        commandList = decoder.decode(result);
+    }
+
+    @Override
+    public void actionPerformed(StartEvent event)
+    {
+        executor.setCommandList(commandList);
         try
         {
             executor.work(view);
@@ -37,12 +53,5 @@ public class Controller implements OpenListener
         {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void actionPerformed(OpenEvent event)
-    {
-        LstParser parser = new LstParser(Paths.get(event.getFile().toURI()), StandardCharsets.ISO_8859_1);
-        result = parser.parse();
     }
 }

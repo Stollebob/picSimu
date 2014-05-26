@@ -2,6 +2,8 @@ package gui;
 
 import controller.event.open.OpenEvent;
 import controller.event.open.OpenListener;
+import controller.event.start.StartEvent;
+import controller.event.start.StartListener;
 import exceptions.InvalidRegisterException;
 import register.MemoryManagementUnit;
 
@@ -50,6 +52,7 @@ public class FrontEnd extends JFrame {
 
 
     private OpenListener fileOpenListener;
+    private StartListener startListener;
 
 
 
@@ -116,6 +119,14 @@ public class FrontEnd extends JFrame {
                 }
             }
         });
+
+        StartButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                firePropertyChange();
+            }
+        });
     }
 
     private void createUIComponents()
@@ -151,5 +162,13 @@ public class FrontEnd extends JFrame {
         for(int i = 0; i < 7; i++){
             ("jTextStack"+i).setText();
         }
+    private void firePropertyChange()
+    {
+        this.startListener.actionPerformed(new StartEvent());
+    }
+
+    public void addStartListener(StartListener listener)
+    {
+        this.startListener = listener;
     }
 }

@@ -1,13 +1,17 @@
 package gui;
 
+import exceptions.InvalidRegisterException;
+import register.MemoryManagementUnit;
+
 import javax.swing.*;
 import java.awt.*;
+import java.math.BigInteger;
 
 /**
  * Created by Bastian on 24/05/2014.
  */
 
-public class Main extends JFrame {
+public class FrontEnd extends JFrame {
     private JPanel mainpanel;
  /*Menu Begin*/
 
@@ -27,9 +31,10 @@ public class Main extends JFrame {
     private JPanel Stack;
     private JTable bankTable;
     private JPanel tableBank;
+    private CustomTableModel customTableModel;
 
 
-    public Main() throws HeadlessException {
+    public FrontEnd() throws HeadlessException {
         super("PicSimu");
         setContentPane(mainpanel);
         pack();
@@ -73,7 +78,20 @@ public class Main extends JFrame {
     }
 
     private void createUIComponents() {
-        bankTable = new JTable(new CustomTableModel());
+        customTableModel = new CustomTableModel();
+        bankTable = new JTable(customTableModel);
+    }
+
+    public void redrawGui(MemoryManagementUnit mmu) throws InvalidRegisterException
+    {
+        for(int counter = 0; counter <= 255; counter++)
+        {
+            String hexAddress = Integer.toHexString(counter);
+            String hexValue = new BigInteger("" + mmu.getRegister(hexAddress).getIntValue(), 10).toString(16);
+            int offset = counter%8;
+            int row = (counter - offset) / 8;
+            this.customTableModel.setValueAt(hexValue, row, offset + 1);
+        }
     }
 }
 

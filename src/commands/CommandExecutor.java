@@ -17,7 +17,7 @@ public class CommandExecutor
     private int cycles = 0;
     private boolean interrupt = false;
 
-    public CommandExecutor(List<Command> commandList)
+    public void setCommandList(List<Command> commandList)
     {
         this.commandList = commandList;
     }

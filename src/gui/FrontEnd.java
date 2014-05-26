@@ -5,6 +5,10 @@ import register.MemoryManagementUnit;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigInteger;
 
 /**
@@ -14,13 +18,12 @@ import java.math.BigInteger;
 public class FrontEnd extends JFrame {
     private JPanel mainpanel;
  /*Menu Begin*/
-
     private JButton stopButton;
     private JButton StartButton;
     private JButton Resetbutton;
     private JButton NextButton;
     private JButton OpenButton;
-    private JButton HelpButton;
+    private JButton helpButton;
  /*Menu End*/
 
     private JEditorPane editorText;
@@ -43,7 +46,6 @@ public class FrontEnd extends JFrame {
     }
 
  /*Menu initialisieren*/
-
     private void initButtons()
     {
         OpenButton = new JButton("Open");
@@ -63,8 +65,20 @@ public class FrontEnd extends JFrame {
         Resetbutton = new JButton("Reset");
         Resetbutton.setEnabled(false);
 //        Resetbutton.addActionListener(buttonListener);
-        HelpButton = new JButton("Help");
-//        HelpButton.addActionListener(buttonListener);
+        helpButton = new JButton("Help");
+        helpButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Hello World!!!!");
+                try
+                {
+                    Desktop.getDesktop().open(new File("D:\\35007b.pdf"));
+                }
+                catch (IOException ex)
+                {
+                }
+            }
+        });
     }
 
     public void setData(IndfBean data) {

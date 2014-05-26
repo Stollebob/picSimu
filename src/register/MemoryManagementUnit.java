@@ -24,7 +24,7 @@ public class MemoryManagementUnit
     {
         Register pcl = new Register("PCL", "00000000");
         Register status = new Register("STATUS", "00011000");
-        Register fsr = new Register("FSR", "00000000");
+        Register fsr = new Register("FSR", "00000001");
         Register indf = new Register("INDF", "00000000");
         Register pclath = new Register("PCLATH", "00000000");
         Register intcon = new Register("INTCON", "00000000");

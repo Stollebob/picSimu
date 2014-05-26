@@ -66,10 +66,10 @@ public class FrontEnd extends JFrame {
         for(int counter = 0; counter <= 255; counter++)
         {
             String hexAddress = Integer.toHexString(counter);
-            String hexValue = new BigInteger("" + mmu.getRegister(hexAddress).getIntValue(), 10).toString(16);
+            String hexValue =  Integer.toHexString(mmu.getRegister(hexAddress).getIntValue());
             int offset = counter%8;
             int row = (counter - offset) / 8;
-            this.customTableModel.setValueAt(hexValue, row, offset + 1);
+            this.customTableModel.setValueAt(row, offset + 1, hexValue);
         }
     }
 }

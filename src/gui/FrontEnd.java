@@ -1,15 +1,17 @@
 package gui;
 
+import controller.event.open.OpenEvent;
+import controller.event.open.OpenListener;
 import exceptions.InvalidRegisterException;
 import register.MemoryManagementUnit;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.math.BigInteger;
 
 /**
  * Created by Bastian on 24/05/2014.
@@ -37,12 +39,18 @@ public class FrontEnd extends JFrame {
     private CustomTableModel customTableModel;
 
 
+
+    private OpenListener fileOpenListener;
+
+
+
     public FrontEnd() throws HeadlessException {
         super("PicSimu");
         setContentPane(mainpanel);
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
+
         helpButton.addActionListener(new ActionListener() {
 
             @Override
@@ -57,26 +65,52 @@ public class FrontEnd extends JFrame {
                 }
             }
         });
-        OpenButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
+        OpenButton.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                JFileChooser chooser = new JFileChooser();
+                chooser.setFileFilter(new FileFilter() {
+                    @Override
+                    public boolean accept(File f) {
+                        if(f.isDirectory())
+                        {
+                            return true;
+                        }
+                        String fileExtension = null;
+                        String name = f.getName();
+                        int pos = name.lastIndexOf(".");
+                        if(pos > 0 && pos < name.length() - 1)
+                        {
+                            fileExtension = name.substring(pos + 1);
+                        }
+                        if(fileExtension != null && fileExtension.equalsIgnoreCase("LST"))
+                        {
+                            return true;
+                        }
+                        return false;
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return null;
+                    }
+                });
+                int returnVal = chooser.showOpenDialog(FrontEnd.this);
+
+                if (returnVal == JFileChooser.APPROVE_OPTION)
+                {
+                    File file = chooser.getSelectedFile();
+                    firePropertyChange(file);
+                }
             }
         });
     }
 
-    public void setData(IndfBean data) {
-    }
-
-    public void getData(IndfBean data) {
-    }
-
-    public boolean isModified(IndfBean data) {
-        return false;
-    }
-
-    private void createUIComponents() {
-        initButtons();
+    private void createUIComponents()
+    {
         customTableModel = new CustomTableModel();
         bankTable = new JTable(customTableModel);
     }
@@ -91,5 +125,15 @@ public class FrontEnd extends JFrame {
             int row = (counter - offset) / 8;
             this.customTableModel.setValueAt(row, offset + 1, hexValue);
         }
+    }
+
+    private void firePropertyChange(File toOpen)
+    {
+        fileOpenListener.actionPerformed(new OpenEvent(toOpen));
+    }
+
+    public void addFileOpenListener(OpenListener listener)
+    {
+        this.fileOpenListener = listener;
     }
 }

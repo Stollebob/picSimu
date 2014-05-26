@@ -163,7 +163,7 @@
               <text value="[2]"/>
             </properties>
           </component>
-          <component id="e2498" class="javax.swing.JTextField">
+          <component id="e2498" class="javax.swing.JTextField" binding="jTextStack0">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <minimum-size width="35" height="-1"/>
@@ -175,7 +175,7 @@
               <editable value="false"/>
             </properties>
           </component>
-          <component id="8f233" class="javax.swing.JTextField">
+          <component id="8f233" class="javax.swing.JTextField" binding="jTextStack1">
             <constraints>
               <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <minimum-size width="35" height="-1"/>
@@ -187,7 +187,7 @@
               <editable value="false"/>
             </properties>
           </component>
-          <component id="2bd96" class="javax.swing.JTextField">
+          <component id="2bd96" class="javax.swing.JTextField" binding="jTextStack2">
             <constraints>
               <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <minimum-size width="35" height="-1"/>
@@ -199,7 +199,7 @@
               <editable value="false"/>
             </properties>
           </component>
-          <component id="38e17" class="javax.swing.JTextField">
+          <component id="38e17" class="javax.swing.JTextField" binding="jTextStack3">
             <constraints>
               <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <minimum-size width="35" height="-1"/>
@@ -211,7 +211,7 @@
               <editable value="false"/>
             </properties>
           </component>
-          <component id="2a2a1" class="javax.swing.JTextField">
+          <component id="2a2a1" class="javax.swing.JTextField" binding="jTextStack4">
             <constraints>
               <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <minimum-size width="35" height="-1"/>
@@ -223,7 +223,7 @@
               <editable value="false"/>
             </properties>
           </component>
-          <component id="ac698" class="javax.swing.JTextField">
+          <component id="ac698" class="javax.swing.JTextField" binding="jTextStack5">
             <constraints>
               <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <minimum-size width="35" height="-1"/>
@@ -235,7 +235,7 @@
               <editable value="false"/>
             </properties>
           </component>
-          <component id="c8744" class="javax.swing.JTextField">
+          <component id="c8744" class="javax.swing.JTextField" binding="jTextStack6">
             <constraints>
               <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <minimum-size width="35" height="-1"/>
@@ -287,7 +287,7 @@
               <text value="[7]"/>
             </properties>
           </component>
-          <component id="1bcce" class="javax.swing.JTextField">
+          <component id="1bcce" class="javax.swing.JTextField" binding="jTextStack7">
             <constraints>
               <grid row="8" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <minimum-size width="35" height="-1"/>

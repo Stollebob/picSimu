@@ -36,6 +36,15 @@ public class FrontEnd extends JFrame {
     private JPanel Stack;
     private JTable bankTable;
     private JPanel tableBank;
+    /* Stack Overview */
+    private JTextField jTextStack0;
+    private JTextField jTextStack1;
+    private JTextField jTextStack2;
+    private JTextField jTextStack3;
+    private JTextField jTextStack4;
+    private JTextField jTextStack5;
+    private JTextField jTextStack6;
+    private JTextField jTextStack7;
     private CustomTableModel customTableModel;
 
 
@@ -135,5 +144,12 @@ public class FrontEnd extends JFrame {
     public void addFileOpenListener(OpenListener listener)
     {
         this.fileOpenListener = listener;
+    }
+
+    /* Update Text into Stack-Overview */
+    private void setjTextStack(){
+        for(int i = 0; i < 7; i++){
+            ("jTextStack"+i).setText();
+        }
     }
 }

@@ -1,6 +1,7 @@
 package commands;
 
 import exceptions.InvalidRegisterException;
+import gui.FrontEnd;
 import register.MemoryManagementUnit;
 import register.Register;
 
@@ -23,7 +24,7 @@ public class CommandExecutor
         this.commandList = commandList;
     }
 
-    public void work() throws InvalidRegisterException
+    public void work(FrontEnd view) throws InvalidRegisterException
     {
         while(mmu.getPC() < commandList.size())
         {
@@ -38,6 +39,7 @@ public class CommandExecutor
             mmu.incPC();
             mmu = command.execute(mmu);
             cycles += command.getCycles();
+            view.redrawGui(mmu);
         }
     }
 }

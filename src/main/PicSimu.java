@@ -28,7 +28,7 @@ public class PicSimu {
         CommandExecutor executor = new CommandExecutor(commandList);
         try
         {
-            executor.work();
+            executor.work(view);
         }
         catch (InvalidRegisterException e)
         {

@@ -1,11 +1,15 @@
 package gui;
 
+import exceptions.InvalidRegisterException;
+import register.MemoryManagementUnit;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 
 /**
  * Created by Bastian on 24/05/2014.
@@ -30,6 +34,7 @@ public class FrontEnd extends JFrame {
     private JPanel Stack;
     private JTable bankTable;
     private JPanel tableBank;
+    private CustomTableModel customTableModel;
 
 
     public FrontEnd() throws HeadlessException {
@@ -87,8 +92,20 @@ public class FrontEnd extends JFrame {
     }
 
     private void createUIComponents() {
-        initButtons();
-        bankTable = new JTable(new CustomTableModel());
+        customTableModel = new CustomTableModel();
+        bankTable = new JTable(customTableModel);
+    }
+
+    public void redrawGui(MemoryManagementUnit mmu) throws InvalidRegisterException
+    {
+        for(int counter = 0; counter <= 255; counter++)
+        {
+            String hexAddress = Integer.toHexString(counter);
+            String hexValue = new BigInteger("" + mmu.getRegister(hexAddress).getIntValue(), 10).toString(16);
+            int offset = counter%8;
+            int row = (counter - offset) / 8;
+            this.customTableModel.setValueAt(hexValue, row, offset + 1);
+        }
     }
 }
 

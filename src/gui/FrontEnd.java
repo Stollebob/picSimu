@@ -43,7 +43,25 @@ public class FrontEnd extends JFrame {
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
-        StartButton.addActionListener(new ActionListener() {
+        helpButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try
+                {
+                    Desktop.getDesktop().open(new File("resources\\help\\35007b.pdf"));
+                }
+                catch (IOException ex)
+                {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        OpenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
         });
     }
 
@@ -61,11 +79,6 @@ public class FrontEnd extends JFrame {
         initButtons();
         customTableModel = new CustomTableModel();
         bankTable = new JTable(customTableModel);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
     }
 
     public void redrawGui(MemoryManagementUnit mmu) throws InvalidRegisterException

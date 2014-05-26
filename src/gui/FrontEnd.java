@@ -2,21 +2,24 @@ package gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by Bastian on 24/05/2014.
  */
 
-public class Main extends JFrame {
+public class FrontEnd extends JFrame {
     private JPanel mainpanel;
  /*Menu Begin*/
-
     private JButton stopButton;
     private JButton StartButton;
     private JButton Resetbutton;
     private JButton NextButton;
     private JButton OpenButton;
-    private JButton HelpButton;
+    private JButton helpButton;
  /*Menu End*/
 
     private JEditorPane editorText;
@@ -29,7 +32,7 @@ public class Main extends JFrame {
     private JPanel tableBank;
 
 
-    public Main() throws HeadlessException {
+    public FrontEnd() throws HeadlessException {
         super("PicSimu");
         setContentPane(mainpanel);
         pack();
@@ -38,7 +41,6 @@ public class Main extends JFrame {
     }
 
  /*Menu initialisieren*/
-
     private void initButtons()
     {
         OpenButton = new JButton("Open");
@@ -58,8 +60,20 @@ public class Main extends JFrame {
         Resetbutton = new JButton("Reset");
         Resetbutton.setEnabled(false);
 //        Resetbutton.addActionListener(buttonListener);
-        HelpButton = new JButton("Help");
-//        HelpButton.addActionListener(buttonListener);
+        helpButton = new JButton("Help");
+        helpButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Hello World!!!!");
+                try
+                {
+                    Desktop.getDesktop().open(new File("D:\\35007b.pdf"));
+                }
+                catch (IOException ex)
+                {
+                }
+            }
+        });
     }
 
     public void setData(IndfBean data) {
@@ -73,6 +87,7 @@ public class Main extends JFrame {
     }
 
     private void createUIComponents() {
+        initButtons();
         bankTable = new JTable(new CustomTableModel());
     }
 }

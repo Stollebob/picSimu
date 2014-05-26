@@ -3,9 +3,7 @@ package commands;
 import exceptions.InvalidRegisterException;
 import gui.FrontEnd;
 import register.MemoryManagementUnit;
-import register.Register;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 

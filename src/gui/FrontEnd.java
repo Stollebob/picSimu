@@ -45,42 +45,6 @@ public class FrontEnd extends JFrame {
         this.setVisible(true);
     }
 
- /*Menu initialisieren*/
-    private void initButtons()
-    {
-        OpenButton = new JButton("Open");
-        OpenButton.setToolTipText("Programm öffnen");
-//        OpenButton.addActionListener(buttonListener);
-        StartButton = new JButton("Start");
-        StartButton.setEnabled(false);
-        StartButton.setToolTipText("Programm starten");
-//        StartButton.addActionListener(buttonListener);
-        stopButton = new JButton("Stop");
-        stopButton.setEnabled(false);
-        stopButton.setEnabled(false);
-//        stopButton.addActionListener(buttonListener);
-        NextButton = new JButton("Next");
-        NextButton.setEnabled(false);
-//        NextButton.addActionListener(buttonListener);
-        Resetbutton = new JButton("Reset");
-        Resetbutton.setEnabled(false);
-//        Resetbutton.addActionListener(buttonListener);
-        helpButton = new JButton("Help");
-        helpButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Hello World!!!!");
-                try
-                {
-                    Desktop.getDesktop().open(new File("D:\\35007b.pdf"));
-                }
-                catch (IOException ex)
-                {
-                }
-            }
-        });
-    }
-
     public void setData(IndfBean data) {
     }
 
@@ -92,6 +56,7 @@ public class FrontEnd extends JFrame {
     }
 
     private void createUIComponents() {
+        initButtons();
         customTableModel = new CustomTableModel();
         bankTable = new JTable(customTableModel);
     }
@@ -108,4 +73,3 @@ public class FrontEnd extends JFrame {
         }
     }
 }
-

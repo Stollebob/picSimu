@@ -1,6 +1,7 @@
 package gui;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by Bastian on 24/05/2014.
@@ -18,27 +19,21 @@ public class Main extends JFrame {
     private JButton HelpButton;
  /*Menu End*/
 
-    private JPanel Bank0;
-    private JLabel b0Statuslabel;
-    private JCheckBox b0indfbit7;
-    private JCheckBox b0indfbit6;
-    private JCheckBox b0indfbit5;
-    private JCheckBox b0indfbit4;
-    private JCheckBox b0indfbit3;
-    private JCheckBox b0indfbit2;
-    private JCheckBox b0indfbit1;
-    private JCheckBox b0indfbit0;
-    private JPanel Bank1;
     private JEditorPane editorText;
     private JPanel Values;
     private JTextField textFieldW;
     private JTextField textFieldCycles;
     private JTextField textFieldPC;
     private JPanel Stack;
+    private JTable bankTable;
+    private JPanel tableBank;
 
 
-    public void initializeMainView()
-    {
+    public Main() throws HeadlessException {
+        super("PicSimu");
+        setContentPane(mainpanel);
+        pack();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
     }
 
@@ -65,6 +60,20 @@ public class Main extends JFrame {
 //        Resetbutton.addActionListener(buttonListener);
         HelpButton = new JButton("Help");
 //        HelpButton.addActionListener(buttonListener);
+    }
+
+    public void setData(IndfBean data) {
+    }
+
+    public void getData(IndfBean data) {
+    }
+
+    public boolean isModified(IndfBean data) {
+        return false;
+    }
+
+    private void createUIComponents() {
+        bankTable = new JTable(new CustomTableModel());
     }
 }
 

@@ -40,14 +40,12 @@ public class MainView extends JFrame {
     private JTextField textFieldPC;
     private JPanel stack;
 
-    public MainView(String title) throws HeadlessException
-    {
+    public MainView(String title) throws HeadlessException {
         super(title);
         initializeMainView();
     }
 
-    private void initializeMainView()
-    {
+    private void initializeMainView() {
         this.setSize(800, 600);
         this.setLocation(300, 100);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -57,31 +55,24 @@ public class MainView extends JFrame {
         this.add(bank0Panel);
     }
 
-    private void initializeBank0()
-    {
+    private void initializeBank0() {
         bank0Panel = new JPanel();
-        String [][] columnData = new String[8][31];
-        for (int rowValue = 0; rowValue <= 30; rowValue ++)
-        {
-            for(int columnValue = 0; columnValue <= 7; columnValue++)
-            {
-                if(columnValue == 0)
-                {
+        String[][] columnData = new String[8][31];
+        for (int rowValue = 0; rowValue <= 30; rowValue++) {
+            for (int columnValue = 0; columnValue <= 7; columnValue++) {
+                if (columnValue == 0) {
                     columnData[columnValue][rowValue] = new BigInteger("" + rowValue * 8, 10).toString(16);
-                }
-                else
-                {
+                } else {
                     columnData[columnValue][rowValue] = "00";
                 }
 
             }
         }
-        bank0Table = new JTable(columnData, new String[]{" ","00","01","02","03","04","05","06","07"});
+        bank0Table = new JTable(columnData, new String[]{" ", "00", "01", "02", "03", "04", "05", "06", "07"});
         bank0Panel.add(bank0Table);
     }
 
-    private void initButtons()
-    {
+    private void initButtons() {
         openButton = new JButton("Open");
         openButton.setToolTipText("Programm öffnen");
 //        openButton.addActionListener(buttonListener);

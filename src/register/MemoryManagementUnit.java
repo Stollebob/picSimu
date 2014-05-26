@@ -1,6 +1,6 @@
 package register;
 
-import Exceptions.InvalidRegisterException;
+import exceptions.InvalidRegisterException;
 
 import java.math.BigInteger;
 import java.util.*;
@@ -235,14 +235,19 @@ public class MemoryManagementUnit
     }
 
     //Prüft ob Interrupts TMR0 & RB0 gesetzt sind.
-    public int getInterrupt() throws InvalidRegisterException {
+    public boolean getInterrupt() throws InvalidRegisterException {
         if ((getInterruptenabled() == 3) || (getInterruptenabled() == 1)){
             if ((getRegister("06h").getIntValue() & 0x01) == 0x01) {
-                return 1;
-            } else {
-                return 0;
+                return true;
             }
         }
+
+        if ((getInterruptenabled() == 3) || (getInterruptenabled() == 2)){
+            if ((getRegister("01h").getIntValue() & 0x00) == 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     //Prüft ob Interrupt TMR0 & RB0 aktiviert ist.
@@ -253,9 +258,8 @@ public class MemoryManagementUnit
             return 2;
         } else if ((getRegister("0Bh").getIntValue() & 0x1F) == 0x0F) {
             return 1;
-        } else {
-            return 0;
         }
+        return 0;
     }
 
 

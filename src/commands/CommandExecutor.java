@@ -16,6 +16,7 @@ public class CommandExecutor
     private List<Command> commandList = new ArrayList<>();
     private MemoryManagementUnit mmu = new MemoryManagementUnit();
     private int cycles = 0;
+    private boolean interrupt = false;
 
     public CommandExecutor(List<Command> commandList)
     {
@@ -26,11 +27,12 @@ public class CommandExecutor
     {
         while(mmu.getPC() < commandList.size())
         {
-            int interrupt = mmu.getInterrupt();
-            if ((interrupt == 3) || (interrupt == 2) || (interrupt == 1))
-            while ((interrupt == 3) || (interrupt == 2) || (interrupt == 1)){
-                interrupt = mmu.getInterrupt();
-            }
+            //Cycles in den Timer übertragen (+1 um Interrupt nicht beim Start zu beachten)
+            mmu.getRegister("01h").setIntValue(cycles+1);
+            //Auf Interrupt prüfen und gegebenenfalls bearbeiten.
+            do {
+               interrupt = mmu.getInterrupt();
+            } while (interrupt == true);
             System.out.println(mmu.getPC());
             Command command = commandList.get(mmu.getPC());
             mmu.incPC();

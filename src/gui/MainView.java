@@ -2,14 +2,14 @@ package gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.math.BigInteger;
 
 /**
  * Created by Thomas on 25.05.2014.
  */
 public class MainView extends JFrame {
-    private JPanel mainpanel;
- /*Menu Begin*/
+    private JSplitPane mainPane;
+    private JPanel leftPane;
+    private JPanel rightPane;
 
     private JButton stopButton;
     private JButton startButton;
@@ -19,8 +19,9 @@ public class MainView extends JFrame {
     private JButton helpButton;
  /*Menu End*/
 
-    private JPanel bank0Panel;
-    private JTable bank0Table;
+    private JPanel bankPanel;
+    private ScrollPane bankTableScroller;
+    private JTable bankTable;
     private JLabel b0Statuslabel;
     private JCheckBox b0indfbit7;
     private JCheckBox b0indfbit6;
@@ -32,7 +33,6 @@ public class MainView extends JFrame {
     private JCheckBox b0indfbit0;
 
 
-    private JPanel bank1;
     private JEditorPane editorText;
     private JPanel values;
     private JTextField textFieldW;
@@ -40,39 +40,88 @@ public class MainView extends JFrame {
     private JTextField textFieldPC;
     private JPanel stack;
 
-    public MainView(String title) throws HeadlessException {
+    private CustomTableModel tableModel;
+    private JTextArea programArea;
+
+    public MainView(String title) throws HeadlessException
+    {
         super(title);
         initializeMainView();
+        this.add(this.mainPane);
     }
 
-    private void initializeMainView() {
+    private void initializeMainView()
+    {
         this.setSize(800, 600);
         this.setLocation(300, 100);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setVisible(true);
-        initializeBank0();
-        this.add(bank0Panel);
+        initializePanes();
+        this.mainPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, this.leftPane, this.rightPane);
+//        this.mainPane.setDividerLocation(-15);
     }
 
-    private void initializeBank0() {
-        bank0Panel = new JPanel();
-        String[][] columnData = new String[8][31];
-        for (int rowValue = 0; rowValue <= 30; rowValue++) {
-            for (int columnValue = 0; columnValue <= 7; columnValue++) {
-                if (columnValue == 0) {
-                    columnData[columnValue][rowValue] = new BigInteger("" + rowValue * 8, 10).toString(16);
-                } else {
-                    columnData[columnValue][rowValue] = "00";
-                }
+    private void initializePanes()
+    {
+        initializeLeftPane();
+        this.add(leftPane);
+        initializeRightPane();
+        this.add(rightPane);
+    }
 
-            }
+    private void initializeLeftPane()
+    {
+        initializeBank();
+        leftPane = new JPanel();
+        leftPane.add(bankPanel, BorderLayout.NORTH);
+        Dimension preferredSize = new Dimension(300, 600);
+        leftPane.setPreferredSize(preferredSize);
+        this.leftPane.setMinimumSize(preferredSize);
+        this.leftPane.setMaximumSize(preferredSize);
+
+    }
+
+    private void initializeRightPane()
+    {
+        this.rightPane = new JPanel();
+        this.programArea = new JTextArea(10, 10);
+        Dimension programmAreaPreferredSize = new Dimension(30, 30);
+        this.programArea.setPreferredSize(programmAreaPreferredSize);
+        this.programArea.setMinimumSize(programmAreaPreferredSize);
+        this.programArea.setMaximumSize(programmAreaPreferredSize);
+        this.programArea.setEditable(false);
+        /*
+        JScrollPane scrollPane = new JScrollPane(this.programArea);
+        scrollPane.setPreferredSize(new Dimension(20, 20));
+        this.rightPane.add(scrollPane);
+        */
+        this.rightPane.add(programArea);
+        Dimension preferredSize = new Dimension(500, 600);
+        this.rightPane.setPreferredSize(preferredSize);
+        this.rightPane.setMinimumSize(preferredSize);
+        this.rightPane.setMaximumSize(preferredSize);
+    }
+
+    private void initializeBank()
+    {
+        bankTableScroller = new ScrollPane();
+        bankPanel = new JPanel();
+        tableModel = new CustomTableModel();
+        bankTable = new JTable(tableModel);
+        bankTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        for(int column = 0; column <= 8 ; column++)
+        {
+            bankTable.getColumnModel().getColumn(column).setPreferredWidth(25);
         }
-        bank0Table = new JTable(columnData, new String[]{" ", "00", "01", "02", "03", "04", "05", "06", "07"});
-        bank0Panel.add(bank0Table);
+        bankTableScroller.setPreferredSize(new Dimension(250, 300));
+        bankTableScroller.add(bankTable);
+        bankPanel.add(bankTableScroller);
+        bankPanel.setPreferredSize(new Dimension(300, 300));
     }
 
-    private void initButtons() {
+    private void initButtons()
+    {
         openButton = new JButton("Open");
         openButton.setToolTipText("Programm öffnen");
 //        openButton.addActionListener(buttonListener);

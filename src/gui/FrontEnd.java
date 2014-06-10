@@ -14,31 +14,32 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.Stack;
 
 /**
  * Created by Bastian on 24/05/2014.
  */
 
-public class FrontEnd extends JFrame {
+public class FrontEnd extends JFrame implements ActionListener {
     private JPanel mainpanel;
  /*Menu Begin*/
     private JButton stopButton;
-    private JButton StartButton;
-    private JButton Resetbutton;
-    private JButton NextButton;
-    private JButton OpenButton;
+    private JButton startButton;
+    private JButton resetButton;
+    private JButton nextButton;
+    private JButton openButton;
     private JButton helpButton;
  /*Menu End*/
 
     private JEditorPane editorText;
-    private JPanel Values;
+    private JPanel values;
     private JTextField textFieldW;
     private JTextField textFieldCycles;
     private JTextField textFieldPC;
-    private JPanel Stack;
+    private JPanel stack;
     private JTable bankTable;
     private JPanel tableBank;
-    /* Stack Overview */
+    /* stack Overview */
     private JTextField jTextStack0;
     private JTextField jTextStack1;
     private JTextField jTextStack2;
@@ -49,7 +50,7 @@ public class FrontEnd extends JFrame {
     private JTextField jTextStack7;
     private CustomTableModel customTableModel;
 
-
+    private Timer timer;
 
     private OpenListener fileOpenListener;
     private StartListener startListener;
@@ -63,70 +64,12 @@ public class FrontEnd extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
 
-        helpButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try
-                {
-                    Desktop.getDesktop().open(new File("resources\\help\\35007b.pdf"));
-                }
-                catch (IOException ex)
-                {
-                    ex.printStackTrace();
-                }
-            }
-        });
-
-        OpenButton.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                JFileChooser chooser = new JFileChooser();
-                chooser.setFileFilter(new FileFilter() {
-                    @Override
-                    public boolean accept(File f) {
-                        if(f.isDirectory())
-                        {
-                            return true;
-                        }
-                        String fileExtension = null;
-                        String name = f.getName();
-                        int pos = name.lastIndexOf(".");
-                        if(pos > 0 && pos < name.length() - 1)
-                        {
-                            fileExtension = name.substring(pos + 1);
-                        }
-                        if(fileExtension != null && fileExtension.equalsIgnoreCase("LST"))
-                        {
-                            return true;
-                        }
-                        return false;
-                    }
-
-                    @Override
-                    public String getDescription() {
-                        return null;
-                    }
-                });
-                int returnVal = chooser.showOpenDialog(FrontEnd.this);
-
-                if (returnVal == JFileChooser.APPROVE_OPTION)
-                {
-                    File file = chooser.getSelectedFile();
-                    firePropertyChange(file);
-                }
-            }
-        });
-
-        StartButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                firePropertyChange();
-            }
-        });
+        stopButton.addActionListener(this);
+        startButton.addActionListener(this);
+        resetButton.addActionListener(this);
+        nextButton.addActionListener(this);
+        openButton.addActionListener(this);
+        helpButton.addActionListener(this);
     }
 
     private void createUIComponents()
@@ -145,6 +88,7 @@ public class FrontEnd extends JFrame {
             int row = (counter - offset) / 8;
             this.customTableModel.setValueAt(row, offset + 1, hexValue);
         }
+        this.setjTextStack(mmu);
     }
 
     private void firePropertyChange(File toOpen)
@@ -157,11 +101,60 @@ public class FrontEnd extends JFrame {
         this.fileOpenListener = listener;
     }
 
-    /* Update Text into Stack-Overview */
-    private void setjTextStack(){
-        for(int i = 0; i < 7; i++){
-            ("jTextStack"+i).setText();
+    /* Update Text into stack-Overview */
+    private void setjTextStack(MemoryManagementUnit mmu)
+    {
+        Stack<Integer> stack = mmu.getStackData();
+        resetJTextStack();
+        switch(stack.size())
+        {
+            case 8:
+            {
+                jTextStack7.setText("" + stack.elementAt(7));
+            }
+            case 7:
+            {
+                jTextStack6.setText("" + stack.elementAt(6));
+            }
+            case 6:
+            {
+                jTextStack5.setText("" + stack.elementAt(5));
+            }
+            case 5:
+            {
+                jTextStack4.setText("" + stack.elementAt(4));
+            }
+            case 4:
+            {
+                jTextStack3.setText("" + stack.elementAt(3));
+            }
+            case 3:
+            {
+                jTextStack2.setText("" + stack.elementAt(2));
+            }
+            case 2:
+            {
+                jTextStack1.setText("" + stack.elementAt(1));
+            }
+            case 1:
+            {
+                jTextStack0.setText("" + stack.elementAt(0));
+                break;
+            }
         }
+    }
+
+    private void resetJTextStack() {
+        jTextStack0.setText("");
+        jTextStack1.setText("");
+        jTextStack2.setText("");
+        jTextStack3.setText("");
+        jTextStack4.setText("");
+        jTextStack5.setText("");
+        jTextStack6.setText("");
+        jTextStack7.setText("");
+    }
+
     private void firePropertyChange()
     {
         this.startListener.actionPerformed(new StartEvent());
@@ -170,5 +163,67 @@ public class FrontEnd extends JFrame {
     public void addStartListener(StartListener listener)
     {
         this.startListener = listener;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+        if(e.getSource() == this.helpButton)
+        {
+            try
+            {
+                Desktop.getDesktop().open(new File("resources\\help\\35007b.pdf"));
+            }
+            catch (IOException ex)
+            {
+                ex.printStackTrace();
+            }
+        }
+        else if(e.getSource() == this.nextButton)
+        {
+        }
+        else if(e.getSource() == this.openButton)
+        {
+            JFileChooser chooser = new JFileChooser();
+            chooser.setFileFilter(new FileFilter() {
+                @Override
+                public boolean accept(File f) {
+                    if (f.isDirectory()) {
+                        return true;
+                    }
+                    String fileExtension = null;
+                    String name = f.getName();
+                    int pos = name.lastIndexOf(".");
+                    if (pos > 0 && pos < name.length() - 1) {
+                        fileExtension = name.substring(pos + 1);
+                    }
+                    if (fileExtension != null && fileExtension.equalsIgnoreCase("LST")) {
+                        return true;
+                    }
+                    return false;
+                }
+
+                @Override
+                public String getDescription() {
+                    return null;
+                }
+            });
+            int returnVal = chooser.showOpenDialog(FrontEnd.this);
+
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = chooser.getSelectedFile();
+                firePropertyChange(file);
+            }
+        }
+        else if(e.getSource() == this.startButton)
+        {
+            firePropertyChange();
+        }
+        else if(e.getSource() == this.resetButton)
+        {
+        }
+        else if(e.getSource() == this.startButton)
+        {
+        }
     }
 }

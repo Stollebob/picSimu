@@ -4,6 +4,7 @@ import exceptions.InvalidRegisterException;
 import gui.FrontEnd;
 import register.MemoryManagementUnit;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class CommandExecutor
     private MemoryManagementUnit mmu = new MemoryManagementUnit();
     private int cycles = 0;
     private boolean interrupt = false;
+    private Timer timer;
 
     public void setCommandList(List<Command> commandList)
     {
@@ -24,6 +26,9 @@ public class CommandExecutor
 
     public void work(FrontEnd view) throws InvalidRegisterException
     {
+        timer = new Timer(1000 , view);
+        timer.setInitialDelay(0);
+        timer.start();
         while(mmu.getPC() < commandList.size())
         {
             //Cycles in den Timer übertragen (+1 um Interrupt nicht beim Start zu beachten)

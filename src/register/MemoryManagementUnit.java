@@ -282,4 +282,9 @@ public class MemoryManagementUnit
     {
         this.setPC(this.stack.pop());
     }
+
+    public Stack<Integer> getStackData()
+    {
+        return this.stack;
+    }
 }

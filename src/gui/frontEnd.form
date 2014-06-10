@@ -22,7 +22,7 @@
           <editable value="false"/>
         </properties>
       </component>
-      <component id="8ac4d" class="javax.swing.JButton" binding="StartButton">
+      <component id="8ac4d" class="javax.swing.JButton" binding="startButton">
         <constraints>
           <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
             <minimum-size width="100" height="25"/>
@@ -46,7 +46,7 @@
           <text value="Stop"/>
         </properties>
       </component>
-      <component id="893fe" class="javax.swing.JButton" binding="NextButton">
+      <component id="893fe" class="javax.swing.JButton" binding="nextButton">
         <constraints>
           <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
             <minimum-size width="100" height="25"/>
@@ -58,7 +58,7 @@
           <text value="Next"/>
         </properties>
       </component>
-      <component id="317cd" class="javax.swing.JButton" binding="Resetbutton">
+      <component id="317cd" class="javax.swing.JButton" binding="resetButton">
         <constraints>
           <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
             <minimum-size width="100" height="25"/>
@@ -101,7 +101,7 @@
           </scrollpane>
         </children>
       </grid>
-      <component id="cd6e2" class="javax.swing.JButton" binding="OpenButton">
+      <component id="cd6e2" class="javax.swing.JButton" binding="openButton">
         <constraints>
           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
             <minimum-size width="100" height="25"/>
@@ -125,7 +125,7 @@
           <text value="Help"/>
         </properties>
       </component>
-      <grid id="da62e" binding="Stack" layout-manager="GridLayoutManager" row-count="9" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="da62e" binding="stack" layout-manager="GridLayoutManager" row-count="9" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="1" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="true">
@@ -301,7 +301,7 @@
           </component>
         </children>
       </grid>
-      <grid id="1018f" binding="Values" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="1018f" binding="values" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="2" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="true">

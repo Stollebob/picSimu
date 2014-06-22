@@ -4,7 +4,9 @@ import exceptions.InvalidRegisterException;
 import gui.FrontEnd;
 import register.MemoryManagementUnit;
 
-import javax.swing.*;
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,18 +19,32 @@ public class CommandExecutor
     private MemoryManagementUnit mmu = new MemoryManagementUnit();
     private int cycles = 0;
     private boolean interrupt = false;
-    private Timer timer;
 
     public void setCommandList(List<Command> commandList)
     {
         this.commandList = commandList;
     }
 
-    public void work(FrontEnd view) throws InvalidRegisterException
+    public void work(final FrontEnd view) throws InvalidRegisterException
     {
-        timer = new Timer(1000 , view);
-        timer.setInitialDelay(0);
+        javax.swing.Timer timer = new Timer(100 , new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                try
+                {
+                    view.redrawGui(mmu);
+                }
+                catch (InvalidRegisterException ex)
+                {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        timer.setRepeats(true);
         timer.start();
+
         while(mmu.getPC() < commandList.size())
         {
             //Cycles in den Timer übertragen (+1 um Interrupt nicht beim Start zu beachten)
@@ -42,7 +58,6 @@ public class CommandExecutor
             mmu.incPC();
             mmu = command.execute(mmu);
             cycles += command.getCycles();
-            view.redrawGui(mmu);
         }
     }
 }

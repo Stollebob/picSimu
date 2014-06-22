@@ -50,8 +50,6 @@ public class FrontEnd extends JFrame implements ActionListener {
     private JTextField jTextStack7;
     private CustomTableModel customTableModel;
 
-    private Timer timer;
-
     private OpenListener fileOpenListener;
     private StartListener startListener;
 
@@ -89,6 +87,7 @@ public class FrontEnd extends JFrame implements ActionListener {
             this.customTableModel.setValueAt(row, offset + 1, hexValue);
         }
         this.setjTextStack(mmu);
+        this.repaint();
     }
 
     private void firePropertyChange(File toOpen)

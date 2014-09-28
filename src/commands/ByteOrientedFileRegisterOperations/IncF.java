@@ -34,7 +34,7 @@ public class IncF extends ByteOrientedFileRegisterOperation implements Command
             checkZ(result);
             if (arguments[0].equals("0"))//d == 0 -> in W speichern
             {
-                mmu.getWorkingRegister().setIntValue(result);
+                mmu.setWorkingRegister(result);
             }
             else//d == 1 -> in F speichern
             {

@@ -1,6 +1,7 @@
 package register;
 
 import exceptions.InvalidRegisterException;
+import gui.View;
 
 import java.math.BigInteger;
 import java.util.*;
@@ -14,6 +15,8 @@ public class MemoryManagementUnit
     private Map<String, Register> bank_1 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private Register w = new Register("WORKING REGISTER", "00000000");
     private Stack<Integer> stack = new Stack<>();
+    private List<View> viewList = new ArrayList<>();
+    private int cycles = 0;
 
     public MemoryManagementUnit()
     {
@@ -108,12 +111,12 @@ public class MemoryManagementUnit
         return result;
     }
 
-    public Register getRegisterFromBank_0(String address)
+    private Register getRegisterFromBank_0(String address)
     {
         return bank_0.get(address);
     }
 
-    public Register getRegisterFromBank_1(String address)
+    private Register getRegisterFromBank_1(String address)
     {
         return bank_1.get(address);
     }
@@ -166,10 +169,23 @@ public class MemoryManagementUnit
         return w;
     }
 
+    public void setWorkingRegister(int newValue)
+    {
+        w.setIntValue(newValue);
+        firePropertyChanged();
+    }
+
+    public void setWorkingRegister(String newValue)
+    {
+        w.setBinaryValue(newValue);
+        firePropertyChanged();
+    }
+
     public void setZero()
     {
         Register status = bank_0.get("03h");
         new BigInteger(status.getBinaryValue(), 2).setBit(2);
+        firePropertyChanged();
     }
 
     public boolean isZero()
@@ -182,12 +198,14 @@ public class MemoryManagementUnit
     {
         Register status = bank_0.get("03h");
         new BigInteger(status.getBinaryValue(), 2).clearBit(1);
+        firePropertyChanged();
     }
 
     public void setDigitCarry()
     {
         Register status = bank_0.get("03h");
         new BigInteger(status.getBinaryValue(), 2).setBit(1);
+        firePropertyChanged();
     }
 
     public boolean isDigitCarry()
@@ -200,6 +218,7 @@ public class MemoryManagementUnit
     {
         Register status = bank_0.get("03h");
         new BigInteger(status.getBinaryValue(), 2).clearBit(2);
+        firePropertyChanged();
     }
 
     public boolean isCarry()
@@ -212,6 +231,7 @@ public class MemoryManagementUnit
     {
         Register status = bank_0.get("03h");
         new BigInteger(status.getBinaryValue(), 2).setBit(0);
+        firePropertyChanged();
     }
 
     public void resetCarry()
@@ -232,6 +252,7 @@ public class MemoryManagementUnit
         getRegister("0Ah").setIntValue ((pc & 0x1F00) >> 0b1000); //0b0001 1111 0000 0000 >> 0b0000 0000 0001 1111
         //Unteren 8 bit im PCL speichern
         getRegister("02h").setIntValue(pc & 0x00FF);    //0b0000 0000 1111 1111
+        firePropertyChanged();
     }
 
     //Prüft ob Interrupts TMR0 & RB0 gesetzt sind.
@@ -267,6 +288,7 @@ public class MemoryManagementUnit
     public void incPC() throws InvalidRegisterException
     {
         setPC(getPC() + 1);
+        firePropertyChanged();
     }
 
     public void addPcToStack() throws InvalidRegisterException
@@ -286,5 +308,41 @@ public class MemoryManagementUnit
     public Stack<Integer> getStackData()
     {
         return this.stack;
+    }
+
+    public void addView(View view)
+    {
+        if(view != null)
+        {
+            viewList.add(view);
+            firePropertyChanged();
+        }
+    }
+
+    public void removeView(View view)
+    {
+        viewList.remove(view);
+    }
+
+    private void firePropertyChanged()
+    {
+        if(viewList.size() > 0)
+        {
+            for(View view:viewList)
+            {
+                view.update(this);
+            }
+        }
+    }
+
+    public int getCycles()
+    {
+        return cycles;
+    }
+
+    public void incrementCycles()
+    {
+        this.cycles++;
+        firePropertyChanged();
     }
 }

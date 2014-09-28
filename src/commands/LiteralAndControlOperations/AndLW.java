@@ -25,7 +25,7 @@ public class AndLW extends LiteralAndControlOperation implements Command
         String binaryValue = mmu.getWorkingRegister().getBinaryValue();
         BigInteger argumentK = new BigInteger(argument, 2);
         int result = new BigInteger(binaryValue ,2).and(argumentK).intValue();
-        mmu.getWorkingRegister().setIntValue(result);
+        mmu.setWorkingRegister(result);
         checkZ(result);
         return mmu;
     }

@@ -12,35 +12,24 @@ import java.util.List;
  */
 public class LstParser
 {
-    private Path lstFile;
-    private Charset encoding;
+    private ArrayList<String> lineList = null;
 
-    public LstParser(Path lstFile, Charset encoding)
+    public LstParser(List<String> lineList)
     {
-        this.lstFile = lstFile;
-        this.encoding = encoding;
+        this.lineList = (ArrayList<String>) lineList;
     }
 
     public List<String> parse()
     {
-        ArrayList<String> lineList = null;
         ArrayList<String> result = new ArrayList<>();
-        String line = "";
-        try
+        String line;
+        for(int i = 0; i < lineList.size(); i++)
         {
-            lineList = (ArrayList<String>) Files.readAllLines(lstFile, encoding);
-            for(int i = 0; i < lineList.size(); i++)
+            line = lineList.get(i).substring(5,9);
+            if(!line.equals("    "))
             {
-                line = lineList.get(i).substring(5,9);
-                if(!line.equals("    "))
-                {
-                    result.add(line);
-                }
+                result.add(line);
             }
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
         }
 
         return result;

@@ -4,60 +4,109 @@ import exceptions.InvalidRegisterException;
 import gui.FrontEnd;
 import register.MemoryManagementUnit;
 
-import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by Thomas on 16.05.2014.
  */
-public class CommandExecutor
+public class CommandExecutor implements Runnable
 {
-    private List<Command> commandList = new ArrayList<>();
-    private MemoryManagementUnit mmu = new MemoryManagementUnit();
-    private int cycles = 0;
+    private List<Command> commandList;
+    private MemoryManagementUnit mmu;
     private boolean interrupt = false;
+    private boolean pause = false;
+    private boolean stop = false;
+    private Object lock = new Object();
 
-    public void setCommandList(List<Command> commandList)
+    public CommandExecutor(MemoryManagementUnit mmu, List<Command> commandList)
     {
+        this.mmu = mmu;
         this.commandList = commandList;
     }
 
-    public void work(final FrontEnd view) throws InvalidRegisterException
-    {
-        javax.swing.Timer timer = new Timer(100 , new ActionListener()
+    @Override
+    public void run() {
+        try
         {
-            @Override
-            public void actionPerformed(ActionEvent e)
+            while(!stop && mmu.getPC() < commandList.size())
             {
-                try
+                next();
+                while(pause)
                 {
-                    view.redrawGui(mmu);
-                }
-                catch (InvalidRegisterException ex)
-                {
-                    ex.printStackTrace();
+                    try
+                    {
+                        synchronized (lock)
+                        {
+                            lock.wait();
+                        }
+                    }
+                    catch (InterruptedException e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
             }
-        });
-        timer.setRepeats(true);
-        timer.start();
+        }
+        catch (InvalidRegisterException e)
+        {
+            e.printStackTrace();
+        }
+    }
 
-        while(mmu.getPC() < commandList.size())
+    public synchronized void next() throws InvalidRegisterException
+    {
+        if(!stop && mmu.getPC() < commandList.size())
         {
             //Cycles in den Timer übertragen (+1 um Interrupt nicht beim Start zu beachten)
-            mmu.getRegister("01h").setIntValue(cycles+1);
+            mmu.getRegister("01h").setIntValue(mmu.getCycles()+1);
             //Auf Interrupt prüfen und gegebenenfalls bearbeiten.
-            do {
-               interrupt = mmu.getInterrupt();
-            } while (interrupt == true);
+            do
+            {
+                interrupt = mmu.getInterrupt();
+            }
+            while (interrupt == true);
             System.out.println(mmu.getPC());
             Command command = commandList.get(mmu.getPC());
             mmu.incPC();
             mmu = command.execute(mmu);
-            cycles += command.getCycles();
+            for(int i = 0; i < command.getCycles(); i++)
+            {
+                mmu.incrementCycles();
+            }
         }
+    }
+
+    public void  stop()
+    {
+        synchronized (lock)
+        {
+            this.stop = true;
+            pause = false;
+            lock.notifyAll();
+        }
+    }
+
+    public synchronized void pause()
+    {
+        pause = true;
+    }
+
+    public void start()
+    {
+        synchronized (lock)
+        {
+            pause = false;
+            lock.notifyAll();
+        }
+    }
+
+    public MemoryManagementUnit getMMU()
+    {
+        return mmu;
     }
 }

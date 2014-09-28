@@ -22,7 +22,7 @@ public class RetLW extends LiteralAndControlOperation implements Command
     {
         try
         {
-            mmu.getWorkingRegister().setBinaryValue(decodeSingle8BitArgument(commandString));
+            mmu.setWorkingRegister(decodeSingle8BitArgument(commandString));
             mmu.reloadPcFromStack();
         }
         catch (InvalidRegisterException e)

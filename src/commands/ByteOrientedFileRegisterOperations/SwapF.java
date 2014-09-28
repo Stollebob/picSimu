@@ -35,7 +35,7 @@ public class SwapF extends ByteOrientedFileRegisterOperation implements Command
 
             if (arguments[0].equals("0"))//d == 0 -> in W speichern
             {
-                mmu.getWorkingRegister().setBinaryValue(result);
+                mmu.setWorkingRegister(result);
             }
             else//d == 1 -> in F speichern
             {

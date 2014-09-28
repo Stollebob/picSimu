@@ -31,7 +31,7 @@ public class DecFsZ extends ByteOrientedFileRegisterOperation implements Command
             int result = mmu.getRegister(f.toString(16)).getIntValue() - 1;
             if (arguments[0].equals("0"))//d == 0 -> in W speichern
             {
-                mmu.getWorkingRegister().setIntValue(result);
+                mmu.setWorkingRegister(result);
             }
             else//d == 1 -> in F speichern
             {

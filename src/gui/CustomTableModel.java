@@ -74,6 +74,6 @@ public class CustomTableModel extends AbstractTableModel
     public void setValueAt(int row, int col, String value)
     {
         data[row][col] = value;
-        this.fireTableDataChanged();
+        this.fireTableCellUpdated(row, col);
     }
 }

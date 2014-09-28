@@ -23,7 +23,7 @@ public class MovLW extends LiteralAndControlOperation implements Command
     {
         String argument = decodeSingle8BitArgument(commandString);
         int argumentK = new BigInteger(argument, 2).intValue();
-        mmu.getWorkingRegister().setIntValue(argumentK);
+        mmu.setWorkingRegister(argumentK);
         return mmu;
     }
 

@@ -1,26 +1,42 @@
 package gui;
 
+import controller.event.next.NextEvent;
+import controller.event.next.NextListener;
 import controller.event.open.OpenEvent;
 import controller.event.open.OpenListener;
+import controller.event.reset.ResetEvent;
+import controller.event.reset.ResetListener;
 import controller.event.start.StartEvent;
 import controller.event.start.StartListener;
+import controller.event.stop.StopEvent;
+import controller.event.stop.StopListener;
 import exceptions.InvalidRegisterException;
 import register.MemoryManagementUnit;
 
 import javax.swing.*;
+import javax.swing.event.CellEditorListener;
+import javax.swing.event.ChangeEvent;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.EventObject;
 import java.util.Stack;
 
 /**
  * Created by Bastian on 24/05/2014.
  */
 
-public class FrontEnd extends JFrame implements ActionListener {
+public class FrontEnd extends JFrame implements View, ActionListener
+{
     private JPanel mainpanel;
  /*Menu Begin*/
     private JButton stopButton;
@@ -31,7 +47,7 @@ public class FrontEnd extends JFrame implements ActionListener {
     private JButton helpButton;
  /*Menu End*/
 
-    private JEditorPane editorText;
+    private JTable editorText;
     private JPanel values;
     private JTextField textFieldW;
     private JTextField textFieldCycles;
@@ -52,6 +68,9 @@ public class FrontEnd extends JFrame implements ActionListener {
 
     private OpenListener fileOpenListener;
     private StartListener startListener;
+    private StopListener stopListener;
+    private NextListener nextListener;
+    private ResetListener resetListener;
 
 
 
@@ -74,9 +93,10 @@ public class FrontEnd extends JFrame implements ActionListener {
     {
         customTableModel = new CustomTableModel();
         bankTable = new JTable(customTableModel);
+        editorText = (JTable) makeEditor();
     }
 
-    public void redrawGui(MemoryManagementUnit mmu) throws InvalidRegisterException
+    private void redrawGui(MemoryManagementUnit mmu) throws InvalidRegisterException
     {
         for(int counter = 0; counter <= 255; counter++)
         {
@@ -85,7 +105,12 @@ public class FrontEnd extends JFrame implements ActionListener {
             int offset = counter%8;
             int row = (counter - offset) / 8;
             this.customTableModel.setValueAt(row, offset + 1, hexValue);
+//            bankTable.setModel(customTableModel);
         }
+        this.textFieldW.setText("" + mmu.getWorkingRegister().getIntValue());
+        this.textFieldCycles.setText("" + mmu.getCycles());
+        this.textFieldPC.setText("" + mmu.getPC());
+
         this.setjTextStack(mmu);
         this.repaint();
     }
@@ -154,7 +179,7 @@ public class FrontEnd extends JFrame implements ActionListener {
         jTextStack7.setText("");
     }
 
-    private void firePropertyChange()
+    private void fireStartEvent()
     {
         this.startListener.actionPerformed(new StartEvent());
     }
@@ -162,6 +187,36 @@ public class FrontEnd extends JFrame implements ActionListener {
     public void addStartListener(StartListener listener)
     {
         this.startListener = listener;
+    }
+
+    private void fireStopEvent()
+    {
+        this.stopListener.actionPerformed(new StopEvent());
+    }
+
+    public void addStopListener(StopListener listener)
+    {
+        this.stopListener = listener;
+    }
+
+    private void fireNextEvent()
+    {
+        this.nextListener.actionPerformed(new NextEvent());
+    }
+
+    public void addNextListener(NextListener listener)
+    {
+        this.nextListener = listener;
+    }
+
+    private void fireResetEvent()
+    {
+        this.resetListener.actionPerformed(new ResetEvent());
+    }
+
+    public void addResetListener(ResetListener listener)
+    {
+        this.resetListener = listener;
     }
 
     @Override
@@ -180,6 +235,7 @@ public class FrontEnd extends JFrame implements ActionListener {
         }
         else if(e.getSource() == this.nextButton)
         {
+            fireNextEvent();
         }
         else if(e.getSource() == this.openButton)
         {
@@ -216,13 +272,62 @@ public class FrontEnd extends JFrame implements ActionListener {
         }
         else if(e.getSource() == this.startButton)
         {
-            firePropertyChange();
+            fireStartEvent();
         }
         else if(e.getSource() == this.resetButton)
         {
+            fireResetEvent();
         }
-        else if(e.getSource() == this.startButton)
+        else if(e.getSource() == this.stopButton)
         {
+            fireStopEvent();
         }
+    }
+
+    @Override
+    public void update(MemoryManagementUnit mmu)
+    {
+        try
+        {
+            redrawGui(mmu);
+        }
+        catch (InvalidRegisterException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void addLineToEditor(String line)
+    {
+        ((DefaultTableModel)editorText.getModel()).addRow(new Object[]{false, line});
+    }
+
+    public void clearEditor()
+    {
+        DefaultTableModel model = (DefaultTableModel) editorText.getModel();
+        for(int index = model.getRowCount() -1; index >= 0 ; index--)
+        {
+            model.removeRow(index);
+        }
+    }
+
+    public JComponent makeEditor()
+    {
+        String[] columnNames = {"test", "test"};
+        Object[][] data = {};
+        DefaultTableModel model = new DefaultTableModel(data, columnNames)
+        {
+            @Override public Class<?> getColumnClass(int column)
+            {
+                return getValueAt(0, column).getClass();
+            }
+        };
+        JTable table = new JTable(model);
+        table.getColumnModel().getColumn(0).setPreferredWidth(20);
+        table.getColumnModel().getColumn(0).setMaxWidth(20);
+        table.setTableHeader(null);
+        table.setRowHeight(20);
+        table.setAutoCreateRowSorter(true);
+        return table;
     }
 }

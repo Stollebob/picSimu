@@ -33,13 +33,13 @@ public class XorWF extends ByteOrientedFileRegisterOperation implements Command
 
             if (arguments[0].equals("0"))//d == 0 -> in W speichern
             {
-                mmu.getWorkingRegister().setIntValue(result);
+                mmu.setWorkingRegister(result);
             }
             else//d == 1 -> in F speichern
             {
                 register_f.setIntValue(result);
             }
-            mmu.getWorkingRegister().setIntValue(result);
+            mmu.setWorkingRegister(result);
             checkZ(result);
         }
         catch (InvalidRegisterException e)

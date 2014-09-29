@@ -19,7 +19,7 @@ public class CommandExecutor implements Runnable
     private List<Command> commandList;
     private MemoryManagementUnit mmu;
     private boolean interrupt = false;
-    private boolean pause = false;
+    private boolean pause = true;
     private boolean stop = false;
     private Object lock = new Object();
 
@@ -33,6 +33,20 @@ public class CommandExecutor implements Runnable
     public void run() {
         try
         {
+            while(pause)
+            {
+                try
+                {
+                    synchronized (lock)
+                    {
+                        lock.wait();
+                    }
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+            }
             while(!stop && mmu.getPC() < commandList.size())
             {
                 next();

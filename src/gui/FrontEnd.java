@@ -28,6 +28,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.EventObject;
 import java.util.Stack;
 
@@ -109,7 +111,7 @@ public class FrontEnd extends JFrame implements View, ActionListener
         }
         this.textFieldW.setText("" + mmu.getWorkingRegister().getIntValue());
         this.textFieldCycles.setText("" + mmu.getCycles());
-        this.textFieldPC.setText("" + mmu.getPC());
+        this.textFieldPC.setText("" + new BigInteger("" + mmu.getPC(), 10).toString(16));
 
         this.setjTextStack(mmu);
         this.repaint();

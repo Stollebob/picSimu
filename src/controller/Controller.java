@@ -81,6 +81,7 @@ public class Controller implements OpenListener , StartListener, StopListener, N
                 System.out.println("start");
                 t = new Thread(executor);
                 t.start();
+                executor.start();
             }
         }
         else
@@ -102,7 +103,7 @@ public class Controller implements OpenListener , StartListener, StopListener, N
     @Override
     public void actionPerformed(NextEvent event)
     {
-        if(t != null) //TODO: mit basti klären, was passiert, wenn start noch nicht gedrückt wurde!
+        if(t != null)
         {
             try
             {
@@ -111,6 +112,23 @@ public class Controller implements OpenListener , StartListener, StopListener, N
             catch (InvalidRegisterException e)
             {
                 e.printStackTrace();
+            }
+        }
+        else
+        {
+            if(executor != null )
+            {
+                try
+                {
+                    System.out.println("start");
+                    t = new Thread(executor);
+                    t.start();
+                    executor.next();
+                }
+                catch (InvalidRegisterException e)
+                {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -124,9 +142,13 @@ public class Controller implements OpenListener , StartListener, StopListener, N
             executor.stop();
         }
         mmu = new MemoryManagementUnit();
-        view.update(mmu);
         mmu.addView(view);
         executor = new CommandExecutor(mmu, commandList);
+        while(t.isAlive())
+        {
+            view.update(mmu);
+        }
         t = null;
+
     }
 }

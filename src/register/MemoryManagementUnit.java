@@ -295,14 +295,14 @@ public class MemoryManagementUnit
     {
         if(this.stack.size() < 8)
         {
-            this.stack.push(new Integer(this.getPC()));
+            this.stack.push(new Integer(new BigInteger(""+ this.getPC(), 10).toString(16)));
         }
 
     }
 
     public void reloadPcFromStack() throws InvalidRegisterException
     {
-        this.setPC(this.stack.pop());
+        this.setPC(new BigInteger("" + this.stack.pop(), 16).intValue());
     }
 
     public Stack<Integer> getStackData()

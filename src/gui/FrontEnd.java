@@ -109,7 +109,7 @@ public class FrontEnd extends JFrame implements View, ActionListener
             this.customTableModel.setValueAt(row, offset + 1, hexValue);
 //            bankTable.setModel(customTableModel);
         }
-        this.textFieldW.setText("" + mmu.getWorkingRegister().getIntValue());
+        this.textFieldW.setText("" + new BigInteger("" + mmu.getWorkingRegister().getIntValue(), 10).toString(16));
         this.textFieldCycles.setText("" + mmu.getCycles());
         this.textFieldPC.setText("" + new BigInteger("" + mmu.getPC(), 10).toString(16));
 

@@ -39,7 +39,7 @@ public class ComF extends ByteOrientedFileRegisterOperation implements Command
             }
             else//d == 1 -> in F speichern
             {
-                register_f.setIntValue(result);
+                mmu.getRegister(address_f).setIntValue(result);
             }
             checkZ(result);
         }

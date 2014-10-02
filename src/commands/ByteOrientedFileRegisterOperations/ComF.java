@@ -31,8 +31,7 @@ public class ComF extends ByteOrientedFileRegisterOperation implements Command
             BigInteger f = new BigInteger("0" + arguments[1], 2);
             String address_f = f.toString(16);
             Register register_f = mmu.getRegister(address_f);
-            int result = new BigInteger(register_f.getBinaryValue(), 2).not().intValue();
-
+            int result = (~register_f.getIntValue() & 0xff);
             if(arguments[0].equals("0"))//d == 0 -> in W speichern
             {
                 mmu.setWorkingRegister(result);

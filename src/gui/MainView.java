@@ -87,7 +87,6 @@ public class MainView extends JFrame {
 
     private void initializeRightPane()
     {
-        initializeRegisterBanks();
         this.rightPane = new JPanel();
         this.programArea = new JTextArea(10, 10);
         Dimension programmAreaPreferredSize = new Dimension(30, 30);

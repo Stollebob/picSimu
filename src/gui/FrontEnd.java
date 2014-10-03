@@ -57,9 +57,9 @@ public class FrontEnd extends JFrame implements View, ActionListener
     private JPanel stack;
     private JPanel tableBank;
     private JTable bankTable;
-    private JPanel RegisterRA;
+    private JPanel registerRA;
     private JTable registerATable;
-    private JPanel RegisterRB;
+    private JPanel registerRB;
     private JTable registerBTable;
  /* Values, Registers and Banks Begin */
  /* stack Overview Start */
@@ -102,6 +102,8 @@ public class FrontEnd extends JFrame implements View, ActionListener
         customTableModel = new CustomTableModel();
         bankTable = new JTable(customTableModel);
         editorText = (JTable) makeEditor();
+        registerATable = (JTable)makeTrisTable();
+        registerBTable = (JTable)makeTrisTable();
     }
 
     private void redrawGui(MemoryManagementUnit mmu) throws InvalidRegisterException
@@ -113,23 +115,37 @@ public class FrontEnd extends JFrame implements View, ActionListener
             int offset = counter%8;
             int row = (counter - offset) / 8;
             this.customTableModel.setValueAt(row, offset + 1, hexValue);
-//            bankTable.setModel(customTableModel);
         }
-        for (int regcounter = 5; regcounter <= 6; regcounter++)
+        DefaultTableModel modelA = (DefaultTableModel) registerATable.getModel();
+        DefaultTableModel modelB = (DefaultTableModel) registerBTable.getModel();
+
+        modelA.addRow(convertBinaryToObjectArray(mmu.getRegister("5").getBinaryValue()));
+        modelB.addRow(convertBinaryToObjectArray(mmu.getRegister("5").getBinaryValue()));
+
+        if(modelA.getRowCount() > 1)
         {
-            String hexAddress = Integer.toHexString(regcounter);
-            for (int counter = 0; counter <= 8; counter++)
-            {
-                int bitValue =  BigInteger(mmu.getRegister(regcounter));
-                this.customTableModel.setValueAt(1, counter, bitValue);
-            }
+            modelA.removeRow(0);
         }
+        if(modelB.getRowCount() > 1)
+        {
+            modelB.removeRow(0);
+        }
+
         this.textFieldW.setText("" + new BigInteger("" + mmu.getWorkingRegister().getIntValue(), 10).toString(16));
         this.textFieldCycles.setText("" + mmu.getCycles());
         this.textFieldPC.setText("" + new BigInteger("" + mmu.getPC(), 10).toString(16));
 
         this.setjTextStack(mmu);
         this.repaint();
+    }
+
+    private Object[] convertBinaryToObjectArray(String binayValue) throws InvalidRegisterException {
+        Object[] insert = new Object[8];
+        for (int counter = 0; counter < 8; counter++)
+        {
+            insert[counter] = binayValue.substring(counter, counter+1);
+        }
+        return insert;
     }
 
     private void firePropertyChange(File toOpen)
@@ -337,6 +353,26 @@ public class FrontEnd extends JFrame implements View, ActionListener
             @Override public Class<?> getColumnClass(int column)
             {
                 return getValueAt(0, column).getClass();
+            }
+        };
+        JTable table = new JTable(model);
+        table.getColumnModel().getColumn(0).setPreferredWidth(20);
+        table.getColumnModel().getColumn(0).setMaxWidth(20);
+        table.setTableHeader(null);
+        table.setRowHeight(20);
+        table.setAutoCreateRowSorter(true);
+        return table;
+    }
+
+    public JComponent makeTrisTable()
+    {
+        String[] columnNames = {"test", "test", "test", "test", "test", "test", "test", "test"};
+        Object[][] data = {};
+        DefaultTableModel model = new DefaultTableModel(data, columnNames)
+        {
+            @Override public Class<?> getColumnClass(int column)
+            {
+                return String.class;
             }
         };
         JTable table = new JTable(model);

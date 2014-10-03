@@ -68,6 +68,8 @@ public class FrontEnd extends JFrame implements View, ActionListener
     private JTextField jTextStack6;
     private JTextField jTextStack7;
     private JPanel RegisterRB;
+    private JTable registerATable;
+    private JTable registerBTable;
 
     private CustomTableModel customTableModel;
 

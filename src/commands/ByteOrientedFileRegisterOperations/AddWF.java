@@ -30,19 +30,31 @@ public class AddWF extends ByteOrientedFileRegisterOperation implements Command
             int intValue_F = mmu.getRegister(f).getIntValue();
 
             int result = intValue_W + intValue_F;
-            if(checkC(intValue_W, intValue_F, true))
+            if(checkC(result))
             {
                 mmu.setCarry();
             }
+            else
+            {
+                mmu.resetCarry();
+            }
 
-            if(checkDC(intValue_W, intValue_F, true))
+            if(checkDC(intValue_W, intValue_F))
             {
                 mmu.setDigitCarry();
+            }
+            else
+            {
+                mmu.resetDigitCarry();
             }
 
             if(checkZ(result))
             {
                 mmu.setZero();
+            }
+            else
+            {
+                mmu.resetZero();
             }
             if(arguments[0].equals("0"))//d == 0 -> in W speichern
             {

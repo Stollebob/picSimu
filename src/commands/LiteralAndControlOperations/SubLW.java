@@ -1,5 +1,6 @@
 package commands.LiteralAndControlOperations;
 
+import com.sun.org.apache.bcel.internal.generic.BREAKPOINT;
 import commands.Command;
 import register.MemoryManagementUnit;
 
@@ -22,13 +23,37 @@ public class SubLW extends LiteralAndControlOperation implements Command
     public MemoryManagementUnit execute(MemoryManagementUnit mmu)
     {
         String argument = decodeSingle8BitArgument(commandString);
-        int intW = mmu.getWorkingRegister().getIntValue();
-        int intK = new BigInteger(argument, 2).intValue();
-        int result = intK - intW;
+        BigInteger intW = new BigInteger(mmu.getWorkingRegister().getBinaryValue(), 2);
+        BigInteger intK = new BigInteger(argument, 2);
+        intW = intW.subtract(new BigInteger("100000000",2));//two's complement
+        BigInteger BigResult = intK;
+        BigResult.add(intW).intValue();
+        int result = BigResult.intValue();
         mmu.setWorkingRegister(result);
-        checkZ(result);
-        checkDC(intK, intW , false);
-        checkC(intK, intW , false);
+        if(checkZ(result))
+        {
+            mmu.setZero();
+        }
+        else
+        {
+            mmu.resetZero();
+        }
+        if(checkDC(intK.intValue(), intW.intValue()))
+        {
+            mmu.setDigitCarry();
+        }
+        else
+        {
+            mmu.resetDigitCarry();
+        }
+        if(checkC(result))
+        {
+            mmu.setCarry();
+        }
+        else
+        {
+            mmu.resetCarry();
+        }
         return mmu;
     }
 

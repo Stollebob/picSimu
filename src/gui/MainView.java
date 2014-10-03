@@ -20,8 +20,11 @@ public class MainView extends JFrame {
  /*Menu End*/
 
     private JPanel bankPanel;
+    private JPanel registerPanel;
     private ScrollPane bankTableScroller;
     private JTable bankTable;
+    private JTable registerATable;
+    private JTable registerBTable;
     private JLabel b0Statuslabel;
     private JCheckBox b0indfbit7;
     private JCheckBox b0indfbit6;
@@ -84,6 +87,7 @@ public class MainView extends JFrame {
 
     private void initializeRightPane()
     {
+        initializeRegisterBanks();
         this.rightPane = new JPanel();
         this.programArea = new JTextArea(10, 10);
         Dimension programmAreaPreferredSize = new Dimension(30, 30);

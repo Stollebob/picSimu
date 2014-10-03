@@ -387,7 +387,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="6c347" class="javax.swing.JTable" binding="registerATable" custom-create="true">
+              <component id="6c347" class="javax.swing.JTable" binding="registerATable">
                 <constraints/>
                 <properties>
                   <preferredScrollableViewportSize width="200" height="100"/>
@@ -418,7 +418,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="dc81d" class="javax.swing.JTable" binding="registerBTable" custom-create="true">
+              <component id="dc81d" class="javax.swing.JTable" binding="registerBTable">
                 <constraints/>
                 <properties>
                   <preferredScrollableViewportSize width="200" height="100"/>

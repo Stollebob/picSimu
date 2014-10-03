@@ -40,25 +40,29 @@ import java.util.Stack;
 public class FrontEnd extends JFrame implements View, ActionListener
 {
     private JPanel mainpanel;
- /*Menu Begin*/
+ /* Menu Begin */
     private JButton stopButton;
     private JButton startButton;
     private JButton resetButton;
     private JButton nextButton;
     private JButton openButton;
     private JButton helpButton;
- /*Menu End*/
-
+ /* Menu End */
+ /* Values, Registers and Banks Begin */
     private JTable editorText;
     private JPanel values;
     private JTextField textFieldW;
     private JTextField textFieldCycles;
     private JTextField textFieldPC;
     private JPanel stack;
-    private JTable bankTable;
     private JPanel tableBank;
+    private JTable bankTable;
     private JPanel RegisterRA;
-    /* stack Overview */
+    private JTable registerATable;
+    private JPanel RegisterRB;
+    private JTable registerBTable;
+ /* Values, Registers and Banks Begin */
+ /* stack Overview Start */
     private JTextField jTextStack0;
     private JTextField jTextStack1;
     private JTextField jTextStack2;
@@ -67,10 +71,7 @@ public class FrontEnd extends JFrame implements View, ActionListener
     private JTextField jTextStack5;
     private JTextField jTextStack6;
     private JTextField jTextStack7;
-    private JPanel RegisterRB;
-    private JTable registerATable;
-    private JTable registerBTable;
-
+ /* stack Overview End */
     private CustomTableModel customTableModel;
 
     private OpenListener fileOpenListener;
@@ -80,14 +81,14 @@ public class FrontEnd extends JFrame implements View, ActionListener
     private ResetListener resetListener;
 
 
-
+ /* Initialization FrontEnd Start */
     public FrontEnd() throws HeadlessException {
         super("PicSimu");
         setContentPane(mainpanel);
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
-
+        /* Activating Buttons */
         stopButton.addActionListener(this);
         startButton.addActionListener(this);
         resetButton.addActionListener(this);
@@ -113,6 +114,15 @@ public class FrontEnd extends JFrame implements View, ActionListener
             int row = (counter - offset) / 8;
             this.customTableModel.setValueAt(row, offset + 1, hexValue);
 //            bankTable.setModel(customTableModel);
+        }
+        for (int regcounter = 5; regcounter <= 6; regcounter++)
+        {
+            String hexAddress = Integer.toHexString(regcounter);
+            for (int counter = 0; counter <= 8; counter++)
+            {
+                int bitValue =  BigInteger(mmu.getRegister(regcounter));
+                this.customTableModel.setValueAt(1, counter, bitValue);
+            }
         }
         this.textFieldW.setText("" + new BigInteger("" + mmu.getWorkingRegister().getIntValue(), 10).toString(16));
         this.textFieldCycles.setText("" + mmu.getCycles());

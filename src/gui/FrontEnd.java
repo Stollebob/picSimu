@@ -57,6 +57,7 @@ public class FrontEnd extends JFrame implements View, ActionListener
     private JPanel stack;
     private JTable bankTable;
     private JPanel tableBank;
+    private JPanel RegisterRA;
     /* stack Overview */
     private JTextField jTextStack0;
     private JTextField jTextStack1;
@@ -66,6 +67,8 @@ public class FrontEnd extends JFrame implements View, ActionListener
     private JTextField jTextStack5;
     private JTextField jTextStack6;
     private JTextField jTextStack7;
+    private JPanel RegisterRB;
+
     private CustomTableModel customTableModel;
 
     private OpenListener fileOpenListener;

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.FrontEnd">
-  <grid id="27dc6" binding="mainpanel" layout-manager="GridLayoutManager" row-count="3" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="mainpanel" layout-manager="GridLayoutManager" row-count="4" column-count="8" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="10" left="10" bottom="10" right="10"/>
     <constraints>
-      <xy x="20" y="20" width="1324" height="780"/>
+      <xy x="20" y="20" width="1324" height="1010"/>
     </constraints>
     <properties/>
     <border type="line" title="PicSimu Thomas, Bastian">
@@ -12,7 +12,7 @@
     <children>
       <component id="8ac4d" class="javax.swing.JButton" binding="startButton">
         <constraints>
-          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
             <minimum-size width="100" height="25"/>
             <preferred-size width="100" height="25"/>
             <maximum-size width="100" height="25"/>
@@ -24,7 +24,7 @@
       </component>
       <component id="3e598" class="javax.swing.JButton" binding="stopButton" default-binding="true">
         <constraints>
-          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+          <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
             <minimum-size width="100" height="25"/>
             <preferred-size width="100" height="25"/>
             <maximum-size width="100" height="25"/>
@@ -36,7 +36,7 @@
       </component>
       <component id="893fe" class="javax.swing.JButton" binding="nextButton">
         <constraints>
-          <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+          <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
             <minimum-size width="100" height="25"/>
             <preferred-size width="100" height="25"/>
             <maximum-size width="100" height="25"/>
@@ -48,7 +48,7 @@
       </component>
       <component id="317cd" class="javax.swing.JButton" binding="resetButton">
         <constraints>
-          <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+          <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
             <minimum-size width="100" height="25"/>
             <preferred-size width="100" height="25"/>
             <maximum-size width="100" height="25"/>
@@ -61,7 +61,7 @@
       <grid id="ccb9a" binding="tableBank" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="1" column="0" row-span="2" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
+          <grid row="1" column="0" row-span="3" col-span="3" vsize-policy="0" hsize-policy="4" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <minimum-size width="340" height="575"/>
             <preferred-size width="340" height="575"/>
             <maximum-size width="340" height="575"/>
@@ -91,7 +91,7 @@
       </grid>
       <component id="cd6e2" class="javax.swing.JButton" binding="openButton">
         <constraints>
-          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
             <minimum-size width="100" height="25"/>
             <preferred-size width="100" height="25"/>
             <maximum-size width="100" height="25"/>
@@ -101,22 +101,10 @@
           <text value="Open"/>
         </properties>
       </component>
-      <component id="f56a2" class="javax.swing.JButton" binding="helpButton">
-        <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
-            <minimum-size width="100" height="25"/>
-            <preferred-size width="100" height="25"/>
-            <maximum-size width="100" height="25"/>
-          </grid>
-        </constraints>
-        <properties>
-          <text value="Help"/>
-        </properties>
-      </component>
       <grid id="da62e" binding="stack" layout-manager="GridLayoutManager" row-count="9" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="1" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="true">
+          <grid row="2" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="true">
             <minimum-size width="100" height="250"/>
             <preferred-size width="100" height="250"/>
             <maximum-size width="100" height="250"/>
@@ -292,7 +280,7 @@
       <grid id="1018f" binding="values" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="2" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="true">
+          <grid row="3" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="true">
             <minimum-size width="100" height="100"/>
             <preferred-size width="100" height="100"/>
             <maximum-size width="100" height="100"/>
@@ -367,7 +355,7 @@
       </grid>
       <scrollpane id="a44a6">
         <constraints>
-          <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="3" row-span="2" col-span="4" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
         <border type="none"/>
@@ -378,6 +366,80 @@
           </component>
         </children>
       </scrollpane>
+      <grid id="63b47" binding="RegisterRA" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="1" column="3" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <minimum-size width="220" height="100"/>
+            <preferred-size width="220" height="100"/>
+            <maximum-size width="220" height="100"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none" title="RA">
+          <font/>
+        </border>
+        <children>
+          <scrollpane id="1b7a6">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="1" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="6c347" class="javax.swing.JTable" custom-create="true">
+                <constraints/>
+                <properties>
+                  <preferredScrollableViewportSize width="200" height="100"/>
+                </properties>
+              </component>
+            </children>
+          </scrollpane>
+        </children>
+      </grid>
+      <grid id="3e2f4" binding="RegisterRB" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="1" column="5" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <minimum-size width="220" height="100"/>
+            <preferred-size width="220" height="100"/>
+            <maximum-size width="220" height="100"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none" title="RB">
+          <font/>
+        </border>
+        <children>
+          <scrollpane id="bb17d">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="1" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="dc81d" class="javax.swing.JTable" custom-create="true">
+                <constraints/>
+                <properties>
+                  <preferredScrollableViewportSize width="200" height="100"/>
+                </properties>
+              </component>
+            </children>
+          </scrollpane>
+        </children>
+      </grid>
+      <component id="f56a2" class="javax.swing.JButton" binding="helpButton">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <minimum-size width="100" height="25"/>
+            <preferred-size width="100" height="25"/>
+            <maximum-size width="100" height="25"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value="Help"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>

@@ -52,6 +52,10 @@ public class AddWF extends ByteOrientedFileRegisterOperation implements Command
             {
                 mmu.setZero();
             }
+            else
+            {
+                mmu.resetZero();
+            }
             if(arguments[0].equals("0"))//d == 0 -> in W speichern
             {
                 mmu.setWorkingRegister(result);

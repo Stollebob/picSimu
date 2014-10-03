@@ -20,7 +20,7 @@ public class ClrW extends ByteOrientedFileRegisterOperation implements Command
     public MemoryManagementUnit execute(MemoryManagementUnit mmu)
     {
         mmu.setWorkingRegister(0);
-        checkZ(0);//Z setzen
+        mmu.setZero();//Z setzen
         return mmu;
     }
 

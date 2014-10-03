@@ -43,13 +43,15 @@ public class SubWF extends ByteOrientedFileRegisterOperation implements Command
                 register_f.setIntValue(result);
             }
             checkZ(result);
-            checkC(value_f, value_w, false);
             checkDC(value_f, value_w, false);
-            if(checkC(value_w, value_f, true))
+            if(checkC(result))
             {
                 mmu.setCarry();
             }
-
+            else
+            {
+                mmu.resetCarry();
+            }
             if(checkDC(value_w, value_f, true))
             {
                 mmu.setDigitCarry();

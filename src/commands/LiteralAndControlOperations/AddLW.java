@@ -28,7 +28,14 @@ public class AddLW extends LiteralAndControlOperation implements Command
         mmu.setWorkingRegister(result);
         checkZ(result);
         checkDC(intK, intW, true);
-        checkC(intK, intW, true);
+        if(checkC(result))
+        {
+            mmu.setCarry();
+        }
+        else
+        {
+            mmu.resetCarry();
+        }
         return mmu;
     }
 

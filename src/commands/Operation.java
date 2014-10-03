@@ -12,11 +12,8 @@ public abstract class Operation
 
     protected boolean checkDC(int intValue_W, int intValue_F)
     {
-        if (((intValue_W & 0x0F) + (intValue_F & 0x0F) < 16) || (intValue_W + intValue_F  > 0))
-        {
-            return true;
-        }
-        return false;
+        int result = (intValue_W & 0x0F) + (intValue_F & 0x0F);//addiere jeweils die letzen 4 Bit
+        return result != (result & 0x0F);//prüfen, ob das 5. Bit 1 ist
     }
 
     protected boolean checkC(int result)

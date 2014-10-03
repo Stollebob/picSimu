@@ -1,5 +1,6 @@
 package commands.ByteOrientedFileRegisterOperations;
 
+import com.sun.org.apache.bcel.internal.generic.BREAKPOINT;
 import commands.Command;
 import exceptions.InvalidRegisterException;
 import register.MemoryManagementUnit;
@@ -30,9 +31,12 @@ public class SubWF extends ByteOrientedFileRegisterOperation implements Command
 
             BigInteger f = new BigInteger("0" + arguments[1], 2);
             Register register_f = mmu.getRegister(f.toString(16));
-            int value_f = register_f.getIntValue();
-            int value_w = mmu.getWorkingRegister().getIntValue();
-            int result = value_f - value_w;
+            BigInteger value_f = new BigInteger(register_f.getBinaryValue(), 2);
+            BigInteger value_w = new BigInteger(mmu.getWorkingRegister().getBinaryValue(), 2);
+            value_w = value_w.subtract(new BigInteger("100000000",2));//two's complement
+            BigInteger BigResult = value_f;
+            BigResult.add(value_w);
+            int result = BigResult.intValue();
 
             if (arguments[0].equals("0"))//d == 0 -> in W speichern
             {
@@ -51,7 +55,7 @@ public class SubWF extends ByteOrientedFileRegisterOperation implements Command
             {
                 mmu.resetCarry();
             }
-            if(checkDC(value_w, value_f))
+            if(checkDC(value_w.intValue(), value_f.intValue()))
             {
                 mmu.setDigitCarry();
             }

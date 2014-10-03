@@ -31,7 +31,14 @@ public class IncF extends ByteOrientedFileRegisterOperation implements Command
             BigInteger f = new BigInteger("0" + arguments[1], 2);
             Register register_f = mmu.getRegister(f.toString(16));
             int result = register_f.getIntValue() + 1;
-            checkZ(result);
+            if(checkZ(result))
+            {
+                mmu.setZero();
+            }
+            else
+            {
+                mmu.resetZero();
+            }
             if (arguments[0].equals("0"))//d == 0 -> in W speichern
             {
                 mmu.setWorkingRegister(result);

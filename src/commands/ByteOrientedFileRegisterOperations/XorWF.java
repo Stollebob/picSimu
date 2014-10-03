@@ -40,7 +40,14 @@ public class XorWF extends ByteOrientedFileRegisterOperation implements Command
                 register_f.setIntValue(result);
             }
             mmu.setWorkingRegister(result);
-            checkZ(result);
+            if(checkZ(result))
+            {
+                mmu.resetZero();
+            }
+            else
+            {
+                mmu.resetZero();
+            }
         }
         catch (InvalidRegisterException e)
         {

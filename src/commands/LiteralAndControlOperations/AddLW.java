@@ -26,7 +26,14 @@ public class AddLW extends LiteralAndControlOperation implements Command
         int intK = new BigInteger(argument, 2).intValue();
         int result = intK + intW;
         mmu.setWorkingRegister(result);
-        checkZ(result);
+        if(checkZ(result))
+        {
+            mmu.setZero();
+        }
+        else
+        {
+            mmu.resetZero();
+        }
         if(checkDC(intK, intW))
         {
             mmu.setDigitCarry();

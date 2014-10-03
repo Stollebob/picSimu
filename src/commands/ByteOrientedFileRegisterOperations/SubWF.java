@@ -46,7 +46,6 @@ public class SubWF extends ByteOrientedFileRegisterOperation implements Command
             {
                 register_f.setIntValue(result);
             }
-            checkZ(result);
             if(checkC(result))
             {
                 mmu.setCarry();
@@ -67,6 +66,10 @@ public class SubWF extends ByteOrientedFileRegisterOperation implements Command
             if(checkZ(result))
             {
                 mmu.setZero();
+            }
+            else
+            {
+                mmu.resetZero();
             }
         }
         catch (InvalidRegisterException e)

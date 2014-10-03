@@ -39,9 +39,13 @@ public class AddWF extends ByteOrientedFileRegisterOperation implements Command
                 mmu.resetCarry();
             }
 
-            if(checkDC(intValue_W, intValue_F, true))
+            if(checkDC(intValue_W, intValue_F))
             {
                 mmu.setDigitCarry();
+            }
+            else
+            {
+                mmu.resetDigitCarry();
             }
 
             if(checkZ(result))

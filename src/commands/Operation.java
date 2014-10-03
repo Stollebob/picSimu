@@ -20,8 +20,8 @@ public abstract class Operation
         //TODO:gibt true zurück, wenn es ein DC gab
     }
 
-    protected boolean checkC(int intValue_W, int intValue_F, boolean b)
+    protected boolean checkC(int result)
     {
-        return true; //TODO:gibt true zurück, wenn es ein Carry gab
+        return result != (result & 0xFF);
     }
 }

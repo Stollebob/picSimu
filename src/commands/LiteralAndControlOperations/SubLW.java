@@ -27,7 +27,14 @@ public class SubLW extends LiteralAndControlOperation implements Command
         int result = intK - intW;
         mmu.setWorkingRegister(result);
         checkZ(result);
-        checkDC(intK, intW , false);
+        if(checkDC(intK, intW))
+        {
+            mmu.setDigitCarry();
+        }
+        else
+        {
+            mmu.resetDigitCarry();
+        }
         if(checkC(result))
         {
             mmu.setCarry();

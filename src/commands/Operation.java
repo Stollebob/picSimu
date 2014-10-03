@@ -10,14 +10,13 @@ public abstract class Operation
         return result == 0; //gibt true zurück, wenn das ergebnis 0 ist
     }
 
-    protected boolean checkDC(int intValue_W, int intValue_F, boolean b)
+    protected boolean checkDC(int intValue_W, int intValue_F)
     {
         if (((intValue_W & 0x0F) + (intValue_F & 0x0F) < 16) || (intValue_W + intValue_F  > 0))
         {
             return true;
         }
         return false;
-        //TODO:gibt true zurück, wenn es ein DC gab
     }
 
     protected boolean checkC(int result)

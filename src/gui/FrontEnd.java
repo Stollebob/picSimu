@@ -54,6 +54,9 @@ public class FrontEnd extends JFrame implements View, ActionListener
     private JTextField textFieldW;
     private JTextField textFieldCycles;
     private JTextField textFieldPC;
+    private JTextField textFieldDC;
+    private JTextField textFieldC;
+    private JTextField textFieldZ;
     private JPanel stack;
     private JPanel tableBank;
     private JTable bankTable;
@@ -71,7 +74,7 @@ public class FrontEnd extends JFrame implements View, ActionListener
     private JTextField jTextStack5;
     private JTextField jTextStack6;
     private JTextField jTextStack7;
- /* stack Overview End */
+    /* stack Overview End */
     private CustomTableModel customTableModel;
 
     private OpenListener fileOpenListener;
@@ -134,6 +137,9 @@ public class FrontEnd extends JFrame implements View, ActionListener
         this.textFieldW.setText("" + new BigInteger("" + mmu.getWorkingRegister().getIntValue(), 10).toString(16));
         this.textFieldCycles.setText("" + mmu.getCycles());
         this.textFieldPC.setText("" + new BigInteger("" + mmu.getPC(), 10).toString(16));
+        this.textFieldZ.setText(""+ new BigInteger("" + mmu.getRegister("3").getBinaryValue().charAt(2)));
+        this.textFieldDC.setText(""+ new BigInteger("" + mmu.getRegister("3").getBinaryValue().charAt(1)));
+        this.textFieldC.setText(""+ new BigInteger("" + mmu.getRegister("3").getBinaryValue().charAt(0)));
 
         this.setjTextStack(mmu);
         this.repaint();

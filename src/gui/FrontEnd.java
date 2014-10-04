@@ -137,9 +137,25 @@ public class FrontEnd extends JFrame implements View, ActionListener
         this.textFieldW.setText("" + new BigInteger("" + mmu.getWorkingRegister().getIntValue(), 10).toString(16));
         this.textFieldCycles.setText("" + mmu.getCycles());
         this.textFieldPC.setText("" + new BigInteger("" + mmu.getPC(), 10).toString(16));
-        this.textFieldZ.setText(""+ new BigInteger("" + mmu.getRegister("3").getBinaryValue().charAt(2)));
-        this.textFieldDC.setText(""+ new BigInteger("" + mmu.getRegister("3").getBinaryValue().charAt(1)));
-        this.textFieldC.setText(""+ new BigInteger("" + mmu.getRegister("3").getBinaryValue().charAt(0)));
+        if (mmu.isCarry())
+        {
+            this.textFieldC.setText("1");
+        } else {
+            this.textFieldC.setText("0");
+        }
+
+        if (mmu.isDigitCarry())
+        {
+            this.textFieldDC.setText("1");
+        } else {
+            this.textFieldDC.setText("0");
+        }
+        if (mmu.isZero())
+        {
+            this.textFieldZ.setText("1");
+        } else {
+            this.textFieldZ.setText("0");
+        }
 
         this.setjTextStack(mmu);
         this.repaint();

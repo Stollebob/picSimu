@@ -113,6 +113,30 @@ public class FrontEnd extends JFrame implements View, ActionListener
         this.textFieldCycles.setText("" + mmu.getCycles());
         this.textFieldPC.setText("" + new BigInteger("" + mmu.getPC(), 10).toString(16));
 
+        /*Highlighting*/
+        DefaultTableModel model = (DefaultTableModel) editorText.getModel();
+        if(model.getRowCount() > 0)
+        {
+            int index = 0;
+            String pc;
+            pc = new BigInteger("" + mmu.getPC(), 10).toString(16);
+            while(pc.length() < 4)//führende Nullen anhängen
+            {
+                pc = "0" + pc;
+            }
+            pc = " " + pc;//führendes Leerzeichen anhängen
+            for(; index < model.getRowCount(); index++)
+            {
+                String courentValue = (String)model.getValueAt(index, 1);
+                if(courentValue.equalsIgnoreCase(pc))
+                {
+                    break;
+                }
+            }
+            editorText.setRowSelectionInterval(index, index);
+            editorText.scrollRectToVisible(editorText.getCellRect(index, 0, true));
+        }
+
         this.setjTextStack(mmu);
         this.repaint();
     }
@@ -170,7 +194,8 @@ public class FrontEnd extends JFrame implements View, ActionListener
         }
     }
 
-    private void resetJTextStack() {
+    private void resetJTextStack()
+    {
         jTextStack0.setText("");
         jTextStack1.setText("");
         jTextStack2.setText("");

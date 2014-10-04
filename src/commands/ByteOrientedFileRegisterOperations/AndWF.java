@@ -38,7 +38,14 @@ public class AndWF  extends ByteOrientedFileRegisterOperation implements Command
             {
                 mmu.getRegister(f.toString(16)).setIntValue(result);
             }
-            checkZ(result);
+            if(checkZ(result))
+            {
+                mmu.setZero();
+            }
+            else
+            {
+                mmu.resetZero();
+            }
         }
         catch (InvalidRegisterException e)
         {

@@ -40,7 +40,14 @@ public class ComF extends ByteOrientedFileRegisterOperation implements Command
             {
                 mmu.getRegister(address_f).setIntValue(result);
             }
-            checkZ(result);
+            if(checkZ(result))
+            {
+                mmu.setZero();
+            }
+            else
+            {
+                mmu.resetZero();
+            }
         }
         catch (InvalidRegisterException e)
         {

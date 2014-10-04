@@ -40,7 +40,14 @@ public class DecF extends ByteOrientedFileRegisterOperation implements Command
             {
                 register_f.setIntValue(result);
             }
-            checkZ(result);
+            if(checkZ(result))
+            {
+                mmu.setZero();
+            }
+            else
+            {
+                mmu.resetZero();
+            }
         }
         catch (InvalidRegisterException e)
         {

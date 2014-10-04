@@ -183,8 +183,15 @@ public class MemoryManagementUnit
 
     public void setZero()
     {
-        Register status = bank_0.get("03h");
-        new BigInteger(status.getBinaryValue(), 2).setBit(2);
+        try
+        {
+            Register status = bank_0.get("03h");
+            this.getRegister("03h").setIntValue(new BigInteger(status.getBinaryValue(), 2).setBit(2).intValue());
+        }
+        catch (InvalidRegisterException e)
+        {
+            e.printStackTrace();
+        }
         firePropertyChanged();
     }
 
@@ -197,14 +204,28 @@ public class MemoryManagementUnit
     public void resetZero()
     {
         Register status = bank_0.get("03h");
-        new BigInteger(status.getBinaryValue(), 2).clearBit(1);
+        try
+        {
+            this.getRegister("03h").setIntValue(new BigInteger(status.getBinaryValue(), 2).clearBit(1).intValue());
+        }
+        catch (InvalidRegisterException e)
+        {
+            e.printStackTrace();
+        }
         firePropertyChanged();
     }
 
     public void setDigitCarry()
     {
-        Register status = bank_0.get("03h");
-        new BigInteger(status.getBinaryValue(), 2).setBit(1);
+        try
+        {
+            Register status = bank_0.get("03h");
+            this.getRegister("03h").setIntValue(new BigInteger(status.getBinaryValue(), 2).setBit(1).intValue());
+        }
+        catch (InvalidRegisterException e)
+        {
+            e.printStackTrace();
+        }
         firePropertyChanged();
     }
 
@@ -216,8 +237,15 @@ public class MemoryManagementUnit
 
     public void resetDigitCarry()
     {
-        Register status = bank_0.get("03h");
-        new BigInteger(status.getBinaryValue(), 2).clearBit(2);
+        try
+        {
+            Register status = bank_0.get("03h");
+            this.getRegister("03h").setIntValue(new BigInteger(status.getBinaryValue(), 2).clearBit(2).intValue());
+        }
+        catch (InvalidRegisterException e)
+        {
+            e.printStackTrace();
+        }
         firePropertyChanged();
     }
 
@@ -229,15 +257,30 @@ public class MemoryManagementUnit
 
     public void setCarry()
     {
-        Register status = bank_0.get("03h");
-        new BigInteger(status.getBinaryValue(), 2).setBit(0);
+
+        try
+        {
+            Register status = bank_0.get("03h");
+            this.getRegister("03h").setIntValue(new BigInteger(status.getBinaryValue(), 2).setBit(0).intValue());
+        }
+        catch (InvalidRegisterException e)
+        {
+            e.printStackTrace();
+        }
         firePropertyChanged();
     }
 
     public void resetCarry()
     {
-        Register status = bank_0.get("03h");
-        new BigInteger(status.getBinaryValue(), 2).clearBit(0);
+        try
+        {
+            Register status = bank_0.get("03h");
+            this.getRegister("03h").setIntValue(new BigInteger(status.getBinaryValue(), 2).clearBit(0).intValue());
+        }
+        catch (InvalidRegisterException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     //Gibt den PC zurück

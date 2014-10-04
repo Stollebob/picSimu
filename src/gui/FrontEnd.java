@@ -183,7 +183,7 @@ public class FrontEnd extends JFrame implements View, ActionListener
     /* Update Text into stack-Overview */
     private void setjTextStack(MemoryManagementUnit mmu)
     {
-        Stack<Integer> stack = mmu.getStackData();
+        Stack<String> stack = mmu.getStackData();
         resetJTextStack();
         switch(stack.size())
         {

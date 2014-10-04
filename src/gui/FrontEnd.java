@@ -113,6 +113,30 @@ public class FrontEnd extends JFrame implements View, ActionListener
         this.textFieldCycles.setText("" + mmu.getCycles());
         this.textFieldPC.setText("" + new BigInteger("" + mmu.getPC(), 10).toString(16));
 
+        /*Highlighting*/
+        DefaultTableModel model = (DefaultTableModel) editorText.getModel();
+        if(model.getRowCount() > 0)
+        {
+            int index = 0;
+            String pc;
+            pc = new BigInteger("" + mmu.getPC(), 10).toString(16);
+            while(pc.length() < 4)//führende Nullen anhängen
+            {
+                pc = "0" + pc;
+            }
+            pc = " " + pc;//führendes Leerzeichen anhängen
+            for(; index < model.getRowCount(); index++)
+            {
+                String courentValue = (String)model.getValueAt(index, 1);
+                if(courentValue.equalsIgnoreCase(pc))
+                {
+                    break;
+                }
+            }
+            editorText.setRowSelectionInterval(index, index);
+            editorText.scrollRectToVisible(editorText.getCellRect(index, 0, true));
+        }
+
         this.setjTextStack(mmu);
         this.repaint();
     }
@@ -170,7 +194,8 @@ public class FrontEnd extends JFrame implements View, ActionListener
         }
     }
 
-    private void resetJTextStack() {
+    private void resetJTextStack()
+    {
         jTextStack0.setText("");
         jTextStack1.setText("");
         jTextStack2.setText("");
@@ -301,7 +326,7 @@ public class FrontEnd extends JFrame implements View, ActionListener
 
     public void addLineToEditor(String line)
     {
-        ((DefaultTableModel)editorText.getModel()).addRow(new Object[]{false, line});
+        ((DefaultTableModel)editorText.getModel()).addRow(new Object[]{false, " "+ line.substring(0, 4), line.substring(5)});
     }
 
     public void clearEditor()
@@ -315,7 +340,7 @@ public class FrontEnd extends JFrame implements View, ActionListener
 
     public JComponent makeEditor()
     {
-        String[] columnNames = {"test", "test"};
+        String[] columnNames = {"test", "test", "test"};
         Object[][] data = {};
         DefaultTableModel model = new DefaultTableModel(data, columnNames)
         {
@@ -325,8 +350,12 @@ public class FrontEnd extends JFrame implements View, ActionListener
             }
         };
         JTable table = new JTable(model);
+        //Größe auf Checkoxen anpassen
         table.getColumnModel().getColumn(0).setPreferredWidth(20);
         table.getColumnModel().getColumn(0).setMaxWidth(20);
+        //Größe auf PC anpassen
+        table.getColumnModel().getColumn(1).setPreferredWidth(40);
+        table.getColumnModel().getColumn(1).setMaxWidth(40);
         table.setTableHeader(null);
         table.setRowHeight(20);
         table.setAutoCreateRowSorter(true);

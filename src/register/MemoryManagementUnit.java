@@ -14,7 +14,7 @@ public class MemoryManagementUnit
     private Map<String, Register> bank_0 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private Map<String, Register> bank_1 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private Register w = new Register("WORKING REGISTER", "00000000");
-    private Stack<Integer> stack = new Stack<>();
+    private Stack<String> stack = new Stack<>();
     private List<View> viewList = new ArrayList<>();
     private int cycles = 0;
 
@@ -338,7 +338,7 @@ public class MemoryManagementUnit
     {
         if(this.stack.size() < 8)
         {
-            this.stack.push(new Integer(new BigInteger(""+ this.getPC(), 10).toString(16)));
+            this.stack.push((new BigInteger(""+ this.getPC(), 10).toString(16)));
         }
 
     }
@@ -348,7 +348,7 @@ public class MemoryManagementUnit
         this.setPC(new BigInteger("" + this.stack.pop(), 16).intValue());
     }
 
-    public Stack<Integer> getStackData()
+    public Stack<String> getStackData()
     {
         return this.stack;
     }

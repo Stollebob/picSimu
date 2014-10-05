@@ -1,5 +1,6 @@
 package gui;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import controller.event.next.NextEvent;
 import controller.event.next.NextListener;
 import controller.event.open.OpenEvent;
@@ -10,12 +11,19 @@ import controller.event.start.StartEvent;
 import controller.event.start.StartListener;
 import controller.event.stop.StopEvent;
 import controller.event.stop.StopListener;
+import controller.event.tris.TrisChangeEvent;
+import controller.event.tris.TrisChangeListener;
 import exceptions.InvalidRegisterException;
 import register.MemoryManagementUnit;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
+<<<<<<< HEAD
 import javax.swing.event.ChangeListener;
+=======
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+>>>>>>> a8059faaa8bfadb752eb71eae5a6d52a6a9bad87
 import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -29,7 +37,11 @@ import java.util.Stack;
  * Created by Bastian on 24/05/2014.
  */
 
+<<<<<<< HEAD
 public class FrontEnd extends JFrame implements View, ActionListener, ChangeListener
+=======
+public class FrontEnd extends JFrame implements View, ActionListener, TableModelListener
+>>>>>>> a8059faaa8bfadb752eb71eae5a6d52a6a9bad87
 {
     private JPanel mainpanel;
  /* Menu Begin */
@@ -76,8 +88,13 @@ public class FrontEnd extends JFrame implements View, ActionListener, ChangeList
     private StopListener stopListener;
     private NextListener nextListener;
     private ResetListener resetListener;
+<<<<<<< HEAD
     Timer timer;
     int delay;
+=======
+    private TrisChangeListener trisChangeListener;
+
+>>>>>>> a8059faaa8bfadb752eb71eae5a6d52a6a9bad87
 
  /* Initialization FrontEnd Start */
     public FrontEnd() throws HeadlessException {
@@ -101,7 +118,9 @@ public class FrontEnd extends JFrame implements View, ActionListener, ChangeList
         bankTable = new JTable(customTableModel);
         editorText = (JTable) makeEditor();
         registerATable = (JTable)makeTrisTable();
+        registerATable.getModel().addTableModelListener(this);
         registerBTable = (JTable)makeTrisTable();
+        registerBTable.getModel().addTableModelListener(this);
     }
 
     private void redrawGui(MemoryManagementUnit mmu) throws InvalidRegisterException
@@ -114,11 +133,12 @@ public class FrontEnd extends JFrame implements View, ActionListener, ChangeList
             int row = (counter - offset) / 8;
             this.customTableModel.setValueAt(row, offset + 1, hexValue);
         }
+        /*setup Tris A and B*/
         DefaultTableModel modelA = (DefaultTableModel) registerATable.getModel();
         DefaultTableModel modelB = (DefaultTableModel) registerBTable.getModel();
 
         modelA.addRow(convertBinaryToObjectArray(mmu.getRegister("5").getBinaryValue()));
-        modelB.addRow(convertBinaryToObjectArray(mmu.getRegister("5").getBinaryValue()));
+        modelB.addRow(convertBinaryToObjectArray(mmu.getRegister("6").getBinaryValue()));
 
         if(modelA.getRowCount() > 1)
         {
@@ -129,6 +149,7 @@ public class FrontEnd extends JFrame implements View, ActionListener, ChangeList
             modelB.removeRow(0);
         }
 
+        /*setup "values"*/
         this.textFieldW.setText("" + new BigInteger("" + mmu.getWorkingRegister().getIntValue(), 10).toString(16));
         this.textFieldCycles.setText("" + mmu.getCycles());
         this.textFieldPC.setText("" + new BigInteger("" + mmu.getPC(), 10).toString(16));
@@ -159,9 +180,10 @@ public class FrontEnd extends JFrame implements View, ActionListener, ChangeList
 
     private Object[] convertBinaryToObjectArray(String binayValue) throws InvalidRegisterException {
         Object[] insert = new Object[8];
+        BigInteger value = new BigInteger(binayValue, 2);
         for (int counter = 0; counter < 8; counter++)
         {
-            insert[counter] = binayValue.substring(counter, counter+1);
+            insert[counter] = value.testBit(counter);
         }
         return insert;
     }
@@ -390,18 +412,22 @@ public class FrontEnd extends JFrame implements View, ActionListener, ChangeList
         {
             @Override public Class<?> getColumnClass(int column)
             {
-                return String.class;
+                return Boolean.class;
             }
         };
         JTable table = new JTable(model);
-        table.getColumnModel().getColumn(0).setPreferredWidth(20);
-        table.getColumnModel().getColumn(0).setMaxWidth(20);
+        for(int index = 0; index < 8; index++)
+        {
+            table.getColumnModel().getColumn(index).setPreferredWidth(30);
+            table.getColumnModel().getColumn(index).setMaxWidth(30);
+        }
         table.setTableHeader(null);
         table.setRowHeight(20);
         table.setAutoCreateRowSorter(true);
         return table;
     }
 
+<<<<<<< HEAD
     public void stateChanged(ChangeEvent e)
     {
         JSlider FrequenzSlider = (JSlider)e.getSource();
@@ -412,5 +438,33 @@ public class FrontEnd extends JFrame implements View, ActionListener, ChangeList
             timer.setDelay(delay);
             timer.setInitialDelay(delay * 10);
         }
+=======
+    @Override
+    public void tableChanged(TableModelEvent e)
+    {
+        int columIndex = e.getColumn();
+        if(columIndex != TableModelEvent.ALL_COLUMNS)
+        {
+            if(e.getSource().equals(registerATable.getModel()))
+            {
+                firePropertyChange("5", columIndex, (boolean)registerATable.getValueAt(0, columIndex));
+            }
+            else
+            {
+                firePropertyChange("6", columIndex, (boolean)registerBTable.getValueAt(0, columIndex));
+            }
+        }
+
+    }
+
+    private void firePropertyChange(String hexAdress, int index, boolean newValue)
+    {
+        trisChangeListener.actionPerformed(new TrisChangeEvent(hexAdress, index, newValue));
+    }
+
+    public void addTrisChangeListener(TrisChangeListener listener)
+    {
+        this.trisChangeListener = listener;
+>>>>>>> a8059faaa8bfadb752eb71eae5a6d52a6a9bad87
     }
 }

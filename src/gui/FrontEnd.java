@@ -14,30 +14,22 @@ import exceptions.InvalidRegisterException;
 import register.MemoryManagementUnit;
 
 import javax.swing.*;
-import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.EventObject;
 import java.util.Stack;
 
 /**
  * Created by Bastian on 24/05/2014.
  */
 
-public class FrontEnd extends JFrame implements View, ActionListener
+public class FrontEnd extends JFrame implements View, ActionListener, ChangeListener
 {
     private JPanel mainpanel;
  /* Menu Begin */
@@ -74,6 +66,8 @@ public class FrontEnd extends JFrame implements View, ActionListener
     private JTextField jTextStack5;
     private JTextField jTextStack6;
     private JTextField jTextStack7;
+    private JSlider frequenzSlider;
+    private JTextField TextFieldFrequenz;
     /* stack Overview End */
     private CustomTableModel customTableModel;
 
@@ -82,7 +76,8 @@ public class FrontEnd extends JFrame implements View, ActionListener
     private StopListener stopListener;
     private NextListener nextListener;
     private ResetListener resetListener;
-
+    Timer timer;
+    int delay;
 
  /* Initialization FrontEnd Start */
     public FrontEnd() throws HeadlessException {
@@ -156,6 +151,7 @@ public class FrontEnd extends JFrame implements View, ActionListener
         } else {
             this.textFieldZ.setText("0");
         }
+        this.TextFieldFrequenz.setText("" + frequenzSlider.getValue());
 
         this.setjTextStack(mmu);
         this.repaint();
@@ -404,5 +400,17 @@ public class FrontEnd extends JFrame implements View, ActionListener
         table.setRowHeight(20);
         table.setAutoCreateRowSorter(true);
         return table;
+    }
+
+    public void stateChanged(ChangeEvent e)
+    {
+        JSlider FrequenzSlider = (JSlider)e.getSource();
+        if(!FrequenzSlider.getValueIsAdjusting())
+        {
+            int frequenz = (int)FrequenzSlider.getValue();
+            delay = 1000 / frequenz;
+            timer.setDelay(delay);
+            timer.setInitialDelay(delay * 10);
+        }
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.FrontEnd">
-  <grid id="27dc6" binding="mainpanel" layout-manager="GridLayoutManager" row-count="4" column-count="8" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="mainpanel" layout-manager="GridLayoutManager" row-count="5" column-count="8" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="10" left="10" bottom="10" right="10"/>
     <constraints>
       <xy x="20" y="20" width="1324" height="1010"/>
@@ -61,7 +61,7 @@
       <grid id="ccb9a" binding="tableBank" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="1" column="0" row-span="3" col-span="3" vsize-policy="0" hsize-policy="4" anchor="0" fill="3" indent="0" use-parent-layout="false">
+          <grid row="1" column="0" row-span="4" col-span="3" vsize-policy="0" hsize-policy="4" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <minimum-size width="340" height="575"/>
             <preferred-size width="340" height="575"/>
             <maximum-size width="340" height="575"/>
@@ -104,7 +104,7 @@
       <grid id="da62e" binding="stack" layout-manager="GridLayoutManager" row-count="9" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="2" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="true">
+          <grid row="3" column="7" row-span="1" col-span="1" vsize-policy="1" hsize-policy="1" anchor="0" fill="3" indent="0" use-parent-layout="true">
             <minimum-size width="100" height="250"/>
             <preferred-size width="100" height="250"/>
             <maximum-size width="100" height="250"/>
@@ -280,7 +280,7 @@
       <grid id="1018f" binding="values" layout-manager="GridLayoutManager" row-count="7" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="3" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="true">
+          <grid row="4" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="true">
             <minimum-size width="100" height="200"/>
             <preferred-size width="100" height="200"/>
             <maximum-size width="100" height="200"/>
@@ -416,7 +416,7 @@
       </grid>
       <scrollpane id="a44a6">
         <constraints>
-          <grid row="2" column="3" row-span="2" col-span="4" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="3" column="3" row-span="2" col-span="4" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
         <border type="none"/>
@@ -431,9 +431,9 @@
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="1" column="3" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <minimum-size width="220" height="100"/>
-            <preferred-size width="220" height="100"/>
-            <maximum-size width="220" height="100"/>
+            <minimum-size width="220" height="50"/>
+            <preferred-size width="220" height="50"/>
+            <maximum-size width="220" height="50"/>
           </grid>
         </constraints>
         <properties/>
@@ -443,7 +443,7 @@
         <children>
           <scrollpane id="1b7a6">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -451,7 +451,7 @@
               <component id="6c347" class="javax.swing.JTable" binding="registerATable" custom-create="true">
                 <constraints/>
                 <properties>
-                  <preferredScrollableViewportSize width="200" height="100"/>
+                  <preferredScrollableViewportSize width="200" height="40"/>
                 </properties>
               </component>
             </children>
@@ -462,9 +462,9 @@
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="1" column="5" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <minimum-size width="220" height="100"/>
-            <preferred-size width="220" height="100"/>
-            <maximum-size width="220" height="100"/>
+            <minimum-size width="220" height="50"/>
+            <preferred-size width="220" height="50"/>
+            <maximum-size width="220" height="50"/>
           </grid>
         </constraints>
         <properties/>
@@ -482,7 +482,7 @@
               <component id="dc81d" class="javax.swing.JTable" binding="registerBTable" custom-create="true">
                 <constraints/>
                 <properties>
-                  <preferredScrollableViewportSize width="200" height="100"/>
+                  <preferredScrollableViewportSize width="200" height="40"/>
                 </properties>
               </component>
             </children>
@@ -501,6 +501,64 @@
           <text value="Help"/>
         </properties>
       </component>
+      <grid id="93127" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="2" column="3" row-span="1" col-span="4" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <minimum-size width="440" height="50"/>
+            <preferred-size width="440" height="50"/>
+            <maximum-size width="440" height="50"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none" title="Frequenzregler">
+          <font/>
+        </border>
+        <children>
+          <component id="ef31a" class="javax.swing.JSlider" binding="frequenzSlider">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <majorTickSpacing value="100"/>
+              <maximum value="1000"/>
+              <minimum value="100"/>
+              <minorTickSpacing value="100"/>
+              <paintLabels value="false"/>
+              <paintTicks value="false"/>
+              <value value="550"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="278a8" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="2" column="7" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <minimum-size width="50" height="50"/>
+            <preferred-size width="50" height="50"/>
+            <maximum-size width="100" height="50"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none" title="Frequenz">
+          <font/>
+        </border>
+        <children>
+          <component id="7dea3" class="javax.swing.JTextField" binding="TextFieldFrequenz">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                <minimum-size width="35" height="-1"/>
+                <preferred-size width="35" height="-1"/>
+                <maximum-size width="35" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <editable value="false"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
     </children>
   </grid>
   <inspectionSuppressions>

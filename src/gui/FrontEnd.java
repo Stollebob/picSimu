@@ -135,6 +135,10 @@ public class FrontEnd extends JFrame implements View, ActionListener
             }
             editorText.setRowSelectionInterval(index, index);
             editorText.scrollRectToVisible(editorText.getCellRect(index, 0, true));
+            if(index < model.getRowCount() && (Boolean)model.getValueAt(index, 0))
+            {
+                fireStopEvent();
+            }
         }
 
         this.setjTextStack(mmu);

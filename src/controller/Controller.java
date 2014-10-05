@@ -144,7 +144,7 @@ public class Controller implements OpenListener , StartListener, StopListener, N
         mmu = new MemoryManagementUnit();
         mmu.addView(view);
         executor = new CommandExecutor(mmu, commandList);
-        while(t.isAlive())
+        while(t != null && t.isAlive())
         {
             view.update(mmu);
         }

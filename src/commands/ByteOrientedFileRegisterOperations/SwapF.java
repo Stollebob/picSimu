@@ -29,7 +29,8 @@ public class SwapF extends ByteOrientedFileRegisterOperation implements Command
             arguments = decodeArguments(commandString);
 
             BigInteger f = new BigInteger("0" + arguments[1], 2);
-            Register register_f = mmu.getRegister(f.toString(16));
+            String address = f.toString(16);
+            Register register_f = mmu.getRegister(address);
             String value_f = register_f.getBinaryValue();
             String result = value_f.substring(4,8) + value_f.substring(0,4);
 
@@ -39,7 +40,7 @@ public class SwapF extends ByteOrientedFileRegisterOperation implements Command
             }
             else//d == 1 -> in F speichern
             {
-                register_f.setBinaryValue(result);
+                mmu.setRegisterBinaryValue(address, result);
             }
         }
         catch (InvalidRegisterException e)

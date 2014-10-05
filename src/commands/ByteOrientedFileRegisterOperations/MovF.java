@@ -29,7 +29,8 @@ public class MovF extends ByteOrientedFileRegisterOperation implements Command
             arguments = decodeArguments(commandString);
 
             BigInteger f = new BigInteger("0" + arguments[1], 2);
-            Register register_f = mmu.getRegister(f.toString(16));
+            String address = f.toString(16);
+            Register register_f = mmu.getRegister(address);
             int result = register_f.getIntValue();
             if (arguments[0].equals("0"))//d == 0 -> in W speichern
             {
@@ -37,7 +38,7 @@ public class MovF extends ByteOrientedFileRegisterOperation implements Command
             }
             else//d == 1 -> in F speichern
             {
-                register_f.setIntValue(result);
+                mmu.setRegisterIntValue(address, result);
             }
             if(checkZ(result))
             {

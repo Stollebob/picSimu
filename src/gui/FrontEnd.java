@@ -135,6 +135,15 @@ public class FrontEnd extends JFrame implements View, ActionListener
             }
             editorText.setRowSelectionInterval(index, index);
             editorText.scrollRectToVisible(editorText.getCellRect(index, 0, true));
+            if(index < model.getRowCount())
+            {
+                editorText.setRowSelectionInterval(index, index);
+                editorText.scrollRectToVisible(editorText.getCellRect(index, 0, true));
+                if((Boolean)model.getValueAt(index, 0))
+                {
+                    fireStopEvent();
+                }
+            }
         }
 
         this.setjTextStack(mmu);
@@ -154,7 +163,7 @@ public class FrontEnd extends JFrame implements View, ActionListener
     /* Update Text into stack-Overview */
     private void setjTextStack(MemoryManagementUnit mmu)
     {
-        Stack<Integer> stack = mmu.getStackData();
+        Stack<String> stack = mmu.getStackData();
         resetJTextStack();
         switch(stack.size())
         {

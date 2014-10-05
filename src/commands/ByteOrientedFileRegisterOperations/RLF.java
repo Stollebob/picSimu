@@ -56,7 +56,7 @@ public class RLF extends ByteOrientedFileRegisterOperation implements Command
             }
             else//d == 1 -> in F speichern
             {
-                mmu.getRegister(f.toString(16)).setBinaryValue(result);
+                mmu.setRegisterBinaryValue(f.toString(16), result);
             }
         }
         catch (InvalidRegisterException e)

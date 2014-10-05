@@ -36,7 +36,7 @@ public class AndWF  extends ByteOrientedFileRegisterOperation implements Command
             }
             else//d == 1 -> in F speichern
             {
-                mmu.getRegister(f.toString(16)).setIntValue(result);
+                mmu.setRegisterIntValue(f.toString(16), result);
             }
             if(checkZ(result))
             {

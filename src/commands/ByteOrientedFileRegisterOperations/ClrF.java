@@ -27,7 +27,7 @@ public class ClrF extends ByteOrientedFileRegisterOperation implements Command
             String argument;
             argument = decodeSingleArgument(commandString);
             BigInteger f = new BigInteger("0" + argument, 2);
-            mmu.getRegister(f.toString(16)).setIntValue(0);
+            mmu.setRegisterIntValue(f.toString(16), 0);
             mmu.setZero();//Z setzen
         }
         catch (InvalidRegisterException e)

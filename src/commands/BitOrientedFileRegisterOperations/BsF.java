@@ -29,9 +29,10 @@ public class BsF extends BitOrientedFileRegisterOperation implements Command
             arguments = decodeArguments(commandString);
             int argB = new BigInteger(arguments[0] , 2).intValue();
             int indexInString = argB;
-            Register register_f = mmu.getRegister(new BigInteger("0" + arguments[1], 2).toString(16));
+            String address = new BigInteger("0" + arguments[1], 2).toString(16);
+            Register register_f = mmu.getRegister(address);
             int newValue = new BigInteger(register_f.getBinaryValue() , 2).setBit(indexInString).intValue();
-            register_f.setIntValue(newValue);
+            mmu.setRegisterIntValue(address, newValue);
         }
         catch (InvalidRegisterException e)
         {

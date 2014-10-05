@@ -62,7 +62,7 @@ public class AddWF extends ByteOrientedFileRegisterOperation implements Command
             }
             else//d == 1 -> in F speichern
             {
-                mmu.getRegister(f).setIntValue(result);
+                mmu.setRegisterIntValue(f, result);
             }
         }
         catch (InvalidRegisterException e)

@@ -14,9 +14,10 @@ public class MemoryManagementUnit
     private Map<String, Register> bank_0 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private Map<String, Register> bank_1 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private Register w = new Register("WORKING REGISTER", "00000000");
-    private Stack<Integer> stack = new Stack<>();
+    private Stack<String> stack = new Stack<>();
     private List<View> viewList = new ArrayList<>();
     private int cycles = 0;
+    private int pc = 0;
 
     public MemoryManagementUnit()
     {
@@ -164,6 +165,30 @@ public class MemoryManagementUnit
         throw new InvalidRegisterException();
     }
 
+    public void setRegisterIntValue(String address, int value) throws InvalidRegisterException
+    {
+        value = value & 0xFF;
+        if(!address.contains("h"))
+        {
+            address += "h";
+        }
+        if(address.length() != 3)
+        {
+            address = "0" + address;
+        }
+        if(address.equalsIgnoreCase("02h"))
+        {
+            pc = pc & 0xFF00;
+            pc = pc | value;//PCL in pc mappen
+        }
+        getRegister(address).setIntValue(value);
+    }
+
+    public void setRegisterBinaryValue(String address, String value) throws InvalidRegisterException
+    {
+        setRegisterIntValue(address, new BigInteger(value, 2).intValue());
+    }
+
     public Register getWorkingRegister()
     {
         return w;
@@ -240,20 +265,44 @@ public class MemoryManagementUnit
         new BigInteger(status.getBinaryValue(), 2).clearBit(0);
     }
 
+    public void pushPCLATH()
+    {
+        try
+        {
+//            getRegister("0Ah").setIntValue ((pc & 0x1F00) >> 0b1000); //0b0001 1111 0000 0000 >> 0b0000 0000 0001 1111
+            String pcHex = new BigInteger("" + pc, 10).toString(2);
+
+            while(pcHex.length() < 8)//append leading zeros
+            {
+                pcHex = "0" + pcHex;
+            }
+            pc = new BigInteger(getRegister("0Ah").getBinaryValue() + pcHex , 2).intValue();
+        }
+        catch (InvalidRegisterException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     //Gibt den PC zurück
     public int getPC() throws InvalidRegisterException
     {
-        return (getRegister("0Ah").getIntValue() << 8) + getRegister("02h").getIntValue();
+//        return (getRegister("0Ah").getIntValue() << 8) + getRegister("02h").getIntValue();
+        return pc;
     }
 
     //Setzt den PC auf übergebenen Wert
-    public void setPC(int pc) throws InvalidRegisterException {
+    public void setPC(int pc) throws InvalidRegisterException
+    {
+        this.pc = pc & 0x00FF;//0b0000 0000 1111 1111
         //Oberen 5 bit im PCLATH speichern
-        getRegister("0Ah").setIntValue ((pc & 0x1F00) >> 0b1000); //0b0001 1111 0000 0000 >> 0b0000 0000 0001 1111
+//        getRegister("0Ah").setIntValue ((pc & 0x1F00) >> 0b1000); //0b0001 1111 0000 0000 >> 0b0000 0000 0001 1111
         //Unteren 8 bit im PCL speichern
-        getRegister("02h").setIntValue(pc & 0x00FF);    //0b0000 0000 1111 1111
+        setRegisterIntValue("02h", this.pc);
+
         firePropertyChanged();
     }
+
 
     //Prüft ob Interrupts TMR0 & RB0 gesetzt sind.
     public boolean getInterrupt() throws InvalidRegisterException {
@@ -287,25 +336,36 @@ public class MemoryManagementUnit
     //Inkrementiert den PC
     public void incPC() throws InvalidRegisterException
     {
-        setPC(getPC() + 1);
-        firePropertyChanged();
+        try
+        {
+            this.pc++;
+            setRegisterIntValue("02h", (getRegister("02h").getIntValue() + 1) & 0xFF);
+            firePropertyChanged();
+        }
+        catch (InvalidRegisterException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public void addPcToStack() throws InvalidRegisterException
     {
         if(this.stack.size() < 8)
         {
-            this.stack.push(new Integer(new BigInteger(""+ this.getPC(), 10).toString(16)));
+            this.stack.push(new BigInteger(""+ this.getPC(), 10).toString(16));
         }
 
     }
 
     public void reloadPcFromStack() throws InvalidRegisterException
     {
-        this.setPC(new BigInteger("" + this.stack.pop(), 16).intValue());
+        if(stack.size() > 0)
+        {
+            this.setPC(new BigInteger("" + this.stack.pop(), 16).intValue());
+        }
     }
 
-    public Stack<Integer> getStackData()
+    public Stack<String> getStackData()
     {
         return this.stack;
     }

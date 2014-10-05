@@ -30,7 +30,8 @@ public class SubWF extends ByteOrientedFileRegisterOperation implements Command
             arguments = decodeArguments(commandString);
 
             BigInteger f = new BigInteger("0" + arguments[1], 2);
-            Register register_f = mmu.getRegister(f.toString(16));
+            String address = f.toString(16);
+            Register register_f = mmu.getRegister(address);
             BigInteger value_f = new BigInteger(register_f.getBinaryValue(), 2);
             BigInteger value_w = new BigInteger(mmu.getWorkingRegister().getBinaryValue(), 2);
             value_w = value_w.subtract(new BigInteger("100000000",2));//two's complement
@@ -44,7 +45,7 @@ public class SubWF extends ByteOrientedFileRegisterOperation implements Command
             }
             else//d == 1 -> in F speichern
             {
-                register_f.setIntValue(result);
+                mmu.setRegisterIntValue(address, result);
             }
             if(checkC(result))
             {

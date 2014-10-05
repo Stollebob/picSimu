@@ -27,7 +27,7 @@ public class RetFie extends LiteralAndControlOperation implements Command
             mmu.reloadPcFromStack();
             String intConBinaryValue = mmu.getRegister("0Bh").getBinaryValue();
             int result = new BigInteger(intConBinaryValue, 2).setBit(8).intValue();
-            mmu.getRegister("0Bh").setIntValue(result);
+            mmu.setRegisterIntValue("0Bh", result);
         }
         catch (InvalidRegisterException e)
         {

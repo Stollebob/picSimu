@@ -29,7 +29,8 @@ public class RRF extends ByteOrientedFileRegisterOperation implements Command
             arguments = decodeArguments(commandString);
 
             BigInteger f = new BigInteger("0" + arguments[1], 2);
-            Register register_f = mmu.getRegister(f.toString(16));
+            String address = f.toString(16);
+            Register register_f = mmu.getRegister(address);
             String result = register_f.getBinaryValue();
 
             int length = result.length();
@@ -58,7 +59,7 @@ public class RRF extends ByteOrientedFileRegisterOperation implements Command
             }
             else//d == 1 -> in F speichern
             {
-                register_f.setBinaryValue(result);
+                mmu.setRegisterBinaryValue(address, result);
             }
         }
         catch (InvalidRegisterException e)

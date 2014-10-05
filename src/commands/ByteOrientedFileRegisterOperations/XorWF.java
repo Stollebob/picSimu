@@ -28,7 +28,8 @@ public class XorWF extends ByteOrientedFileRegisterOperation implements Command
             String[] arguments;
             arguments = decodeArguments(commandString);
             BigInteger f = new BigInteger("0" + arguments[1], 2);
-            Register register_f = mmu.getRegister(f.toString(16));
+            String address = f.toString(16);
+            Register register_f = mmu.getRegister(address);
             int result = new BigInteger(mmu.getWorkingRegister().getBinaryValue(),2).xor(new BigInteger(register_f.getBinaryValue() , 2)).intValue();
 
             if (arguments[0].equals("0"))//d == 0 -> in W speichern
@@ -37,7 +38,7 @@ public class XorWF extends ByteOrientedFileRegisterOperation implements Command
             }
             else//d == 1 -> in F speichern
             {
-                register_f.setIntValue(result);
+                mmu.setRegisterIntValue(address, result);
             }
             mmu.setWorkingRegister(result);
             if(checkZ(result))

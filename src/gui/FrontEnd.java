@@ -428,19 +428,19 @@ public class FrontEnd extends JFrame implements View, ActionListener, TableModel
         {
             if(e.getSource().equals(registerATable.getModel()))
             {
-                firePropertyChange("5", columIndex);
+                firePropertyChange("5", columIndex, (boolean)registerATable.getValueAt(0, columIndex));
             }
             else
             {
-                firePropertyChange("6", columIndex);
+                firePropertyChange("6", columIndex, (boolean)registerBTable.getValueAt(0, columIndex));
             }
         }
 
     }
 
-    private void firePropertyChange(String hexAdress, int index)
+    private void firePropertyChange(String hexAdress, int index, boolean newValue)
     {
-        trisChangeListener.actionPerformed(new TrisChangeEvent(hexAdress, index, (Boolean)registerATable.getValueAt(0, index)));
+        trisChangeListener.actionPerformed(new TrisChangeEvent(hexAdress, index, newValue));
     }
 
     public void addTrisChangeListener(TrisChangeListener listener)

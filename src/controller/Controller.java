@@ -2,6 +2,8 @@ package controller;
 
 import commands.Command;
 import commands.CommandExecutor;
+import controller.event.frequency.FrequencyChangeEvent;
+import controller.event.frequency.FrequencyChangeListener;
 import controller.event.next.NextEvent;
 import controller.event.next.NextListener;
 import controller.event.open.OpenEvent;
@@ -12,6 +14,8 @@ import controller.event.start.StartEvent;
 import controller.event.start.StartListener;
 import controller.event.stop.StopEvent;
 import controller.event.stop.StopListener;
+import controller.event.tris.TrisChangeEvent;
+import controller.event.tris.TrisChangeListener;
 import decoder.CommandDecoder;
 import exceptions.InvalidRegisterException;
 import gui.FrontEnd;
@@ -28,7 +32,7 @@ import java.util.List;
 /**
  * Created by Thomas on 26.05.2014.
  */
-public class Controller implements OpenListener , StartListener, StopListener, NextListener, ResetListener
+public class Controller implements OpenListener , StartListener, StopListener, NextListener, ResetListener, TrisChangeListener, FrequencyChangeListener
 {
     private List<Command> commandList = new ArrayList<>();
     private FrontEnd view;
@@ -44,6 +48,8 @@ public class Controller implements OpenListener , StartListener, StopListener, N
         view.addStopListener(this);
         view.addNextListener(this);
         view.addResetListener(this);
+        view.addTrisChangeListener(this);
+        view.addFrequencyChangeListener(this);
         mmu.addView(view);
     }
 
@@ -150,5 +156,31 @@ public class Controller implements OpenListener , StartListener, StopListener, N
         }
         t = null;
 
+    }
+
+    @Override
+    public void actionPerformed(TrisChangeEvent event)
+    {
+        if(mmu != null)
+        {
+            try
+            {
+                mmu.getRegister(event.getSourceHexAddres()).setBit(event.getIndexOfChange(), event.isNewValue());
+            }
+            catch (InvalidRegisterException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        view.update(mmu);
+    }
+
+    @Override
+    public void actionPerformed(FrequencyChangeEvent event)
+    {
+        if(t != null && executor != null)
+        {
+            executor.setFrequency(event.getDelay());
+        }
     }
 }

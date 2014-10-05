@@ -302,7 +302,10 @@ public class MemoryManagementUnit
 
     public void reloadPcFromStack() throws InvalidRegisterException
     {
-        this.setPC(new BigInteger("" + this.stack.pop(), 16).intValue());
+        if(stack.size() > 0)
+        {
+            this.setPC(new BigInteger("" + this.stack.pop(), 16).intValue());
+        }
     }
 
     public Stack<Integer> getStackData()

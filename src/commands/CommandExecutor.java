@@ -22,6 +22,7 @@ public class CommandExecutor implements Runnable
     private boolean pause = true;
     private boolean stop = false;
     private Object lock = new Object();
+    private long frequency = 1/4 * 10^3;
 
     public CommandExecutor(MemoryManagementUnit mmu, List<Command> commandList)
     {
@@ -49,6 +50,10 @@ public class CommandExecutor implements Runnable
             }
             while(!stop && mmu.getPC() < commandList.size())
             {
+                synchronized (this)
+                {
+                    Thread.sleep(frequency);
+                }
                 next();
                 while(pause)
                 {
@@ -70,6 +75,10 @@ public class CommandExecutor implements Runnable
         {
             e.printStackTrace();
         }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public synchronized void next() throws InvalidRegisterException
@@ -77,7 +86,7 @@ public class CommandExecutor implements Runnable
         if(!stop && mmu.getPC() < commandList.size())
         {
             //Cycles in den Timer übertragen (+1 um Interrupt nicht beim Start zu beachten)
-            mmu.getRegister("01h").setIntValue(mmu.getCycles()+1);
+            mmu.getRegister("01h").setIntValue(mmu.getCycles() + 1);
             //Auf Interrupt prüfen und gegebenenfalls bearbeiten.
             do
             {
@@ -122,5 +131,10 @@ public class CommandExecutor implements Runnable
     public MemoryManagementUnit getMMU()
     {
         return mmu;
+    }
+
+    public synchronized void setFrequency(long newFrequecy)
+    {
+        this.frequency = newFrequecy;
     }
 }

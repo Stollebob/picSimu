@@ -181,7 +181,7 @@ public class MemoryManagementUnit
             pc = pc & 0xFF00;
             pc = pc | value;//PCL in pc mappen
         }
-        getRegister(address).setIntValue(value);
+        this.setRegisterIntValue(address, value);
     }
 
     public void setRegisterBinaryValue(String address, String value) throws InvalidRegisterException
@@ -211,7 +211,7 @@ public class MemoryManagementUnit
         try
         {
             Register status = bank_0.get("03h");
-            this.getRegister("03h").setIntValue(new BigInteger(status.getBinaryValue(), 2).setBit(2).intValue());
+            this.setRegisterIntValue("03h", new BigInteger(status.getBinaryValue(), 2).setBit(2).intValue());
         }
         catch (InvalidRegisterException e)
         {
@@ -231,7 +231,7 @@ public class MemoryManagementUnit
         Register status = bank_0.get("03h");
         try
         {
-            this.getRegister("03h").setIntValue(new BigInteger(status.getBinaryValue(), 2).clearBit(2).intValue());
+            this.setRegisterIntValue("03h", new BigInteger(status.getBinaryValue(), 2).clearBit(2).intValue());
         }
         catch (InvalidRegisterException e)
         {
@@ -245,7 +245,7 @@ public class MemoryManagementUnit
         try
         {
             Register status = bank_0.get("03h");
-            this.getRegister("03h").setIntValue(new BigInteger(status.getBinaryValue(), 2).setBit(1).intValue());
+            this.setRegisterIntValue("03h", new BigInteger(status.getBinaryValue(), 2).setBit(1).intValue());
         }
         catch (InvalidRegisterException e)
         {
@@ -265,7 +265,7 @@ public class MemoryManagementUnit
         try
         {
             Register status = bank_0.get("03h");
-            this.getRegister("03h").setIntValue(new BigInteger(status.getBinaryValue(), 2).clearBit(1).intValue());
+            this.setRegisterIntValue("03h", new BigInteger(status.getBinaryValue(), 2).clearBit(1).intValue());
         }
         catch (InvalidRegisterException e)
         {
@@ -286,7 +286,7 @@ public class MemoryManagementUnit
         try
         {
             Register status = bank_0.get("03h");
-            this.getRegister("03h").setIntValue(new BigInteger(status.getBinaryValue(), 2).setBit(0).intValue());
+            this.setRegisterIntValue("03h", new BigInteger(status.getBinaryValue(), 2).setBit(0).intValue());
         }
         catch (InvalidRegisterException e)
         {
@@ -300,7 +300,7 @@ public class MemoryManagementUnit
         try
         {
             Register status = bank_0.get("03h");
-            this.getRegister("03h").setIntValue(new BigInteger(status.getBinaryValue(), 2).clearBit(0).intValue());
+            this.setRegisterIntValue("03h", new BigInteger(status.getBinaryValue(), 2).clearBit(0).intValue());
         }
         catch (InvalidRegisterException e)
         {

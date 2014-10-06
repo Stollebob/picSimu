@@ -181,7 +181,7 @@ public class MemoryManagementUnit
             pc = pc & 0xFF00;
             pc = pc | value;//PCL in pc mappen
         }
-        this.setRegisterIntValue(address, value);
+        this.getRegister(address).setIntValue(value);
     }
 
     public void setRegisterBinaryValue(String address, String value) throws InvalidRegisterException

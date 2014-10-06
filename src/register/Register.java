@@ -59,4 +59,18 @@ public class Register
     {
         return name;
     }
+
+    public void setBit(int index, boolean value)
+    {
+        BigInteger newRegisterValue = new BigInteger("" + intValue, 10);
+        if(value)
+        {
+            newRegisterValue = newRegisterValue.setBit(index);
+        }
+        else
+        {
+            newRegisterValue = newRegisterValue.clearBit(index);
+        }
+        intValue = newRegisterValue.intValue();
+    }
 }

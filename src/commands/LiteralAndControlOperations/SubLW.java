@@ -25,10 +25,13 @@ public class SubLW extends LiteralAndControlOperation implements Command
         String argument = decodeSingle8BitArgument(commandString);
         BigInteger intW = new BigInteger(mmu.getWorkingRegister().getBinaryValue(), 2);
         BigInteger intK = new BigInteger(argument, 2);
-        intW = intW.subtract(new BigInteger("100000000",2));//two's complement
-        BigInteger BigResult = intK;
-        BigResult.add(intW).intValue();
-        int result = BigResult.intValue();
+        intW = intW.not().add(BigInteger.ONE);//two's complement
+        int result = intK.intValue();
+        result += intW.intValue();
+        if(result < 0)//negativ value -> add 256
+        {
+            result += 256;
+        }
         mmu.setWorkingRegister(result);
         if(checkZ(result))
         {

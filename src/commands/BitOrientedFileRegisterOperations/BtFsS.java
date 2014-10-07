@@ -28,7 +28,7 @@ public class BtFsS extends BitOrientedFileRegisterOperation implements Command
             String[] arguments;
             arguments = decodeArguments(commandString);
             int argB = new BigInteger(arguments[0] , 2).intValue();
-            int indexInString = 7 - argB;
+            int indexInString =/* 7 - */argB;
             Register register_f = mmu.getRegister(new BigInteger("0" + arguments[1], 2).toString(16));
             if(new BigInteger(register_f.getBinaryValue() , 2).testBit(indexInString))
             {

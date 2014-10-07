@@ -88,11 +88,11 @@ public class CommandExecutor implements Runnable
             //Cycles in den Timer übertragen (+1 um Interrupt nicht beim Start zu beachten)
             mmu.setRegisterIntValue("01h", mmu.getCycles()+1);
             //Auf Interrupt prüfen und gegebenenfalls bearbeiten.
-            do
+            /*do
             {
                 interrupt = mmu.getInterrupt();
             }
-            while (interrupt == true);
+            while (interrupt == true);*/
             System.out.println(mmu.getPC());
             Command command = commandList.get(mmu.getPC());
             mmu.incPC();
